@@ -13,7 +13,9 @@ setuptools.setup(
         "numpy",
         "pandas",
         "mikeio >= 0.6",
-        "matplotlib",        
+        "matplotlib",
+        "requests",
+        "scipy",
     ],
     extras_require={
         "dev": [
