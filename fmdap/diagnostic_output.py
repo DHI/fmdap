@@ -5,6 +5,8 @@ import numpy as np
 import pandas as pd
 import datetime
 import matplotlib.pyplot as plt
+from statsmodels.distributions.empirical_distribution import ECDF
+from scipy.stats import norm
 
 from mikeio import Dfs0, eum
 
@@ -24,48 +26,23 @@ class DiagnosticType(Enum):
 class DiagnosticDataframe:
     @property
     def values(self):
-        """a column vector containing all values"""
-        return self._values
+        """all values as a nd array"""
+        return self.df.to_numpy()
 
     @property
     def time(self):
         """the time vector (index)"""
         return self.df.index.to_pydatetime()
 
-    def __init__(self, df, name=None, eumType=None, eumUnit=None):
+    def __init__(self, df, name=None, eumText=None):
         self.df = df
         self.name = name
-        self.eumType = eumType
-        self.eumUnit = eumUnit
-        self.eumText = f"{self.eumType.name} [{self.eumUnit.name}]"
-        self._values = self._to_array()
-
-    def _get_eum_text(self, eumType, eumUnit):
-        if eumType is None:
-            return ""
-        txt = f"{eumType.display_name}"
-        if eumType != eum.EUMType.Undefined:
-            unit = self.itemInfo.unit.display_name
-            txt = f"{txt} [{self._unit_display_name(unit)}]"
-        return txt
-
-    def _unit_display_name(self, name: str) -> str:
-        """Display name
-
-        Examples
-        --------
-        >>> unit_display_name("meter")
-        m
-        """
-        return name.replace("meter", "m").replace("_per_", "/").replace("sec", "s")
+        self.eumText = eumText
 
     def __len__(self):
         return len(self.df)
 
-    def _to_array(self):
-        return self.df.to_numpy().reshape(-1, 1)
-
-    def hist(self, bins=100, **kwargs):
+    def hist(self, bins=100, show_Gaussian=True, **kwargs):
         """plot histogram of values using plt.hist()
 
         Parameters
@@ -73,58 +50,94 @@ class DiagnosticDataframe:
         bins : int, optional
             histgram bins, by default 100
         """
-        _ = plt.hist(self.values, bins=100, **kwargs)
-        plt.xlabel(self.eumText)
+        _ = plt.hist(self.values.ravel(), bins=bins, density=1, **kwargs)
 
-    def ecdf(self, **kwargs):
-        _ = plt.hist(
-            self.values,
-            cumulative=True,
-            bins=len(self),
-            density=1,
-            histtype="step",
-            **kwargs,
-        )
+        if show_Gaussian:
+            xx = np.linspace(self.min(), self.max(), 300)
+            yy = norm.pdf(xx, self.mean(), self.std())
+            plt.gca().plot(xx, yy, "--", label="Gaussian")
+
         plt.xlabel(self.eumText)
+        plt.title(f"Histogram of {self.name}")
+
+    def ecdf(self, show_Gaussian=True, **kwargs):
+        _, ax = plt.subplots(**kwargs)
+        _ecdf = ECDF(self.values.ravel())
+
+        if show_Gaussian:
+            xx = np.linspace(self.min(), self.max(), 300)
+            yy = norm.cdf(xx, self.mean(), self.std())
+            ax.plot(xx, yy, "--", label="Gaussian")
+
+        ax.plot(_ecdf.x, _ecdf.y, label=self.name)
+
+        if show_Gaussian:
+            plt.legend()
+        plt.xlabel(self.eumText)
+        plt.title(f"CDF of {self.name}")
 
     def min(self, **kwargs):
-        return self.df.to_numpy().min(**kwargs)
+        return self.values.min(**kwargs)
 
     def max(self, **kwargs):
-        return self.df.to_numpy().max(**kwargs)
+        return self.values.max(**kwargs)
 
     def mean(self, **kwargs):
-        return self.df.to_numpy().mean(**kwargs)
+        return self.values.mean(**kwargs)
 
     def median(self, **kwargs):
-        return np.median(self.df.to_numpy(), **kwargs)
+        return np.median(self.values, **kwargs)
 
     def std(self, **kwargs):
-        return np.std(self.df.to_numpy(), **kwargs)
+        return np.std(self.values, **kwargs)
 
 
 class DiagnosticOutputIncrements(DiagnosticDataframe):
-    def __init__(self, df: pd.DataFrame, name=None, eumType=None, eumUnit=None):
-        super().__init__(df, name=name, eumType=eumType, eumUnit=eumUnit)
+    def __init__(self, df: pd.DataFrame, name=None, eumText=None):
+        super().__init__(df, name=name, eumText=eumText)
 
     def plot(self, color="0.5", marker=".", legend=None, **kwargs):
+        if "title" not in kwargs:
+            kwargs["title"] = self.name
         return self.df.plot(
             legend=legend, color=color, marker=marker, ylabel=self.eumText, **kwargs
         )
 
 
 class DiagnosticOutputInnovations(DiagnosticDataframe):
-    def __init__(self, df: pd.DataFrame, name=None, eumType=None, eumUnit=None):
-        super().__init__(df, name=name, eumType=eumType, eumUnit=eumUnit)
+    def __init__(self, df: pd.DataFrame, name=None, eumText=None):
+        super().__init__(df, name=name, eumText=eumText)
 
     def plot(self, color="0.5", marker=".", legend=None, **kwargs):
+        if "title" not in kwargs:
+            kwargs["title"] = self.name
         return self.df.plot(legend=legend, color=color, marker=marker, **kwargs)
 
 
 class DiagnosticOutputResults(DiagnosticDataframe):
     @property
+    def values(self):
+        return self.df[self._member_cols].to_numpy()
+
+    @property
+    def measurement(self):
+        if self.has_measurement:
+            return self.df[["Measurement"]].dropna()
+        else:
+            warnings.warn("Only MeasurementDiagnostics has measurement")
+            return None
+
+    @property
+    def has_measurement(self):
+        return self.type == DiagnosticType.MeasurementPoint
+
+    @property
     def is_ensemble(self):
         return self.n_members > 1
+
+    @property
+    def _member_cols(self):
+        return [c for c in self.df.columns if c.startswith("State_")]
 
     @property
     def innovations(self):
@@ -141,10 +154,9 @@ class DiagnosticOutputResults(DiagnosticDataframe):
         df: pd.DataFrame,
         type: DiagnosticType,
         name=None,
-        eumType=None,
-        eumUnit=None,
+        eumText=None,
     ):
-        super().__init__(df, name=name, eumType=eumType, eumUnit=eumUnit)
+        super().__init__(df, name=name, eumText=eumText)
         self.type = type
         self._innovations = None
         ncols = len(self.df.columns)
@@ -161,20 +173,21 @@ class DiagnosticOutputResults(DiagnosticDataframe):
         df = self.df.drop(columns="Mean_State").dropna()
         dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
         return DiagnosticOutputInnovations(
-            dfi, eumType=self.eumType, eumUnit=self.eumUnit
+            dfi,
+            name=f"{self.name} innovations",
+            eumText=self.eumText,
         )
 
     def plot(self, figsize=(10, 5), **kwargs):
         _, ax = plt.subplots(figsize=figsize, **kwargs)
 
-        cols = [c for c in self.df.columns if c.startswith("State_")]
-        dfe = self.df[cols]
+        dfe = self.df[self._member_cols]
         dfe.columns = ["_" + c for c in dfe.columns]  # to hide legend
 
         dfe.plot(color="0.8", ax=ax, legend=False)
         self.df[["Mean_State"]].plot(color="0.2", ax=ax)
-        if self.type == DiagnosticType.MeasurementPoint:
-            self.df[["Measurement"]].plot(
+        if self.has_measurement:
+            self.measurement.plot(
                 color="red",
                 marker=".",
                 markersize=8,
@@ -182,6 +195,7 @@ class DiagnosticOutputResults(DiagnosticDataframe):
                 ax=ax,
             )
         ax.set_ylabel(self.eumText)
+        ax.set_title(self.name)
         return ax
 
 
@@ -229,12 +243,19 @@ class DiagnosticOutput:
             self._total_analysis = self._get_total_analysis()
         return self._total_analysis
 
+    @property
+    def result(self):
+        if self.type == DiagnosticType.GlobalStatistics:
+            warnings.warn("property result not available for GlobalStatistics file")
+            return None
+        if self._total_analysis is None:
+            self._total_analysis = self._get_total_analysis()
+        return self._total_analysis
+
     def __init__(self, filename=None, name=None):
+        self.name = name
         if filename is not None:
             self.read(filename)
-            if name is None:
-                name = os.path.basename(filename).split(".")[0]
-        self.name = name
         self._increments = None
         self._total_forecast = None
         self._total_analysis = None
@@ -253,6 +274,8 @@ class DiagnosticOutput:
             filename -- path to the dfs0 file
         """
         dfs = Dfs0(filename)
+        if self.name is None:
+            self.name = os.path.basename(filename).split(".")[0]
         self.df = dfs.to_dataframe()
         self.time = self.df.index.to_pydatetime()
         self.type = self._infer_diag_type()
@@ -276,6 +299,7 @@ class DiagnosticOutput:
 
             self.eumType = items[0].type
             self.eumUnit = items[0].unit
+            self.eumText = _get_eum_text(self.eumType, self.eumUnit)
 
     def _get_total_forecast(self):
         """Get a data frame containing no-update and forecast values"""
@@ -284,9 +308,8 @@ class DiagnosticOutput:
         return DiagnosticOutputResults(
             df,
             type=self.type,
-            name=self.name,
-            eumType=self.eumType,
-            eumUnit=self.eumUnit,
+            name=f"{self.name} forecast",
+            eumText=self.eumText,
         )
 
     def _get_total_analysis(self):
@@ -296,9 +319,8 @@ class DiagnosticOutput:
         return DiagnosticOutputResults(
             df,
             type=self.type,
-            name=self.name,
-            eumType=self.eumType,
-            eumUnit=self.eumUnit,
+            name=f"{self.name} analysis",
+            eumText=self.eumText,
         )
 
     def _infer_diag_type(self, df=None) -> DiagnosticType:
@@ -380,7 +402,9 @@ class DiagnosticOutput:
         dfa = self.df[state_items].iloc[ianalysis]
         df_increment = dfa.subtract(dff)
         return DiagnosticOutputIncrements(
-            df_increment, name=self.name, eumType=self.eumType, eumUnit=self.eumUnit
+            df_increment,
+            name=f"{self.name} increments",
+            eumText=self.eumText,
         )
 
     # def get_all_increments_as_array(self):
@@ -403,3 +427,24 @@ class DiagnosticOutput:
         dfa = self.df[["Mean_State"]].iloc[ianalysis]
         df_increment = dfa.subtract(dff)
         return df_increment
+
+
+def _get_eum_text(eumType, eumUnit):
+    if eumType is None:
+        return ""
+    txt = f"{eumType.display_name}"
+    if eumType != eum.EUMType.Undefined:
+        unit = eumUnit.display_name
+        txt = f"{txt} [{_unit_display_name(unit)}]"
+    return txt
+
+
+def _unit_display_name(name: str) -> str:
+    """Display name
+
+    Examples
+    --------
+    >>> unit_display_name("meter")
+    m
+    """
+    return name.replace("meter", "m").replace("_per_", "/").replace("sec", "s")

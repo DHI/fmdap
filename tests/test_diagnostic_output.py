@@ -76,7 +76,7 @@ def test_get_increments():
 def test_get_all_increments_as_array():
     diag = do.DiagnosticOutput()
     diag.read(filename1)
-    arr = diag.increments.values
+    arr = diag.increments.values.ravel()
     assert len(arr) == 3470
 
 
