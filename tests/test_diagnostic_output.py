@@ -44,26 +44,26 @@ def test_get_total_analysis():
     diag.read(filename1)
     dfa = diag.analysis.df
     assert dfa.values[-1, 4] == 5.099072456359863
-    assert dfa.shape == (397, 12)
+    assert dfa.shape == (347, 12)
 
 
 def test_idx_at_updates():
     diag = do.DiagnosticOutput()
     diag.read(filename1)
-    iforecast, ianalysis, inoupdate = diag.idx_at_updates()
+    iforecast = diag.idx_forecast
     nupdates = len(iforecast[iforecast == True])
     assert len(iforecast) == 744
     assert nupdates == 347
-    assert inoupdate[-1] == False
+    assert diag.idx_no_update[-1] == False
 
 
 def test_get_iforecast_from_ianalysis():
     diag = do.DiagnosticOutput()
     diag.read(filename1)
-    iforecast, ianalysis, inoupdate = diag.idx_at_updates()
+    ianalysis = diag.idx_analysis
     iforecast2 = diag.get_iforecast_from_ianalysis(ianalysis)
 
-    assert iforecast[-1] == iforecast2[-1]
+    assert diag.idx_forecast[-1] == iforecast2[-1]
 
 
 def test_get_increments():
@@ -83,6 +83,6 @@ def test_get_all_increments_as_array():
 def test_get_mean_increments():
     diag = do.DiagnosticOutput()
     diag.read(filename1)
-    _, ianalysis, _ = diag.idx_at_updates()
+    ianalysis = diag.idx_analysis
     dfi = diag.get_mean_increments()
     assert dfi.values[3, 0] == 0.03600311279296875

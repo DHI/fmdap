@@ -132,6 +132,13 @@ class DiagnosticOutputResults(DiagnosticDataframe):
         return self.type == DiagnosticType.MeasurementPoint
 
     @property
+    def ensemble(self):
+        if self.is_ensemble:
+            return self.df[self._member_cols]
+        else:
+            return None
+
+    @property
     def is_ensemble(self):
         return self.n_members > 1
 
@@ -198,23 +205,36 @@ class DiagnosticOutputResults(DiagnosticDataframe):
         ax.set_title(self.name)
         return ax
 
+    def hist(self, bins=100, show_Gaussian=False, **kwargs):
+        super().hist(bins=bins, show_Gaussian=show_Gaussian, **kwargs)
+
 
 class DiagnosticOutput:
     df = None
     time = None
     n_members = 0
-    # title = None
-    # variable = None
     type = None
     n_updates = 0
-    # _dfs = None
-    # iforecast = np.zeros(0, dtype=bool)
-    # ianalysis = np.zeros(0, dtype=bool)
-    # inoupdate = np.zeros(0, dtype=bool)
 
     @property
     def is_ensemble(self):
         return self.n_members > 1
+
+    @property
+    def _member_cols(self):
+        return [c for c in self.df.columns if c.startswith("State_")]
+
+    @property
+    def measurement(self):
+        if self.has_measurement:
+            return self.df[["Measurement"]].dropna()
+        else:
+            warnings.warn("Only MeasurementDiagnostics has measurement")
+            return None
+
+    @property
+    def has_measurement(self):
+        return self.type == DiagnosticType.MeasurementPoint
 
     @property
     def increments(self):
@@ -239,26 +259,33 @@ class DiagnosticOutput:
         if self.type == DiagnosticType.GlobalStatistics:
             warnings.warn("analysis not available for GlobalStatistics file")
             return None
-        if self._total_analysis is None:
-            self._total_analysis = self._get_total_analysis()
-        return self._total_analysis
+        if self._analysis is None:
+            self._analysis = self._get_analysis()
+        if self.n_updates == 0:
+            warnings.warn("No updates found! analysis empty")
+        return self._analysis
 
     @property
     def result(self):
         if self.type == DiagnosticType.GlobalStatistics:
             warnings.warn("property result not available for GlobalStatistics file")
             return None
-        if self._total_analysis is None:
-            self._total_analysis = self._get_total_analysis()
-        return self._total_analysis
+        if self._total_result is None:
+            self._total_result = self._get_total_result()
+        return self._total_result
 
     def __init__(self, filename=None, name=None):
         self.name = name
         if filename is not None:
             self.read(filename)
+        self._n_updates = None
+        self._iforecast = None
+        self._ianalysis = None
+        self._inoupdates = None
         self._increments = None
         self._total_forecast = None
-        self._total_analysis = None
+        self._analysis = None
+        self._total_result = None
 
     def __repr__(self):
         out = []
@@ -302,9 +329,8 @@ class DiagnosticOutput:
             self.eumText = _get_eum_text(self.eumType, self.eumUnit)
 
     def _get_total_forecast(self):
-        """Get a data frame containing no-update and forecast values"""
-        iforecast, _, inoupdate = self.idx_at_updates()
-        df = self.df.iloc[iforecast | inoupdate]
+        """Get a a diagnostic object containing no-update and forecast values"""
+        df = self.df.iloc[self.idx_forecast | self.idx_no_update]
         return DiagnosticOutputResults(
             df,
             type=self.type,
@@ -312,10 +338,19 @@ class DiagnosticOutput:
             eumText=self.eumText,
         )
 
-    def _get_total_analysis(self):
-        """Get a data frame containing no-update and analysis values"""
-        _, ianalysis, inoupdate = self.idx_at_updates()
-        df = self.df.iloc[ianalysis | inoupdate]
+    def _get_analysis(self):
+        """Get a diagnostic object containing analysis values"""
+        df = self.df.iloc[self.idx_analysis]
+        return DiagnosticOutputResults(
+            df,
+            type=self.type,
+            name=f"{self.name} analysis",
+            eumText=self.eumText,
+        )
+
+    def _get_total_result(self):
+        """Get a diagnostic object containing no-update and analysis values"""
+        df = self.df.iloc[self.idx_analysis | self.idx_no_update]
         return DiagnosticOutputResults(
             df,
             type=self.type,
@@ -354,13 +389,41 @@ class DiagnosticOutput:
 
         return DiagnosticType(diag_type)
 
-    def idx_at_updates(self, df=None):
-        """Find index of updates in data frame
+    @property
+    def idx_forecast(self):
+        """index before updates (forecast)"""
+        if self._iforecast is None:
+            self._idx_at_updates()
+        return self._iforecast
 
-        Returns:
-            iforecast -- index before updates (forecast)
-            ianalysis -- index after updates (analysis)
-            inoupdate -- index when there were no update
+    @property
+    def idx_analysis(self):
+        """index after updates (analysis)"""
+        if self._ianalysis is None:
+            self._idx_at_updates()
+        return self._ianalysis
+
+    @property
+    def idx_no_update(self):
+        """index when there is no updates"""
+        if self._inoupdate is None:
+            self._idx_at_updates()
+        return self._inoupdate
+
+    @property
+    def n_updates(self):
+        """number of updates"""
+        if self._n_updates is None:
+            self._idx_at_updates()
+        return self._n_updates
+
+    def _idx_at_updates(self, df=None):
+        """Find index of updates in DataFrame
+
+        Determines:
+            _iforecast -- index before updates (forecast)
+            _ianalysis -- index after updates (analysis)
+            _inoupdate -- index when there were no update
         """
         if df is None:
             df = self.df
@@ -370,17 +433,18 @@ class DiagnosticOutput:
         dt = np.diff(time)
         ii = dt == datetime.timedelta(0)  # find repeated datetimes
 
-        if len(ii) == None:
-            print("No updates were found in diagnostic file")
-            return None, None, None
+        self._iforecast = np.zeros(nt, dtype=bool)
+        self._ianalysis = np.zeros(nt, dtype=bool)
 
-        iforecast = np.zeros(nt, dtype=bool)
-        iforecast[0:-1] = ii
-        ianalysis = np.zeros(nt, dtype=bool)
-        ianalysis[1:] = ii
-        inoupdate = (iforecast | ianalysis) != True
-        self.n_updates = len(iforecast[iforecast == True])
-        return iforecast, ianalysis, inoupdate
+        if len(ii) == None:
+            # print("No updates were found in diagnostic file")
+            self._inoupdate = np.ones(nt, dtype=bool)
+            self._n_updates = 0
+        else:
+            self._iforecast[0:-1] = ii
+            self._ianalysis[1:] = ii
+            self._inoupdate = (self._iforecast | self._ianalysis) != True
+            self._n_updates = len(self._iforecast[self._iforecast == True])
 
     def get_iforecast_from_ianalysis(self, ianalysis):
         nt = len(ianalysis)
@@ -394,12 +458,10 @@ class DiagnosticOutput:
         Returns:
             df_increment -- a dataframe containing all increments
         """
-        iforecast, ianalysis, _ = self.idx_at_updates()
-
         state_items = [i for i in list(self.df.columns) if i.startswith("State_")]
 
-        dff = self.df[state_items].iloc[iforecast]
-        dfa = self.df[state_items].iloc[ianalysis]
+        dff = self.df[state_items].iloc[self.idx_forecast]
+        dfa = self.df[state_items].iloc[self.idx_analysis]
         df_increment = dfa.subtract(dff)
         return DiagnosticOutputIncrements(
             df_increment,
@@ -422,21 +484,30 @@ class DiagnosticOutput:
         Returns:
             df_increment -- a dataframe containing the mean increments
         """
-        iforecast, ianalysis, _ = self.idx_at_updates()
-        dff = self.df[["Mean_State"]].iloc[iforecast]
-        dfa = self.df[["Mean_State"]].iloc[ianalysis]
+        dff = self.df[["Mean_State"]].iloc[self.idx_forecast]
+        dfa = self.df[["Mean_State"]].iloc[self.idx_analysis]
         df_increment = dfa.subtract(dff)
         return df_increment
 
+    def plot(self, figsize=(10, 5), **kwargs):
+        _, ax = plt.subplots(figsize=figsize, **kwargs)
 
-def _get_eum_text(eumType, eumUnit):
-    if eumType is None:
-        return ""
-    txt = f"{eumType.display_name}"
-    if eumType != eum.EUMType.Undefined:
-        unit = eumUnit.display_name
-        txt = f"{txt} [{_unit_display_name(unit)}]"
-    return txt
+        dfe = self.df[self._member_cols]
+        dfe.columns = ["_" + c for c in dfe.columns]  # to hide legend
+
+        dfe.plot(color="0.8", ax=ax, legend=False)
+        self.df[["Mean_State"]].plot(color="0.2", ax=ax)
+        if self.has_measurement:
+            self.measurement.plot(
+                color="red",
+                marker=".",
+                markersize=8,
+                linestyle="None",
+                ax=ax,
+            )
+        ax.set_ylabel(self.eumText)
+        ax.set_title(self.name)
+        return ax
 
 
 def _unit_display_name(name: str) -> str:
@@ -448,3 +519,13 @@ def _unit_display_name(name: str) -> str:
     m
     """
     return name.replace("meter", "m").replace("_per_", "/").replace("sec", "s")
+
+
+def _get_eum_text(eumType, eumUnit):
+    if eumType is None:
+        return ""
+    txt = f"{eumType.display_name}"
+    if eumType != eum.EUMType.Undefined:
+        unit = eumUnit.display_name
+        txt = f"{txt} [{_unit_display_name(unit)}]"
+    return txt
