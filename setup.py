@@ -16,6 +16,7 @@ setuptools.setup(
         "matplotlib",
         "requests",
         "scipy",
+        "statsmodels",
     ],
     extras_require={
         "dev": [
