@@ -13,15 +13,70 @@ from mikeio import Dfs0, eum
 # TODO
 # http://www.data-assimilation.net/Documents/sangomaDL6.14.pdf
 # 1. Check whiteness of innovations
-# 2. innovation histograms
+# 2. innovation histograms. DONE
 # 3. Calc innovation statistics
 
 
 class DiagnosticType(Enum):
-    MeasurementPoint = 1
+    Measurement = 1
     NonMeasurementPoint = 2
-    GlobalStatistics = 3
-    MeasurementTrack = 4
+    GlobalAssimilationStatistics = 3
+
+
+def read_diagnostic(filename, name=None):
+    """Read diagnostic output dfs0 file"""
+    if isinstance(filename, pd.DataFrame):
+        df = filename  # filename is actually a DataFrame
+        filename = ""
+        if name is None:
+            name = "Diagnostic"
+        items = [eum.EumItem(eum.EUMType.Undefined)]
+    else:
+        dfs = Dfs0(filename)
+        if name is None:
+            name = os.path.basename(filename).split(".")[0]
+        items = dfs.items
+        df = dfs.to_dataframe()
+
+    type = _infer_diagnostic_type(df)
+    if type == DiagnosticType.Measurement:
+        if _is_point_subtype(df):
+            return MeasurementPointDiagnostic(df, name, items[-1], filename)
+        else:
+            return DistributedMeasurementDiagnostic(df, name, items[-1], filename)
+    elif type == DiagnosticType.NonMeasurementPoint:
+        return NonMeasurementPointDiagnostic(df, name, items[-1], filename)
+    elif type == DiagnosticType.GlobalAssimilationStatistics:
+        return GlobalAssimilationDiagnostic(df, name, items, filename)
+
+
+def _is_point_subtype(df) -> bool:
+    cols = list(df.columns)
+    if (cols[0][0:9].lower() == "longitude") or (cols[0][0:7].lower() == "easting"):
+        return False
+    else:
+        return True
+
+
+def _infer_diagnostic_type(df) -> DiagnosticType:
+    """Determine diagnostic type based on item names
+
+    Returns:
+        diag_type -- diagnostic type (1, 2 or 3)
+    """
+    cols = list(df.columns)
+    if cols[-1][0:10].lower() == "mean state":
+        return DiagnosticType.NonMeasurementPoint
+    elif (cols[-1][0:11].lower() == "measurement") & (
+        cols[-2][0:10].lower() == "mean state"
+    ):
+        return DiagnosticType.Measurement
+    elif cols[0][0:18] == "points assimilated":
+        return DiagnosticType.GlobalAssimilationStatistics
+    else:
+        raise Exception(
+            f"Diagnostic type could not be determined - based on item names: {cols}"
+        )
 
 
 class DiagnosticDataframe:
@@ -32,7 +87,7 @@ class DiagnosticDataframe:
 
     @property
     def time(self):
-        """the time vector (index)"""
+        """the time vector (index as datetime)"""
         return self.df.index.to_pydatetime()
 
     def __init__(self, df, name=None, eumText=None):
@@ -93,7 +148,7 @@ class DiagnosticDataframe:
         return np.std(self.values, **kwargs)
 
 
-class DiagnosticOutputIncrements(DiagnosticDataframe):
+class DiagnosticIncrements(DiagnosticDataframe):
     def __init__(self, df: pd.DataFrame, name=None, eumText=None):
         super().__init__(df, name=name, eumText=eumText)
 
@@ -105,7 +160,7 @@ class DiagnosticOutputIncrements(DiagnosticDataframe):
         )
 
 
-class DiagnosticOutputInnovations(DiagnosticDataframe):
+class DiagnosticInnovations(DiagnosticDataframe):
     def __init__(self, df: pd.DataFrame, name=None, eumText=None):
         super().__init__(df, name=name, eumText=eumText)
 
@@ -115,7 +170,20 @@ class DiagnosticOutputInnovations(DiagnosticDataframe):
         return self.df.plot(legend=legend, color=color, marker=marker, **kwargs)
 
 
-class DiagnosticOutputResults(DiagnosticDataframe):
+class DiagnosticResults(DiagnosticDataframe):
+    def __init__(
+        self,
+        df: pd.DataFrame,
+        type: DiagnosticType,
+        name=None,
+        eumText=None,
+    ):
+        super().__init__(df, name=name, eumText=eumText)
+        self.type = type
+        self._innovations = None
+        self._n_members = None
+        self.is_point = True
+
     @property
     def values(self):
         return self.df[self._member_cols].to_numpy()
@@ -130,7 +198,7 @@ class DiagnosticOutputResults(DiagnosticDataframe):
 
     @property
     def has_measurement(self):
-        return self.type == DiagnosticType.MeasurementPoint
+        return self.type == DiagnosticType.Measurement
 
     @property
     def ensemble(self):
@@ -138,6 +206,12 @@ class DiagnosticOutputResults(DiagnosticDataframe):
             return self.df[self._member_cols]
         else:
             return None
+
+    @property
+    def n_members(self):
+        if self._n_members is None:
+            self._n_members = len(self._member_cols)
+        return self._n_members
 
     @property
     def is_ensemble(self):
@@ -157,30 +231,10 @@ class DiagnosticOutputResults(DiagnosticDataframe):
             self._innovations = self._get_innovations()
         return self._innovations
 
-    def __init__(
-        self,
-        df: pd.DataFrame,
-        type: DiagnosticType,
-        name=None,
-        eumText=None,
-    ):
-        super().__init__(df, name=name, eumText=eumText)
-        self.type = type
-        self._innovations = None
-        ncols = len(self.df.columns)
-        if type == DiagnosticType.MeasurementPoint:
-            self.n_members = ncols - 2
-        elif type == DiagnosticType.NonMeasurementPoint:
-            self.n_members = ncols - 1
-        else:
-            raise ValueError("type not supported")
-
     def _get_innovations(self):
-        if self.type == DiagnosticType.NonMeasurementPoint:
-            return None
         df = self.df.drop(columns="Mean_State").dropna()
         dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
-        return DiagnosticOutputInnovations(
+        return DiagnosticInnovations(
             dfi,
             name=f"{self.name} innovations",
             eumText=self.eumText,
@@ -210,59 +264,32 @@ class DiagnosticOutputResults(DiagnosticDataframe):
         super().hist(bins=bins, show_Gaussian=show_Gaussian, **kwargs)
 
 
-class DiagnosticOutput:
-    def __len__(self):
-        return len(self.df)
+class _DiagnosticIndexMixin:
+    """Mixin handling indexing of forecast, analysis and no-update steps"""
 
-    df = None
-    time = None
-    n_members = 0
-    type = None
-    n_updates = 0
-
-    @property
-    def is_ensemble(self):
-        return self.n_members > 1
-
-    @property
-    def _member_cols(self):
-        return [c for c in self.df.columns if c.startswith("State_")]
-
-    @property
-    def measurement(self):
-        if self.has_measurement:
-            return self.df[["Measurement"]].dropna()
-        else:
-            warnings.warn("Only MeasurementDiagnostics has measurement")
-            return None
-
-    @property
-    def has_measurement(self):
-        return self.type == DiagnosticType.MeasurementPoint
+    _n_updates = None
+    _iforecast = None
+    _ianalysis = None
+    _inoupdates = None
+    _increments = None
+    _total_forecast = None
+    _analysis = None
+    _total_result = None
 
     @property
     def increments(self):
-        if self.type == DiagnosticType.GlobalStatistics:
-            warnings.warn("increments not available for GlobalStatistics file")
-            return None
         if self._increments is None:
             self._increments = self._get_increments()
         return self._increments
 
     @property
     def forecast(self):
-        if self.type == DiagnosticType.GlobalStatistics:
-            warnings.warn("forecast not available for GlobalStatistics file")
-            return None
         if self._total_forecast is None:
             self._total_forecast = self._get_total_forecast()
         return self._total_forecast
 
     @property
     def analysis(self):
-        if self.type == DiagnosticType.GlobalStatistics:
-            warnings.warn("analysis not available for GlobalStatistics file")
-            return None
         if self._analysis is None:
             self._analysis = self._get_analysis()
         if self.n_updates == 0:
@@ -271,77 +298,14 @@ class DiagnosticOutput:
 
     @property
     def result(self):
-        if self.type == DiagnosticType.GlobalStatistics:
-            warnings.warn("property result not available for GlobalStatistics file")
-            return None
         if self._total_result is None:
             self._total_result = self._get_total_result()
         return self._total_result
 
-    def __init__(self, filename=None, name=None):
-        self.name = name
-        if filename is not None:
-            self.read(filename)
-        self._n_updates = None
-        self._iforecast = None
-        self._ianalysis = None
-        self._inoupdates = None
-        self._increments = None
-        self._total_forecast = None
-        self._analysis = None
-        self._total_result = None
-
-    def __repr__(self):
-        out = []
-        out.append(f"<{type(self).__name__}>")
-        if type is not None:
-            out.append(f"{self.type}")
-        return str.join("\n", out)
-
-    def read(self, filename):
-        """Read diagnostic output dfs0 file, determine type and store as data frame
-
-        Arguments:
-            filename -- path to the dfs0 file
-        """
-        dfs = Dfs0(filename)
-        if self.name is None:
-            self.name = os.path.basename(filename).split(".")[0]
-        self.df = dfs.to_dataframe()
-        self.time = self.df.index.to_pydatetime()
-        self.type = self._infer_diag_type()
-        self._extract_info(self.df, self.type, dfs.items)
-
-    def _extract_info(self, df: pd.DataFrame, type: DiagnosticType, items):
-        if type == DiagnosticType.GlobalStatistics:
-            pass
-        else:
-            ncols = len(df.columns)
-            if type == DiagnosticType.MeasurementPoint:
-                self.n_members = ncols - 2
-            elif type == DiagnosticType.MeasurementTrack:
-                self.n_members = ncols - 4
-            elif type == DiagnosticType.NonMeasurementPoint:
-                self.n_members = ncols - 1
-
-            cols = []
-            if type == DiagnosticType.MeasurementTrack:
-                cols = list(df.columns[:2])
-            for j in range(self.n_members):
-                cols.append(f"State_{j+1}")
-            cols.append("Mean_State")
-            if type != DiagnosticType.NonMeasurementPoint:
-                cols.append("Measurement")
-            self.df.columns = cols
-
-            self.eumType = items[0].type
-            self.eumUnit = items[0].unit
-            self.eumText = _get_eum_text(self.eumType, self.eumUnit)
-
     def _get_total_forecast(self):
         """Get a diagnostic object containing no-update and forecast values"""
         df = self.df.iloc[self.idx_forecast | self.idx_no_update]
-        return DiagnosticOutputResults(
+        return DiagnosticResults(
             df,
             type=self.type,
             name=f"{self.name} forecast",
@@ -351,7 +315,7 @@ class DiagnosticOutput:
     def _get_analysis(self):
         """Get a diagnostic object containing analysis values"""
         df = self.df.iloc[self.idx_analysis]
-        return DiagnosticOutputResults(
+        return DiagnosticResults(
             df,
             type=self.type,
             name=f"{self.name} analysis",
@@ -361,45 +325,35 @@ class DiagnosticOutput:
     def _get_total_result(self):
         """Get a diagnostic object containing no-update and analysis values"""
         df = self.df.iloc[self.idx_analysis | self.idx_no_update]
-        return DiagnosticOutputResults(
+        return DiagnosticResults(
             df,
             type=self.type,
             name=f"{self.name} analysis",
             eumText=self.eumText,
         )
 
-    def _infer_diag_type(self, df=None) -> DiagnosticType:
-        """Determine diagnostic type based on item names
+    def get_iforecast_from_ianalysis(self, ianalysis):
+        nt = len(ianalysis)
+        iforecast = np.zeros(nt, dtype=bool)
+        iforecast[0:-1] = ianalysis[1:]
+        return iforecast
 
-        Keyword Arguments:
-            df -- data frame  (default: self.df)
-
-        Raises:
-            Exception: if None of the three diagnostic types could be identified
+    def _get_increments(self):
+        """Determine all increments
 
         Returns:
-            diag_type -- diagnostic type (1, 2 or 3)
+            df_increment -- a dataframe containing all increments
         """
-        if df is None:
-            df = self.df
+        state_items = [i for i in list(self.df.columns) if i.startswith("State_")]
 
-        cols = list(df.columns)
-        if (cols[0][0:9].lower() == "longitude") or (cols[0][0:7].lower() == "easting"):
-            diag_type = DiagnosticType.MeasurementTrack
-        elif cols[-1][0:10].lower() == "mean state":
-            diag_type = DiagnosticType.NonMeasurementPoint
-        elif (cols[-1][0:11].lower() == "measurement") & (
-            cols[-2][0:10].lower() == "mean state"
-        ):
-            diag_type = DiagnosticType.MeasurementPoint
-        elif cols[0][0:18] == "points assimilated":
-            diag_type = DiagnosticType.GlobalStatistics
-        else:
-            raise Exception(
-                f"Diagnostic type could not be determined - based on item names: {cols}"
-            )
-
-        return DiagnosticType(diag_type)
+        dff = self.df[state_items].iloc[self.idx_forecast]
+        dfa = self.df[state_items].iloc[self.idx_analysis]
+        df_increment = dfa.subtract(dff)
+        return DiagnosticIncrements(
+            df_increment,
+            name=f"{self.name} increments",
+            eumText=self.eumText,
+        )
 
     @property
     def idx_forecast(self):
@@ -421,6 +375,10 @@ class DiagnosticOutput:
         if self._inoupdate is None:
             self._idx_at_updates()
         return self._inoupdate
+
+    @property
+    def has_updates(self):
+        return self.n_updates > 0
 
     @property
     def n_updates(self):
@@ -458,39 +416,7 @@ class DiagnosticOutput:
             self._inoupdate = (self._iforecast | self._ianalysis) != True
             self._n_updates = len(self._iforecast[self._iforecast == True])
 
-    def get_iforecast_from_ianalysis(self, ianalysis):
-        nt = len(ianalysis)
-        iforecast = np.zeros(nt, dtype=bool)
-        iforecast[0:-1] = ianalysis[1:]
-        return iforecast
-
-    def _get_increments(self):
-        """Determine all increments
-
-        Returns:
-            df_increment -- a dataframe containing all increments
-        """
-        state_items = [i for i in list(self.df.columns) if i.startswith("State_")]
-
-        dff = self.df[state_items].iloc[self.idx_forecast]
-        dfa = self.df[state_items].iloc[self.idx_analysis]
-        df_increment = dfa.subtract(dff)
-        return DiagnosticOutputIncrements(
-            df_increment,
-            name=f"{self.name} increments",
-            eumText=self.eumText,
-        )
-
-    # def get_all_increments_as_array(self):
-    #     """Determine the all increments and return as array
-
-    #     Returns:
-    #         increments -- a column vector containing all increments
-    #     """
-    #     df_increments = self._get_increments()
-    #     return df_increments.values.reshape(-1, 1)
-
-    def get_mean_increments(self):
+    def _get_mean_increments(self):
         """Determine the mean increments
 
         Returns:
@@ -501,25 +427,79 @@ class DiagnosticOutput:
         df_increment = dfa.subtract(dff)
         return df_increment
 
-    def plot(self, figsize=(10, 5), **kwargs):
-        _, ax = plt.subplots(figsize=figsize, **kwargs)
 
-        dfe = self.df[self._member_cols]
-        dfe.columns = ["_" + c for c in dfe.columns]  # to hide legend
+class MeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
+    def __init__(self, df, name, eumItem=None, filename=None):
+        self.type = DiagnosticType.Measurement
+        self.df = df
+        self.name = name
+        self.filename = filename
+        self.df.columns = self._new_column_names(df.columns)
+        self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
 
-        dfe.plot(color="0.8", ax=ax, legend=False)
-        self.df[["Mean_State"]].plot(color="0.2", ax=ax)
-        if self.has_measurement:
-            self.measurement.plot(
-                color="red",
-                marker=".",
-                markersize=8,
-                linestyle="None",
-                ax=ax,
-            )
-        ax.set_ylabel(self.eumText)
-        ax.set_title(self.name)
-        return ax
+    def _new_column_names(self, columns):
+        n_members = len(columns) - 2
+        cols = [f"State_{j+1}" for j in range(n_members)]
+        cols.append("Mean_State")
+        cols.append("Measurement")
+        return cols
+
+    def __repr__(self):
+        out = []
+        out.append(f"<{type(self).__name__}>")
+        if type is not None:
+            out.append(f"{self.type}")
+        return str.join("\n", out)
+
+
+class DistributedMeasurementDiagnostic(DiagnosticDataframe, _DiagnosticIndexMixin):
+    def __init__(self, df, name, eumItems=None, filename=None):
+        self.type = DiagnosticType.Measurement
+        self.df = df
+        self.name = name
+        self.filename = filename
+        self._xy_name = list(df.columns[:2])
+        self.df.columns = self._new_column_names(df.columns)
+        self._set_eum_info(eumItems[-1])
+        self.eumText = "" if eumItems is None else _get_eum_text(eumItems[-1])
+
+    def _new_column_names(self, columns):
+        n_members = len(columns) - 4
+        cols = ["x", "y"]
+        for j in range(n_members):
+            cols.append(f"State_{j+1}")
+        cols.append("Mean_State")
+        cols.append("Measurement")
+        return cols
+
+    def _get_xy_names_and_types(self, items):
+        raise NotImplementedError()
+
+
+class NonMeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
+    def __init__(self, df, name, eumItem=None, filename=None):
+        # super().__init__(df, name, filename)
+        self.type = DiagnosticType.NonMeasurementPoint
+        self.df = df
+        self.name = name
+        self.filename = filename
+        self.df.columns = self._new_column_names(df.columns)
+        self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
+
+    def _new_column_names(self, columns):
+        n_members = len(columns) - 4
+        cols = [f"State_{j+1}" for j in range(n_members)]
+        cols.append("Mean_State")
+        return cols
+
+
+class GlobalAssimilationDiagnostic(DiagnosticDataframe):
+    def __init__(self, df, name, items, filename=None):
+        self.type = DiagnosticType.GlobalAssimilationStatistics
+        self.df = df
+        self.name = name
+        self.items = items
+        self.filename = filename
 
 
 def _unit_display_name(name: str) -> str:
@@ -533,9 +513,15 @@ def _unit_display_name(name: str) -> str:
     return name.replace("meter", "m").replace("_per_", "/").replace("sec", "s")
 
 
-def _get_eum_text(eumType, eumUnit):
+def _get_eum_text(eumType, eumUnit=None):
     if eumType is None:
         return ""
+    if isinstance(eumType, eum.ItemInfo):
+        item = eumType
+        eumType = item.type
+        eumUnit = item.unit
+    elif not isinstance(eumType, eum.eumType):
+        raise TypeError("Input must be either ItemInfo or EumType")
     txt = f"{eumType.display_name}"
     if eumType != eum.EUMType.Undefined:
         unit = eumUnit.display_name

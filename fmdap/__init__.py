@@ -21,5 +21,5 @@ __version__ = "0.1.dev"
 if "64" not in architecture()[0]:
     raise Exception("This library has not been tested for a 32 bit system.")
 
-from .diagnostic_output import DiagnosticOutput
+from .diagnostic_output import read_diagnostic
 from .diagnostic_output_altimetry import DiagnosticOutputAltimetry
