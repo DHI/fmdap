@@ -319,12 +319,18 @@ class DiagnosticOutput:
             ncols = len(df.columns)
             if type == DiagnosticType.MeasurementPoint:
                 self.n_members = ncols - 2
+            elif type == DiagnosticType.MeasurementTrack:
+                self.n_members = ncols - 4
             elif type == DiagnosticType.NonMeasurementPoint:
                 self.n_members = ncols - 1
 
-            cols = [f"State_{j+1}" for j in range(self.n_members)]
+            cols = []
+            if type == DiagnosticType.MeasurementTrack:
+                cols = list(df.columns[:2])
+            for j in range(self.n_members):
+                cols.append(f"State_{j+1}")
             cols.append("Mean_State")
-            if type == DiagnosticType.MeasurementPoint:
+            if type != DiagnosticType.NonMeasurementPoint:
                 cols.append("Measurement")
             self.df.columns = cols
 
@@ -378,9 +384,7 @@ class DiagnosticOutput:
             df = self.df
 
         cols = list(df.columns)
-        if (cols[0][0:9].to_lower() == "longitude") or (
-            cols[0][0:7].to_lower() == "easting"
-        ):
+        if (cols[0][0:9].lower() == "longitude") or (cols[0][0:7].lower() == "easting"):
             diag_type = DiagnosticType.MeasurementTrack
         elif cols[-1][0:10].lower() == "mean state":
             diag_type = DiagnosticType.NonMeasurementPoint
