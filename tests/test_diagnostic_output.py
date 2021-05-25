@@ -70,13 +70,13 @@ def test_get_iforecast_from_ianalysis():
 
 def test_get_increments():
     diag = read_diagnostic(filename1)
-    dfi = diag.increments.df
+    dfi = diag.increment.df
     assert dfi.values[3, 3] == 0.013921260833740234
 
 
 def test_get_all_increments_as_array():
     diag = read_diagnostic(filename1)
-    arr = diag.increments.values.ravel()
+    arr = diag.increment.values.ravel()
     assert len(arr) == 3470
 
 

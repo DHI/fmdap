@@ -1,3 +1,26 @@
+"""The `diagnostic_output` module contains methods and classes for 
+working with MIKE FM DA diagnostic outputs.
+
+The entrance point is always the `read_diagnostic()` method which 
+will return a specialized object depending on the type of diagnostic output.
+
+The returned object will be of type:
+
+See also
+--------
+MeasurementPointDiagnostic
+MeasurementDistributedDiagnostic
+NonMeasurementPointDiagnostic
+GlobalAssimilationDiagnostic
+
+Examples
+--------
+>>> import fmdap
+>>> d = fmdap.read_diagnostic("Diagnostics_Drogden_OI.dfs0", name="Drogden")
+>>> d.increment.hist()
+>>> d.analysis.innovation.hist()
+>>> d.result.plot()
+"""
 from enum import Enum
 import os
 import warnings
@@ -43,7 +66,7 @@ def read_diagnostic(filename, name=None):
         if _is_point_subtype(df):
             return MeasurementPointDiagnostic(df, name, items[-1], filename)
         else:
-            return DistributedMeasurementDiagnostic(df, name, items[-1], filename)
+            return MeasurementDistributedDiagnostic(df, name, items[-1], filename)
     elif type == DiagnosticType.NonMeasurementPoint:
         return NonMeasurementPointDiagnostic(df, name, items[-1], filename)
     elif type == DiagnosticType.GlobalAssimilationStatistics:
@@ -453,7 +476,7 @@ class MeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
         return str.join("\n", out)
 
 
-class DistributedMeasurementDiagnostic(DiagnosticDataframe, _DiagnosticIndexMixin):
+class MeasurementDistributedDiagnostic(DiagnosticDataframe, _DiagnosticIndexMixin):
     def __init__(self, df, name, eumItems=None, filename=None):
         self.type = DiagnosticType.Measurement
         self.df = df
