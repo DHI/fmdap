@@ -171,6 +171,10 @@ class DiagnosticInnovations(DiagnosticDataframe):
 
 
 class DiagnosticResults(DiagnosticDataframe):
+    _n_members = None
+    is_point = True
+    _innovations = None
+
     def __init__(
         self,
         df: pd.DataFrame,
@@ -180,9 +184,6 @@ class DiagnosticResults(DiagnosticDataframe):
     ):
         super().__init__(df, name=name, eumText=eumText)
         self.type = type
-        self._innovations = None
-        self._n_members = None
-        self.is_point = True
 
     @property
     def values(self):
