@@ -95,6 +95,10 @@ class DiagnosticDataframe:
         self.name = name
         self.eumText = eumText
 
+    @property
+    def n(self):
+        return len(self.df)
+
     def __len__(self):
         return len(self.df)
 
