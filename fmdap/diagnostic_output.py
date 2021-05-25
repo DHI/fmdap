@@ -21,6 +21,7 @@ class DiagnosticType(Enum):
     MeasurementPoint = 1
     NonMeasurementPoint = 2
     GlobalStatistics = 3
+    MeasurementTrack = 4
 
 
 class DiagnosticDataframe:
@@ -210,6 +211,9 @@ class DiagnosticOutputResults(DiagnosticDataframe):
 
 
 class DiagnosticOutput:
+    def __len__(self):
+        return len(self.df)
+
     df = None
     time = None
     n_members = 0
@@ -329,7 +333,7 @@ class DiagnosticOutput:
             self.eumText = _get_eum_text(self.eumType, self.eumUnit)
 
     def _get_total_forecast(self):
-        """Get a a diagnostic object containing no-update and forecast values"""
+        """Get a diagnostic object containing no-update and forecast values"""
         df = self.df.iloc[self.idx_forecast | self.idx_no_update]
         return DiagnosticOutputResults(
             df,
@@ -362,7 +366,7 @@ class DiagnosticOutput:
         """Determine diagnostic type based on item names
 
         Keyword Arguments:
-            df -- data frame  (default: self)
+            df -- data frame  (default: self.df)
 
         Raises:
             Exception: if None of the three diagnostic types could be identified
@@ -374,14 +378,18 @@ class DiagnosticOutput:
             df = self.df
 
         cols = list(df.columns)
-        if cols[-1][0:10].lower() == "mean state":
-            diag_type = 2
+        if (cols[0][0:9].to_lower() == "longitude") or (
+            cols[0][0:7].to_lower() == "easting"
+        ):
+            diag_type = DiagnosticType.MeasurementTrack
+        elif cols[-1][0:10].lower() == "mean state":
+            diag_type = DiagnosticType.NonMeasurementPoint
         elif (cols[-1][0:11].lower() == "measurement") & (
             cols[-2][0:10].lower() == "mean state"
         ):
-            diag_type = 1
+            diag_type = DiagnosticType.MeasurementPoint
         elif cols[0][0:18] == "points assimilated":
-            diag_type = 3
+            diag_type = DiagnosticType.GlobalStatistics
         else:
             raise Exception(
                 f"Diagnostic type could not be determined - based on item names: {cols}"
