@@ -227,21 +227,21 @@ class DiagnosticResults(DiagnosticDataframe):
         return [c for c in self.df.columns if c.startswith("State_")]
 
     @property
-    def innovations(self):
+    def innovation(self):
         """innovation (y-Hx) object"""
         if self.type == DiagnosticType.NonMeasurementPoint:
             warnings.warn("innovations only available for MeasurementDiagnostics file")
             return None
         if self._innovations is None:
-            self._innovations = self._get_innovations()
+            self._innovations = self._get_innovation()
         return self._innovations
 
-    def _get_innovations(self):
+    def _get_innovation(self):
         df = self.df.drop(columns="Mean_State").dropna()
         dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
         return DiagnosticInnovations(
             dfi,
-            name=f"{self.name} innovations",
+            name=f"{self.name} innovation",
             eumText=self.eumText,
         )
 
@@ -276,16 +276,16 @@ class _DiagnosticIndexMixin:
     _iforecast = None
     _ianalysis = None
     _inoupdates = None
-    _increments = None
+    _increment = None
     _total_forecast = None
     _analysis = None
     _total_result = None
 
     @property
-    def increments(self):
-        if self._increments is None:
-            self._increments = self._get_increments()
-        return self._increments
+    def increment(self):
+        if self._increment is None:
+            self._increment = self._get_increment()
+        return self._increment
 
     @property
     def forecast(self):
@@ -343,51 +343,47 @@ class _DiagnosticIndexMixin:
         iforecast[0:-1] = ianalysis[1:]
         return iforecast
 
-    def _get_increments(self):
-        """Determine all increments
+    def _get_increment(self):
+        """Determine all increments"""
 
-        Returns:
-            df_increment -- a dataframe containing all increments
-        """
-        state_items = [i for i in list(self.df.columns) if i.startswith("State_")]
-
-        dff = self.df[state_items].iloc[self.idx_forecast]
-        dfa = self.df[state_items].iloc[self.idx_analysis]
+        dff = self.df[self._member_cols].iloc[self.idx_forecast]
+        dfa = self.df[self._member_cols].iloc[self.idx_analysis]
         df_increment = dfa.subtract(dff)
         return DiagnosticIncrements(
             df_increment,
-            name=f"{self.name} increments",
+            name=f"{self.name} increment",
             eumText=self.eumText,
         )
 
     @property
     def idx_forecast(self):
-        """index before updates (forecast)"""
+        """index before assimilation updates (forecast)"""
         if self._iforecast is None:
             self._idx_at_updates()
         return self._iforecast
 
     @property
     def idx_analysis(self):
-        """index after updates (analysis)"""
+        """index after assimilation updates (analysis)"""
         if self._ianalysis is None:
             self._idx_at_updates()
         return self._ianalysis
 
     @property
     def idx_no_update(self):
-        """index when there is no updates"""
+        """index when there is no assimilation updates"""
         if self._inoupdate is None:
             self._idx_at_updates()
         return self._inoupdate
 
     @property
     def has_updates(self):
+        """has file any assimilation updates (duplicate index)"""
         return self.n_updates > 0
 
     @property
     def n_updates(self):
-        """number of updates"""
+        """number of assimilation updates"""
         if self._n_updates is None:
             self._idx_at_updates()
         return self._n_updates
