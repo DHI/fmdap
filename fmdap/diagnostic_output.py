@@ -198,19 +198,15 @@ class DiagnosticInnovations(DiagnosticDataframe):
 
 
 class DiagnosticResults(DiagnosticDataframe):
-    _n_members = None
-    is_point = True
-    _innovations = None
-
     def __init__(
-        self,
-        df: pd.DataFrame,
-        type: DiagnosticType,
-        name=None,
-        eumText=None,
+        self, df: pd.DataFrame, type: DiagnosticType, name=None, eumText=None,
     ):
         super().__init__(df, name=name, eumText=eumText)
         self.type = type
+        self._n_members = None
+        self.is_point = True
+        self._innovations = None
+        self._comparer = None
 
     @property
     def values(self):
@@ -263,9 +259,7 @@ class DiagnosticResults(DiagnosticDataframe):
         df = self.df.drop(columns="Mean_State").dropna()
         dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
         return DiagnosticInnovations(
-            dfi,
-            name=f"{self.name} innovation",
-            eumText=self.eumText,
+            dfi, name=f"{self.name} innovation", eumText=self.eumText,
         )
 
     def plot(self, figsize=(10, 5), **kwargs):
@@ -278,11 +272,7 @@ class DiagnosticResults(DiagnosticDataframe):
         self.df[["Mean_State"]].plot(color="0.2", ax=ax)
         if self.has_measurement:
             self.measurement.plot(
-                color="red",
-                marker=".",
-                markersize=8,
-                linestyle="None",
-                ax=ax,
+                color="red", marker=".", markersize=8, linestyle="None", ax=ax,
             )
         ax.set_ylabel(self.eumText)
         ax.set_title(self.name)
@@ -291,18 +281,43 @@ class DiagnosticResults(DiagnosticDataframe):
     def hist(self, bins=100, show_Gaussian=False, **kwargs):
         super().hist(bins=bins, show_Gaussian=show_Gaussian, **kwargs)
 
+    @property
+    def skill(self):
+        return self.comparer.skill()
+
+    @property
+    def scatter(self):
+        return self.comparer.scatter()
+
+    @property
+    def comparer(self):
+        if self._comparer is None:
+            self._comparer = self._get_comparer()
+        return self._comparer
+
+    def _get_comparer(self):
+        import fmskill
+
+        # mod = fmskill.ModelResult(self.df[["Mean_State"]])
+        obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
+        mod = self.df[["Mean_State"]]
+        # obs = self.df[["Measurement"]]
+        return fmskill.compare(obs, mod)
+
 
 class _DiagnosticIndexMixin:
     """Mixin handling indexing of forecast, analysis and no-update steps"""
 
-    _n_updates = None
-    _iforecast = None
-    _ianalysis = None
-    _inoupdates = None
-    _increment = None
-    _total_forecast = None
-    _analysis = None
-    _total_result = None
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self._n_updates = None
+        self._iforecast = None
+        self._ianalysis = None
+        self._inoupdates = None
+        self._increment = None
+        self._total_forecast = None
+        self._analysis = None
+        self._total_result = None
 
     @property
     def increment(self):
@@ -334,30 +349,21 @@ class _DiagnosticIndexMixin:
         """Get a diagnostic object containing no-update and forecast values"""
         df = self.df.iloc[self.idx_forecast | self.idx_no_update]
         return DiagnosticResults(
-            df,
-            type=self.type,
-            name=f"{self.name} forecast",
-            eumText=self.eumText,
+            df, type=self.type, name=f"{self.name} forecast", eumText=self.eumText,
         )
 
     def _get_analysis(self):
         """Get a diagnostic object containing analysis values"""
         df = self.df.iloc[self.idx_analysis]
         return DiagnosticResults(
-            df,
-            type=self.type,
-            name=f"{self.name} analysis",
-            eumText=self.eumText,
+            df, type=self.type, name=f"{self.name} analysis", eumText=self.eumText,
         )
 
     def _get_total_result(self):
         """Get a diagnostic object containing no-update and analysis values"""
         df = self.df.iloc[self.idx_analysis | self.idx_no_update]
         return DiagnosticResults(
-            df,
-            type=self.type,
-            name=f"{self.name} analysis",
-            eumText=self.eumText,
+            df, type=self.type, name=f"{self.name} analysis", eumText=self.eumText,
         )
 
     def get_iforecast_from_ianalysis(self, ianalysis):
@@ -373,9 +379,7 @@ class _DiagnosticIndexMixin:
         dfa = self.df[self._member_cols].iloc[self.idx_analysis]
         df_increment = dfa.subtract(dff)
         return DiagnosticIncrements(
-            df_increment,
-            name=f"{self.name} increment",
-            eumText=self.eumText,
+            df_increment, name=f"{self.name} increment", eumText=self.eumText,
         )
 
     @property
@@ -452,14 +456,13 @@ class _DiagnosticIndexMixin:
         return df_increment
 
 
-class MeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
+class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
     def __init__(self, df, name, eumItem=None, filename=None):
-        self.type = DiagnosticType.Measurement
-        self.df = df
-        self.name = name
+        type = DiagnosticType.Measurement
+        eumText = "" if eumItem is None else _get_eum_text(eumItem)
+        super().__init__(df=df, type=type, name=name, eumText=eumText)
         self.filename = filename
         self.df.columns = self._new_column_names(df.columns)
-        self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
 
     def _new_column_names(self, columns):
         n_members = len(columns) - 2
@@ -474,6 +477,14 @@ class MeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
         if type is not None:
             out.append(f"{self.type}")
         return str.join("\n", out)
+
+    def _get_comparer(self):
+        if self.has_updates:
+            cf = self.forecast.comparer
+            ca = self.analysis.comparer
+            return cf + ca
+        else:
+            return super().comparer
 
 
 class MeasurementDistributedDiagnostic(DiagnosticDataframe, _DiagnosticIndexMixin):
