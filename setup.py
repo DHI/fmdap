@@ -12,11 +12,12 @@ setuptools.setup(
     install_requires=[
         "numpy",
         "pandas",
-        "mikeio >= 0.7",
         "matplotlib",
         "requests",
         "scipy",
         "statsmodels",
+        "mikeio >= 0.7",
+        "fmskill",        
     ],
     extras_require={
         "dev": [
