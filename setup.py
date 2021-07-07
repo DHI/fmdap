@@ -8,11 +8,11 @@ with open("LICENSE") as fh:
 
 setuptools.setup(
     name="fmdap",
-    version="0.1.dev",
+    version="0.1.dev2",
     install_requires=[
         "numpy",
         "pandas",
-        "mikeio >= 0.6",
+        "mikeio >= 0.7",
         "matplotlib",
         "requests",
         "scipy",
@@ -31,8 +31,7 @@ setuptools.setup(
     },
     author="Jesper Sandvig Mariegaard",
     author_email="jem@dhigroup.com",
-    description="Compare results from MIKE FM simulations with observations.",
-    platform="windows_x64",
+    description="MIKE FM Data Assimilation pre- and post-processor.",
     license="MIT",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -48,7 +47,7 @@ setuptools.setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
-        "Operating System :: Microsoft :: Windows",
+        "Programming Language :: Python :: 3.9",
         "Topic :: Scientific/Engineering",
     ],
 )
