@@ -544,7 +544,7 @@ class NonMeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
         self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
 
     def _new_column_names(self, columns):
-        n_members = len(columns) - 4
+        n_members = len(columns) - 1
         cols = [f"State_{j+1}" for j in range(n_members)]
         cols.append("Mean_State")
         return cols
