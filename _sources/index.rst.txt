@@ -7,7 +7,7 @@
 
 |
  
-fmdap: MIKE FM Data Assimilation Processing tool 
+FMDAp: MIKE FM Data Assimilation Processing tool 
 ================================================
 
 Python package containing pre- and post-processing tools for MIKE 21/3 Data Assimilation workflows.
