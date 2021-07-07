@@ -60,6 +60,7 @@ def read_diagnostic(filename, name=None):
             name = os.path.basename(filename).split(".")[0]
         items = dfs.items
         df = dfs.to_dataframe()
+    df.index.name = "time"
 
     type = _infer_diagnostic_type(df)
     if type == DiagnosticType.Measurement:
@@ -136,8 +137,8 @@ class DiagnosticDataframe:
         _ = plt.hist(self.values.ravel(), bins=bins, density=1, **kwargs)
 
         if show_Gaussian:
-            xx = np.linspace(self.min(), self.max(), 300)
-            yy = norm.pdf(xx, self.mean(), self.std())
+            xx = np.linspace(self.values.min(), self.values.max(), 300)
+            yy = norm.pdf(xx, self.values.mean(), self.values.std())
             plt.gca().plot(xx, yy, "--", label="Gaussian")
 
         plt.xlabel(self.eumText)
@@ -148,8 +149,8 @@ class DiagnosticDataframe:
         _ecdf = ECDF(self.values.ravel())
 
         if show_Gaussian:
-            xx = np.linspace(self.min(), self.max(), 300)
-            yy = norm.cdf(xx, self.mean(), self.std())
+            xx = np.linspace(self.values.min(), self.values.max(), 300)
+            yy = norm.cdf(xx, self.values.mean(), self.values.std())
             ax.plot(xx, yy, "--", label="Gaussian")
 
         ax.plot(_ecdf.x, _ecdf.y, label=self.name)
@@ -160,19 +161,24 @@ class DiagnosticDataframe:
         plt.title(f"CDF of {self.name}")
 
     def min(self, **kwargs):
-        return self.values.min(**kwargs)
+        return self.df.min(**kwargs)
 
     def max(self, **kwargs):
-        return self.values.max(**kwargs)
+        return self.df.max(**kwargs)
 
     def mean(self, **kwargs):
-        return self.values.mean(**kwargs)
+        return self.df.mean(**kwargs)
 
     def median(self, **kwargs):
-        return np.median(self.values, **kwargs)
+        return self.df.median(**kwargs)
+
+    #        return np.median(self.values, **kwargs)
 
     def std(self, **kwargs):
-        return np.std(self.values, **kwargs)
+        return self.df.std(**kwargs)
+
+
+#        return np.std(self.values, **kwargs)
 
 
 class DiagnosticIncrements(DiagnosticDataframe):
@@ -204,7 +210,7 @@ class DiagnosticResults(DiagnosticDataframe):
         super().__init__(df, name=name, eumText=eumText)
         self.type = type
         self._n_members = None
-        self.is_point = True
+        self.is_point = True if df.index.nlevels == 1 else False
         self._innovations = None
         self._comparer = None
 
@@ -285,9 +291,8 @@ class DiagnosticResults(DiagnosticDataframe):
     def skill(self):
         return self.comparer.skill()
 
-    @property
-    def scatter(self):
-        return self.comparer.scatter()
+    def scatter(self, **kwargs):
+        return self.comparer.scatter(**kwargs)
 
     @property
     def comparer(self):
@@ -298,11 +303,18 @@ class DiagnosticResults(DiagnosticDataframe):
     def _get_comparer(self):
         import fmskill
 
-        # mod = fmskill.ModelResult(self.df[["Mean_State"]])
-        obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
-        mod = self.df[["Mean_State"]]
-        # obs = self.df[["Measurement"]]
-        return fmskill.compare(obs, mod)
+        if self.is_point:
+            mod = fmskill.ModelResult(self.df[["Mean_State"]])
+            obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
+        else:
+            mod = fmskill.ModelResult(self.df[["x", "y", "Mean_State"]], type="track")
+            obs = fmskill.TrackObservation(
+                self.df[["x", "y", "Measurement"]], name=self.name
+            )
+
+        con = fmskill.Connector(obs, mod)
+
+        return con.extract()[0]
 
 
 class _DiagnosticIndexMixin:
@@ -487,16 +499,18 @@ class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
             return super().comparer
 
 
-class MeasurementDistributedDiagnostic(DiagnosticDataframe, _DiagnosticIndexMixin):
-    def __init__(self, df, name, eumItems=None, filename=None):
-        self.type = DiagnosticType.Measurement
-        self.df = df
-        self.name = name
+class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
+    def __init__(self, df, name, eumItem=None, filename=None):
+        type = DiagnosticType.Measurement
+        # self.df = df
+        # self.name = name
+        eumText = "" if eumItem is None else _get_eum_text(eumItem)
+        super().__init__(df=df, type=type, name=name, eumText=eumText)
         self.filename = filename
         self._xy_name = list(df.columns[:2])
         self.df.columns = self._new_column_names(df.columns)
-        self._set_eum_info(eumItems[-1])
-        self.eumText = "" if eumItems is None else _get_eum_text(eumItems[-1])
+        # self._set_eum_info(eumItems[-1])
+        self.df = self.df.set_index(["x", "y"], append=True)
 
     def _new_column_names(self, columns):
         n_members = len(columns) - 4
@@ -509,6 +523,14 @@ class MeasurementDistributedDiagnostic(DiagnosticDataframe, _DiagnosticIndexMixi
 
     def _get_xy_names_and_types(self, items):
         raise NotImplementedError()
+
+    def _get_comparer(self):
+        if self.has_updates:
+            cf = self.forecast.comparer
+            ca = self.analysis.comparer
+            return cf + ca
+        else:
+            return super().comparer
 
 
 class NonMeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
