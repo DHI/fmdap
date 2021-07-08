@@ -30,6 +30,9 @@ def test_diag_type_1():
 def test_diag_type_2():
     diag = read_diagnostic(filename_nonMeas)
     assert diag.type == DiagnosticType.NonMeasurementPoint
+    assert diag.n_members == 3
+    assert diag.n == 114
+    assert len(diag) == 114
 
 
 def test_diag_type_3():
