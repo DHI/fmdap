@@ -63,14 +63,6 @@ def test_idx_at_updates():
     assert diag.idx_no_update[-1] == False
 
 
-def test_get_iforecast_from_ianalysis():
-    diag = read_diagnostic(filename_EnKF)
-    ianalysis = diag.idx_analysis
-    iforecast2 = diag.get_iforecast_from_ianalysis(ianalysis)
-
-    assert diag.idx_forecast[-1] == iforecast2[-1]
-
-
 def test_get_increments():
     diag = read_diagnostic(filename_EnKF)
     dfi = diag.increment.df

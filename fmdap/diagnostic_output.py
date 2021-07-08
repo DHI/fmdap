@@ -431,12 +431,6 @@ class _DiagnosticIndexMixin:
             df, type=self.type, name=f"{self.name} analysis", eumText=self.eumText,
         )
 
-    def get_iforecast_from_ianalysis(self, ianalysis):
-        nt = len(ianalysis)
-        iforecast = np.zeros(nt, dtype=bool)
-        iforecast[0:-1] = ianalysis[1:]
-        return iforecast
-
     def _get_increment(self):
         """Determine all increments"""
 
