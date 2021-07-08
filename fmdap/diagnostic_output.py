@@ -380,6 +380,7 @@ class _DiagnosticIndexMixin:
         self._ianalysis = None
         self._inoupdates = None
         self._increment = None
+        self._forecast_at_update = None
         self._total_forecast = None
         self._analysis = None
         self._total_result = None
@@ -394,6 +395,12 @@ class _DiagnosticIndexMixin:
         return self._increment
 
     @property
+    def forecast_at_update(self):
+        if self._forecast_at_update is None:
+            self._forecast_at_update = self._get_forecast_at_update()
+        return self._forecast_at_update
+
+    @property
     def forecast(self):
         if self._total_forecast is None:
             self._total_forecast = self._get_total_forecast()
@@ -405,6 +412,7 @@ class _DiagnosticIndexMixin:
             self._analysis = self._get_analysis()
         if self.n_updates == 0:
             warnings.warn("No updates found! analysis empty")
+            return None
         return self._analysis
 
     @property
@@ -412,6 +420,16 @@ class _DiagnosticIndexMixin:
         if self._total_result is None:
             self._total_result = self._get_total_result()
         return self._total_result
+
+    def _get_forecast_at_update(self):
+        """Get a diagnostic object containing forecast values only before updates"""
+        df = self.df.iloc[self.idx_forecast]
+        return DiagnosticResults(
+            df,
+            type=self.type,
+            name=f"{self.name} forecast@update",
+            eumText=self.eumText,
+        )
 
     def _get_total_forecast(self):
         """Get a diagnostic object containing no-update and forecast values"""
