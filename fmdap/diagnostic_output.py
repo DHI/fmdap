@@ -386,6 +386,9 @@ class _DiagnosticIndexMixin:
 
     @property
     def increment(self):
+        if self.n_updates == 0:
+            warnings.warn("increment only available when data contains updates!")
+            return None
         if self._increment is None:
             self._increment = self._get_increment()
         return self._increment
@@ -488,7 +491,7 @@ class _DiagnosticIndexMixin:
         self._iforecast = df.index.duplicated(keep="last")
         self._ianalysis = df.index.duplicated(keep="first")
         self._inoupdate = (~self._iforecast) & (~self._ianalysis)
-        self._n_updates = len(np.where(self._ianalysis))
+        self._n_updates = len(np.where(self._ianalysis)[0])
 
     def _get_mean_increments(self):
         """Determine the mean increments
