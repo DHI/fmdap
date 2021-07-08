@@ -398,6 +398,9 @@ class _DiagnosticIndexMixin:
     def forecast_at_update(self):
         if self._forecast_at_update is None:
             self._forecast_at_update = self._get_forecast_at_update()
+        if self.n_updates == 0:
+            warnings.warn("No updates found! forecast_at_update empty")
+            return None
         return self._forecast_at_update
 
     @property
