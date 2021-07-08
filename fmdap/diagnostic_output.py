@@ -535,18 +535,11 @@ class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults)
 
 class NonMeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
     def __init__(self, df, name, eumItem=None, filename=None):
-        # super().__init__(df, name, filename)
-        self.type = DiagnosticType.NonMeasurementPoint
-        # self.df = df
-        # self.name = name
-
-        # type = DiagnosticType.Measurement
+        type = DiagnosticType.NonMeasurementPoint
         eumText = "" if eumItem is None else _get_eum_text(eumItem)
         super().__init__(df=df, type=type, name=name, eumText=eumText)
-
         self.filename = filename
         self.df.columns = self._new_column_names(df.columns)
-        # self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
 
     def _new_column_names(self, columns):
         n_members = len(columns) - 1
