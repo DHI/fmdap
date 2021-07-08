@@ -107,12 +107,24 @@ class DiagnosticDataframe:
     @property
     def values(self):
         """all values as a nd array"""
-        return self.df.to_numpy()
+        return self.df[self._member_cols].to_numpy()
+
+    @property
+    def _member_cols(self):
+        return self.df.columns
+
+    @property
+    def n_members(self):
+        return len(self._member_cols)
+
+    @property
+    def is_ensemble(self):
+        return self.n_members > 1
 
     @property
     def time(self):
         """the time vector (index as datetime)"""
-        return self.df.index.to_pydatetime()
+        return self.df.index.get_level_values(0).to_pydatetime()
 
     def __init__(self, df, name=None, eumText=None):
         self.df = df
@@ -161,24 +173,19 @@ class DiagnosticDataframe:
         plt.title(f"CDF of {self.name}")
 
     def min(self, **kwargs):
-        return self.df.min(**kwargs)
+        return self.df[self._member_cols].min(**kwargs)
 
     def max(self, **kwargs):
-        return self.df.max(**kwargs)
+        return self.df[self._member_cols].max(**kwargs)
 
     def mean(self, **kwargs):
-        return self.df.mean(**kwargs)
+        return self.df[self._member_cols].mean(**kwargs)
 
     def median(self, **kwargs):
-        return self.df.median(**kwargs)
-
-    #        return np.median(self.values, **kwargs)
+        return self.df[self._member_cols].median(**kwargs)
 
     def std(self, **kwargs):
-        return self.df.std(**kwargs)
-
-
-#        return np.std(self.values, **kwargs)
+        return self.df[self._member_cols].std(**kwargs)
 
 
 class DiagnosticIncrements(DiagnosticDataframe):
@@ -188,9 +195,11 @@ class DiagnosticIncrements(DiagnosticDataframe):
     def plot(self, color="0.5", marker=".", legend=None, **kwargs):
         if "title" not in kwargs:
             kwargs["title"] = self.name
-        return self.df.plot(
+        axes = self.df.plot(
             legend=legend, color=color, marker=marker, ylabel=self.eumText, **kwargs
         )
+        plt.axhline()
+        return axes
 
 
 class DiagnosticInnovations(DiagnosticDataframe):
@@ -200,7 +209,9 @@ class DiagnosticInnovations(DiagnosticDataframe):
     def plot(self, color="0.5", marker=".", legend=None, **kwargs):
         if "title" not in kwargs:
             kwargs["title"] = self.name
-        return self.df.plot(legend=legend, color=color, marker=marker, **kwargs)
+        axes = self.df.plot(legend=legend, color=color, marker=marker, **kwargs)
+        plt.axhline()
+        return axes
 
 
 class DiagnosticResults(DiagnosticDataframe):
@@ -209,14 +220,9 @@ class DiagnosticResults(DiagnosticDataframe):
     ):
         super().__init__(df, name=name, eumText=eumText)
         self.type = type
-        self._n_members = None
         self.is_point = True if df.index.nlevels == 1 else False
         self._innovations = None
         self._comparer = None
-
-    @property
-    def values(self):
-        return self.df[self._member_cols].to_numpy()
 
     @property
     def measurement(self):
@@ -236,16 +242,6 @@ class DiagnosticResults(DiagnosticDataframe):
             return self.df[self._member_cols]
         else:
             return None
-
-    @property
-    def n_members(self):
-        if self._n_members is None:
-            self._n_members = len(self._member_cols)
-        return self._n_members
-
-    @property
-    def is_ensemble(self):
-        return self.n_members > 1
 
     @property
     def _member_cols(self):
@@ -287,9 +283,8 @@ class DiagnosticResults(DiagnosticDataframe):
     def hist(self, bins=100, show_Gaussian=False, **kwargs):
         super().hist(bins=bins, show_Gaussian=show_Gaussian, **kwargs)
 
-    @property
-    def skill(self):
-        return self.comparer.skill()
+    def skill(self, **kwargs):
+        return self.comparer.skill(**kwargs)
 
     def scatter(self, **kwargs):
         return self.comparer.scatter(**kwargs)
@@ -303,17 +298,22 @@ class DiagnosticResults(DiagnosticDataframe):
     def _get_comparer(self):
         import fmskill
 
+        if not self.has_measurement:
+            raise ValueError(
+                "This is a NonMeasurementPointDiagnostic: No measurement to compare with!"
+            )
+
         if self.is_point:
             mod = fmskill.ModelResult(self.df[["Mean_State"]])
             obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
         else:
-            mod = fmskill.ModelResult(self.df[["x", "y", "Mean_State"]], type="track")
+            df = self.df.reset_index(["x", "y"])
+            mod = fmskill.ModelResult(df[["x", "y", "Mean_State"]], type="track")
             obs = fmskill.TrackObservation(
-                self.df[["x", "y", "Measurement"]], name=self.name
+                df[["x", "y", "Measurement"]], name=self.name
             )
 
         con = fmskill.Connector(obs, mod)
-
         return con.extract()[0]
 
 
@@ -438,7 +438,7 @@ class _DiagnosticIndexMixin:
         if df is None:
             df = self.df
 
-        time = df.index.to_pydatetime()
+        time = df.index.get_level_values(0).to_pydatetime()
         nt = len(time)
         dt = np.diff(time)
         ii = dt == datetime.timedelta(0)  # find repeated datetimes
@@ -533,15 +533,20 @@ class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults)
             return super().comparer
 
 
-class NonMeasurementPointDiagnostic(DiagnosticResults, _DiagnosticIndexMixin):
+class NonMeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
     def __init__(self, df, name, eumItem=None, filename=None):
         # super().__init__(df, name, filename)
         self.type = DiagnosticType.NonMeasurementPoint
-        self.df = df
-        self.name = name
+        # self.df = df
+        # self.name = name
+
+        # type = DiagnosticType.Measurement
+        eumText = "" if eumItem is None else _get_eum_text(eumItem)
+        super().__init__(df=df, type=type, name=name, eumText=eumText)
+
         self.filename = filename
         self.df.columns = self._new_column_names(df.columns)
-        self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
+        # self.eumText = "" if eumItem is None else _get_eum_text(eumItem)
 
     def _new_column_names(self, columns):
         n_members = len(columns) - 1
