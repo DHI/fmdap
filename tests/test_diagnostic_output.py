@@ -94,6 +94,187 @@ def test_get_mean_increments():
     assert dfi.values[3, 0] == 0.03600311279296875
 
 
+# ======= forecast ==========
+
+
+def test_forecast_EnKF():
+    diag = read_diagnostic(filename_EnKF)
+    res = diag.forecast
+    assert isinstance(res, do.DiagnosticResults)
+    assert res.n_members == 10
+    assert res.values.shape == (397, 10)
+
+    res.ecdf()
+
+
+def test_forecast_nonMeas():
+    diag = read_diagnostic(filename_nonMeas)
+    res = diag.forecast
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 114
+    assert len(np.unique(res.time)) == 114
+    assert res.n_members == 3
+    assert res.values.shape == (114, 3)
+
+
+def test_forecast_EnKF_alti():
+    diag = read_diagnostic(filename_EnKF_alti)
+    res = diag.forecast
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 31
+    assert len(np.unique(res.time)) == 1
+    assert res.n_members == 7
+    assert res.values.shape == (31, 7)
+
+    res.plot()
+
+
+def test_forecast_OI():
+    diag = read_diagnostic(filename_OI)
+    res = diag.forecast
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 2017
+    assert len(np.unique(res.time)) == 2017
+    assert res.n_members == 1
+    assert res.values.shape == (2017, 1)
+
+    res.hist()
+
+
+# ======= forecast_at_update ==========
+
+
+def test_forecast_at_update_EnKF():
+    diag = read_diagnostic(filename_EnKF)
+    res = diag.forecast_at_update
+    assert isinstance(res, do.DiagnosticResults)
+    assert res.n_members == 10
+    assert res.values.shape == (347, 10)
+
+    res.ecdf()
+
+
+def test_forecast_at_update_nonMeas():
+    diag = read_diagnostic(filename_nonMeas)
+    assert diag.forecast_at_update is None
+
+
+def test_forecast_at_update_EnKF_alti():
+    diag = read_diagnostic(filename_EnKF_alti)
+    res = diag.forecast_at_update
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 31
+    assert len(np.unique(res.time)) == 1
+    assert res.n_members == 7
+    assert res.values.shape == (31, 7)
+
+    res.plot()
+
+
+def test_forecast_at_update_OI():
+    diag = read_diagnostic(filename_OI)
+    res = diag.forecast_at_update
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 168
+    assert len(np.unique(res.time)) == 168
+    assert res.n_members == 1
+    assert res.values.shape == (168, 1)
+
+    res.hist()
+
+
+# ======= analysis ==========
+
+
+def test_analysis_EnKF():
+    diag = read_diagnostic(filename_EnKF)
+    res = diag.analysis
+    assert isinstance(res, do.DiagnosticResults)
+    assert res.n_members == 10
+    assert res.values.shape == (347, 10)
+
+    res.plot()
+
+
+def test_analysis_nonMeas():
+    diag = read_diagnostic(filename_nonMeas)
+    assert diag.analysis is None
+
+
+def test_analysis_EnKF_alti():
+    diag = read_diagnostic(filename_EnKF_alti)
+    res = diag.analysis
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 31
+    assert len(np.unique(res.time)) == 1
+    assert res.n_members == 7
+    assert res.values.shape == (31, 7)
+
+    res.hist()
+
+
+def test_analysis_OI():
+    diag = read_diagnostic(filename_OI)
+    res = diag.analysis
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 168
+    assert len(np.unique(res.time)) == 168
+    assert res.n_members == 1
+    assert res.values.shape == (168, 1)
+
+    res.ecdf()
+
+
+# ======= result ==========
+
+
+def test_result_EnKF():
+    diag = read_diagnostic(filename_EnKF)
+    res = diag.result
+    assert isinstance(res, do.DiagnosticResults)
+    assert res.n_members == 10
+    assert res.values.shape == (397, 10)
+
+    res.hist()
+
+
+def test_result_nonMeas():
+    diag = read_diagnostic(filename_nonMeas)
+    res = diag.result
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 114
+    assert len(np.unique(res.time)) == 114
+    assert res.n_members == 3
+    assert res.values.shape == (114, 3)
+
+
+def test_result_EnKF_alti():
+    diag = read_diagnostic(filename_EnKF_alti)
+    res = diag.result
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 31
+    assert len(np.unique(res.time)) == 1
+    assert res.n_members == 7
+    assert res.values.shape == (31, 7)
+
+    res.ecdf()
+
+
+def test_result_OI():
+    diag = read_diagnostic(filename_OI)
+    res = diag.result
+    assert isinstance(res, do.DiagnosticResults)
+    assert len(res) == 2017
+    assert len(np.unique(res.time)) == 2017
+    assert res.n_members == 1
+    assert res.values.shape == (2017, 1)
+
+    res.plot()
+
+
+# ======= innovation ==========
+
+
 def test_innovation_EnKF():
     diag = read_diagnostic(filename_EnKF)
     inno = diag.innovation
@@ -127,6 +308,9 @@ def test_innovation_OI():
     assert len(np.unique(inno.time)) == 1004
     assert inno.n_members == 1
     assert inno.values.shape == (1171, 1)
+
+
+# ======= increment ==========
 
 
 def test_increment_EnKF():
