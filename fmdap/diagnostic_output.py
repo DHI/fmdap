@@ -21,7 +21,7 @@ Examples
 >>> d.analysis.innovation.hist()
 >>> d.result.plot()
 """
-from enum import Enum
+from enum import IntEnum
 import os
 import warnings
 import numpy as np
@@ -40,7 +40,7 @@ from mikeio import Dfs0, eum
 # 3. Calc innovation statistics
 
 
-class DiagnosticType(Enum):
+class DiagnosticType(IntEnum):
     Measurement = 1
     NonMeasurementPoint = 2
     GlobalAssimilationStatistics = 3
@@ -132,23 +132,57 @@ class DiagnosticDataframe:
         self.eumText = eumText
 
     def __repr__(self):
-        out = [f"<{self.__class__.__name__}> {self.name}"]
+        out = [f"<{self.__class__.__name__}> {self.name} ({self.eumText})"]
         if len(self.df) == 0:
             out.append("Empty!")
         else:
-            nsteps = len(self.df.index.get_level_values(0).unique())
+            nsteps_normal, nsteps_update = self._get_nsteps_with_type()
+            nsteps = nsteps_normal + nsteps_update
+            # nsteps = len(self.df.index.get_level_values(0).unique())
             if nsteps == 1:
-                out.append(f" Time: {self.time[0]} (1 time record)")
+                txt = "with" if nsteps_update == 1 else "without"
+                out.append(f" Time: {self.time[0]} (1 record {txt} update)")
             else:
-                out.append(f" Time: {self.time[0]} - {self.time[-1]} ({nsteps} steps)")
+                steptxt = f"({nsteps} steps; {nsteps_update} with updates)"
+                if isinstance(self, DiagnosticIncrements):
+                    steptxt = f"({nsteps} steps)"
+                out.append(f" Time: {self.time[0]} - {self.time[-1]} {steptxt}")
             if self.df.index.nlevels > 1:
                 npoints = len(self.df)
                 out.append(
-                    f" Spatially distributed values with avg {float(npoints)/float(nsteps)} points per step"
+                    f" Spatially distributed points with avg {float(npoints)/float(nsteps)} points per step"
                 )
             if self.is_ensemble:
                 out.append(f" Ensemble with {self.n_members} members")
+            vals = self.values.ravel()
+            out.append(
+                f" Model: {len(vals)} values from {vals.min():.4f} to {vals.max():.4f} with mean {vals.mean():.4f}"
+            )
+            if "Measurement" in self.df.columns:
+                df = self.df[["Mean_State", "Measurement"]].dropna()
+                vals = df[["Mean_State"]].to_numpy()
+                out.append(
+                    f" Measurements: {len(vals)} values from {vals.min():.4f} to {vals.max():.4f} with mean {vals.mean():.4f}"
+                )
+                resi = (df["Mean_State"] - df["Measurement"]).to_numpy()
+                rmse = np.sqrt(np.mean(resi ** 2))
+                stdtxt = ""
+                if self.is_ensemble:
+                    stdval = self.values.std(axis=1).mean()
+                    stdtxt = f"ensemble_std={stdval:.4f}"
+                out.append(
+                    f" Mean skill: bias={resi.mean():.4f}, rmse={rmse:.4f} {stdtxt}"
+                )
+
         return str.join("\n", out)
+
+    def _get_nsteps_with_type(self):
+        df = self.df.index.value_counts()
+        if self.df.index.nlevels > 1:
+            new_idx = [multiidx[0] for multiidx in df.index]
+            df.index = new_idx
+        nvalues_per_time = df.groupby(level=0).mean()
+        return sum(nvalues_per_time == 1), sum(nvalues_per_time == 2)
 
     @property
     def n(self):
@@ -457,23 +491,10 @@ class _DiagnosticIndexMixin:
         if df is None:
             df = self.df
 
-        time = df.index.get_level_values(0).to_pydatetime()
-        nt = len(time)
-        dt = np.diff(time)
-        ii = dt == datetime.timedelta(0)  # find repeated datetimes
-
-        self._iforecast = np.zeros(nt, dtype=bool)
-        self._ianalysis = np.zeros(nt, dtype=bool)
-
-        if len(ii) == None:
-            # print("No updates were found in diagnostic file")
-            self._inoupdate = np.ones(nt, dtype=bool)
-            self._n_updates = 0
-        else:
-            self._iforecast[0:-1] = ii
-            self._ianalysis[1:] = ii
-            self._inoupdate = (self._iforecast | self._ianalysis) != True
-            self._n_updates = len(self._iforecast[self._iforecast == True])
+        self._iforecast = df.index.duplicated(keep="last")
+        self._ianalysis = df.index.duplicated(keep="first")
+        self._inoupdate = (~self._iforecast) & (~self._ianalysis)
+        self._n_updates = len(np.where(self._ianalysis))
 
     def _get_mean_increments(self):
         """Determine the mean increments
@@ -501,13 +522,6 @@ class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
         cols.append("Mean_State")
         cols.append("Measurement")
         return cols
-
-    def __repr__(self):
-        out = []
-        out.append(f"<{type(self).__name__}>")
-        if type is not None:
-            out.append(f"{self.type}")
-        return str.join("\n", out)
 
     def _get_comparer(self):
         if self.has_updates:
