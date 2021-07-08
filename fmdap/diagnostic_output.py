@@ -131,6 +131,25 @@ class DiagnosticDataframe:
         self.name = name
         self.eumText = eumText
 
+    def __repr__(self):
+        out = [f"<{self.__class__.__name__}> {self.name}"]
+        if len(self.df) == 0:
+            out.append("Empty!")
+        else:
+            nsteps = len(self.df.index.get_level_values(0).unique())
+            if nsteps == 1:
+                out.append(f" Time: {self.time[0]} (1 time record)")
+            else:
+                out.append(f" Time: {self.time[0]} - {self.time[-1]} ({nsteps} steps)")
+            if self.df.index.nlevels > 1:
+                npoints = len(self.df)
+                out.append(
+                    f" Spatially distributed values with avg {float(npoints)/float(nsteps)} points per step"
+                )
+            if self.is_ensemble:
+                out.append(f" Ensemble with {self.n_members} members")
+        return str.join("\n", out)
+
     @property
     def n(self):
         return len(self.df)
