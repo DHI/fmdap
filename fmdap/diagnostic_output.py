@@ -226,6 +226,75 @@ class DiagnosticDataframe:
         plt.xlabel(self.eumText)
         plt.title(f"CDF of {self.name}")
 
+    def iplot(
+        self, title=None, ylim=None, **kwargs,
+    ):  # pragma: no cover
+        import plotly.graph_objects as go
+
+        if title is None:
+            title = self.name
+
+        fig = go.Figure()
+
+        plot_markers = "" if "Mean_State" in self.df.columns else "+markers"
+        show_members = (self.n_members > 1) or ("Mean_State" not in self.df.columns)
+
+        if show_members:
+            for j in range(self.n_members):
+                fig.add_trace(
+                    go.Scatter(
+                        x=self.df.index,
+                        y=self.df.iloc[:, j],
+                        name=f"State {j+1}",
+                        showlegend=False,
+                        mode="lines" + plot_markers,
+                        line=dict(color="#999999", width=1),
+                        marker=dict(size=3),
+                    )
+                )
+
+        if "Mean_State" in self.df.columns:
+            fig.add_trace(
+                go.Scatter(
+                    x=self.df.index,
+                    y=self.df.Mean_State,
+                    name=f"Mean_State",
+                    showlegend=True,
+                    mode="lines",
+                    line=dict(color="#333333"),
+                )
+            )
+
+        if "Measurement" in self.df.columns:
+            fig.add_trace(
+                go.Scatter(
+                    x=self.df.index,
+                    y=self.df.Measurement,
+                    name=f"Measurement",
+                    showlegend=True,
+                    mode="markers",
+                    line=dict(color="#EE1133"),
+                )
+            )
+
+        if isinstance(self, (DiagnosticIncrements, DiagnosticInnovations)):
+            # plot zero line
+            fig.add_trace(
+                go.Scatter(
+                    x=np.array([self.df.index[0], self.df.index[-1]]),
+                    y=np.zeros(2),
+                    name="0",
+                    showlegend=False,
+                    mode="lines",
+                    line=dict(color="#2211EE", width=2),
+                )
+            )
+
+        fig.update_layout(title=title, yaxis_title=self.eumText, **kwargs)
+        fig.update_yaxes(range=ylim)
+
+        fig.show()
+
     def min(self, **kwargs):
         return self.df[self._member_cols].min(**kwargs)
 
@@ -565,7 +634,7 @@ class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
 class MeasurementDistributedDiagnostic(MeasurementPointDiagnostic):
     def __init__(self, df, name, eumItem=None, filename=None):
         self._xy_name = list(df.columns[:2])
-        super().__init__(df=df, name=name, eumItem=eumItem, filename=filename)        
+        super().__init__(df=df, name=name, eumItem=eumItem, filename=filename)
         self.df = self.df.set_index(["x", "y"], append=True)
 
     def _new_column_names(self, columns):
