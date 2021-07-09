@@ -12,7 +12,6 @@ This python package contains pre- and post-processing tools for MIKE 21/3 Data A
 
 ## Requirements
 
-* Windows
 * Python x64 >=3.6
 * [mikeio](https://github.com/DHI/mikeio) python package for reading and writing MIKE dfs files
 
