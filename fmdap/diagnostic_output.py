@@ -205,6 +205,7 @@ class DiagnosticDataframe:
             xx = np.linspace(self.values.min(), self.values.max(), 300)
             yy = norm.pdf(xx, self.values.mean(), self.values.std())
             plt.gca().plot(xx, yy, "--", label="Gaussian")
+            plt.axvline(c="0.5")
 
         plt.xlabel(self.eumText)
         plt.title(f"Histogram of {self.name}")
@@ -452,7 +453,7 @@ class _DiagnosticIndexMixin:
         """Get a diagnostic object containing no-update and analysis values"""
         df = self.df.iloc[self.idx_analysis | self.idx_no_update]
         return DiagnosticResults(
-            df, type=self.type, name=f"{self.name} analysis", eumText=self.eumText,
+            df, type=self.type, name=f"{self.name} result", eumText=self.eumText,
         )
 
     def _get_increment(self):
@@ -544,10 +545,15 @@ class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
     def _get_comparer(self):
         if self.has_updates:
             cf = self.forecast.comparer
+            cfau = self.forecast_at_update.comparer
             ca = self.analysis.comparer
-            return cf + ca
+            cr = self.result.comparer
+            return cf + cfau + ca + cr
         else:
             return super().comparer
+
+    def scatter(self, **kwargs):
+        return self.result.comparer.scatter(**kwargs)
 
 
 class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
@@ -578,10 +584,15 @@ class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults)
     def _get_comparer(self):
         if self.has_updates:
             cf = self.forecast.comparer
+            cfau = self.forecast_at_update.comparer
             ca = self.analysis.comparer
-            return cf + ca
+            cr = self.result.comparer
+            return cf + cfau + ca + cr
         else:
             return super().comparer
+
+    def scatter(self, **kwargs):
+        return self.result.comparer.scatter(**kwargs)
 
 
 class NonMeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
