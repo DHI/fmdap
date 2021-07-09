@@ -18,4 +18,10 @@ This python package contains pre- and post-processing tools for MIKE 21/3 Data A
 
 ## Examples
 
-Check out the examples in the notebooks folder. 
+Check out the examples in the [notebooks folder](https://nbviewer.jupyter.org/github/DHI/fmdap/tree/main/notebooks/). 
+
+### Diagnostic outputs
+
+* [Diagnostic_output_overview.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Diagnostic_output_overview.ipynb)
+* [Diagnostic_output_plots.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Diagnostic_output_plots.ipynb)
+* [Diagnostic_output_skill.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Diagnostic_output_skill.ipynb)
