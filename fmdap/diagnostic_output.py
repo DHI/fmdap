@@ -553,20 +553,19 @@ class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
             return super().comparer
 
     def scatter(self, **kwargs):
-        return self.result.comparer.scatter(**kwargs)
+        return self.result.scatter(**kwargs)
+
+    def hist(self, **kwargs):
+        return self.result.hist(**kwargs)
+
+    def ecdf(self, **kwargs):
+        return self.result.ecdf(**kwargs)
 
 
-class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
+class MeasurementDistributedDiagnostic(MeasurementPointDiagnostic):
     def __init__(self, df, name, eumItem=None, filename=None):
-        type = DiagnosticType.Measurement
-        # self.df = df
-        # self.name = name
-        eumText = "" if eumItem is None else _get_eum_text(eumItem)
-        super().__init__(df=df, type=type, name=name, eumText=eumText)
-        self.filename = filename
         self._xy_name = list(df.columns[:2])
-        self.df.columns = self._new_column_names(df.columns)
-        # self._set_eum_info(eumItems[-1])
+        super().__init__(df=df, name=name, eumItem=eumItem, filename=filename)        
         self.df = self.df.set_index(["x", "y"], append=True)
 
     def _new_column_names(self, columns):
@@ -577,22 +576,6 @@ class MeasurementDistributedDiagnostic(_DiagnosticIndexMixin, DiagnosticResults)
         cols.append("Mean_State")
         cols.append("Measurement")
         return cols
-
-    def _get_xy_names_and_types(self, items):
-        raise NotImplementedError()
-
-    def _get_comparer(self):
-        if self.has_updates:
-            cf = self.forecast.comparer
-            cfau = self.forecast_at_update.comparer
-            ca = self.analysis.comparer
-            cr = self.result.comparer
-            return cf + cfau + ca + cr
-        else:
-            return super().comparer
-
-    def scatter(self, **kwargs):
-        return self.result.comparer.scatter(**kwargs)
 
 
 class NonMeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
