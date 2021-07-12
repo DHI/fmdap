@@ -185,3 +185,31 @@ class DiagnosticCollection(Mapping):
     def __iter__(self):
         return iter(self.diagnostics.values())
 
+    def sel(self, **kwargs):
+        dc = self.__class__()
+        for n in self.names:
+            diag = self.diagnostics[n]
+            attrs = diag.attrs
+            if self._selected_by_attrs(attrs, **kwargs):
+                dc._add_single_diagnostics(diag, name=n, attrs=attrs)
+        return dc
+
+    def _selected_by_attrs(self, attrs, **kwargs):
+        selected = True
+        for key, val in kwargs.items():
+            attr_val = attrs.get(key)
+            if attr_val != val:
+                selected = False
+        return selected
+
+    @property
+    def result(self, **kwargs):
+        dc = self.__class__()
+        for n in self.names:
+            try:
+                diag = self.diagnostics[n].result
+                attrs = diag.attrs
+                dc._add_single_diagnostics(diag, name=n, attrs=attrs)
+            except AttributeError:
+                warnings.warn(f"Could not select result from {n}. No such")
+        return dc
