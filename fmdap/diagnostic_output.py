@@ -126,9 +126,10 @@ class DiagnosticDataframe:
         """the time vector (index as datetime)"""
         return self.df.index.get_level_values(0).to_pydatetime()
 
-    def __init__(self, df, name=None, eumText=None):
+    def __init__(self, df, name=None, attrs={}, eumText=None):
         self.df = df
         self.name = name
+        self.attrs = attrs
         self.eumText = eumText
 
     def __repr__(self):
@@ -278,17 +279,7 @@ class DiagnosticDataframe:
             )
 
         if isinstance(self, (DiagnosticIncrements, DiagnosticInnovations)):
-            # plot zero line
-            fig.add_trace(
-                go.Scatter(
-                    x=np.array([self.df.index[0], self.df.index[-1]]),
-                    y=np.zeros(2),
-                    name="0",
-                    showlegend=False,
-                    mode="lines",
-                    line=dict(color="#2211EE", width=2),
-                )
-            )
+            fig.add_hline(y=0.0)
 
         fig.update_layout(title=title, yaxis_title=self.eumText, **kwargs)
         fig.update_yaxes(range=ylim)
