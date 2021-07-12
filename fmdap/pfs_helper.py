@@ -23,8 +23,10 @@ def get_DA_sections(d):
 
 def get_measurements_df(dda):
     # dda = get_DA_dict(d)
-    meas_sec = dda["MEASUREMENTS"]
-    n_meas = int(meas_sec["number_of_independent_measurements"])
+    meas_sec = dda.get("MEASUREMENTS")
+    if meas_sec is None:
+        raise KeyError("'MEASUREMENTS' section could not be found in dictionary!")
+    n_meas = int(meas_sec.get("number_of_independent_measurements", 0))
 
     raw = {}
     for j in range(1, n_meas + 1):
@@ -34,8 +36,10 @@ def get_measurements_df(dda):
 
 def get_diagnostics_df(dda):
     # dda = get_DA_dict(d)
-    diag_sec = dda["DIAGNOSTICS"]["OUTPUTS"]
-    n_diag = int(diag_sec["number_of_outputs"])
+    diag_sec = dda.get("DIAGNOSTICS", {}).get("OUTPUTS")
+    if diag_sec is None:
+        raise KeyError("DIAGNOSTICS/OUTPUTS section could not be found in dictionary!")
+    n_diag = int(diag_sec.get("number_of_outputs", 0))
 
     raw = {}
     for j in range(1, n_diag + 1):
