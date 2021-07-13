@@ -254,7 +254,23 @@ class DiagnosticCollection(Mapping):
         return dc
 
     def skill(self, **kwargs):
-        return self.comparer.skill(**kwargs)
+        s = self.comparer.skill(**kwargs)
+        s.df = self._split_skill_index(s.df)
+        return s
+
+    def _split_skill_index(self, df):
+        selection = [n.split(" ")[-1] for n in df.index]
+        uniq_sel = set(selection)
+        possible_sel = {"result", "forecast", "analysis", "forecast@update"}
+
+        df.index.name = "old"
+        df["observation"] = [n.split(" ")[:-1][0] for n in df.index]
+
+        df.insert(loc=0, column="selection", value=selection)
+        if len(uniq_sel.intersection(possible_sel)) < 2:
+            return df.set_index("observation")
+        else:
+            return df.set_index(["observation", "selection"])
 
     def scatter(self, **kwargs):
         return self.comparer.scatter(**kwargs)
