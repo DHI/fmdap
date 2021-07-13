@@ -3,6 +3,7 @@ import os
 import numpy as np
 import warnings
 import pandas as pd
+from fmskill.comparison import ComparerCollection
 from fmdap.diagnostic_output import DiagnosticDataframe, DiagnosticType, read_diagnostic
 from fmdap import pfs_helper as pfs
 
@@ -19,6 +20,7 @@ class DiagnosticCollection(Mapping):
         self.diagnostics = {}
         self.names = []
         self._df_attrs = None
+        self._comparer = None
         if diagnostics is not None:
             self.add_diagnostics(diagnostics, names, attrs)
 
@@ -140,6 +142,7 @@ class DiagnosticCollection(Mapping):
         self.names.append(name)
         self.diagnostics[name] = diagnostic
         self._df_attrs = None
+        self._comparer = None
 
     def __repr__(self):
         out = []
@@ -194,6 +197,15 @@ class DiagnosticCollection(Mapping):
                 dc._add_single_diagnostics(diag, name=n, attrs=attrs)
         return dc
 
+    def query(self, q):
+        dc = self.__class__()
+        # for n in self.names:
+        #     diag = self.diagnostics[n]
+        #     attrs = diag.attrs
+        #     if self._selected_by_attrs(attrs, q):
+        #         dc._add_single_diagnostics(diag, name=n, attrs=attrs)
+        return dc
+
     def _selected_by_attrs(self, attrs, **kwargs):
         selected = True
         for key, val in kwargs.items():
@@ -203,13 +215,59 @@ class DiagnosticCollection(Mapping):
         return selected
 
     @property
-    def result(self, **kwargs):
+    def result(self):
+        return self._get_diagnostics_attribute("result")
+
+    @property
+    def forecast(self):
+        return self._get_diagnostics_attribute("forecast")
+
+    @property
+    def forecast_at_update(self):
+        return self._get_diagnostics_attribute("forecast_at_update")
+
+    @property
+    def analysis(self):
+        return self._get_diagnostics_attribute("analysis")
+
+    @property
+    def innovation(self):
+        return self._get_diagnostics_attribute("innovation")
+
+    @property
+    def increment(self):
+        return self._get_diagnostics_attribute("increment")
+
+    def _get_diagnostics_attribute(self, attr):
         dc = self.__class__()
         for n in self.names:
             try:
-                diag = self.diagnostics[n].result
+                diag = getattr(self.diagnostics[n], attr)
                 attrs = diag.attrs
                 dc._add_single_diagnostics(diag, name=n, attrs=attrs)
             except AttributeError:
-                warnings.warn(f"Could not select result from {n}. No such")
+                warnings.warn(f"Could not select '{attr}' from {n}. No such attribute.")
         return dc
+
+    def skill(self, **kwargs):
+        return self.comparer.skill(**kwargs)
+
+    def scatter(self, **kwargs):
+        return self.comparer.scatter(**kwargs)
+
+    @property
+    def comparer(self):
+        if self._comparer is None:
+            self._comparer = self._get_comparer()
+        return self._comparer
+
+    def _get_comparer(self):
+        cc = ComparerCollection()
+        for n in self.names:
+            try:
+                diag = self.diagnostics[n]
+                cc.add_comparer(diag.comparer)
+            except AttributeError:
+                warnings.warn(f"Could not add 'comparer' from {n}. No such attribute.")
+        return cc
+
