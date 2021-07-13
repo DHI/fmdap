@@ -29,7 +29,7 @@ class DiagnosticCollection(Mapping):
             self.add_diagnostics(diagnostics, names, attrs)
 
     @classmethod
-    def from_pfs(cls, pfs_file, folder=None, types=None):
+    def from_pfs(cls, pfs_file, folder=None, types=[1, 2]):
         df, DA_type = cls._parse_pfs(pfs_file, types)
         df = cls._check_file_existance(df, folder)
         dc = cls()
@@ -42,7 +42,7 @@ class DiagnosticCollection(Mapping):
         return dc
 
     @classmethod
-    def _parse_pfs(cls, pfs_file, types=None):
+    def _parse_pfs(cls, pfs_file, types=[1, 2]):
 
         warnings.filterwarnings("ignore", message="Support for PFS files")
         assert os.path.exists(pfs_file)
@@ -153,9 +153,7 @@ class DiagnosticCollection(Mapping):
         out.append(f"<{type(self).__name__}>")
         for name in self.names:
             diag = self[name]
-            out.append(
-                f" - {name}: type:{diag.type.name}, n:{diag.n}; {type(diag).__name__}"
-            )
+            out.append(f" - {name}: type:{type(diag).__name__}, n:{diag.n}")
         return str.join("\n", out)
 
     def __getitem__(self, x):
@@ -305,7 +303,7 @@ class DiagnosticCollection(Mapping):
         return self._diagnostics_attribute_to_frame("ensemble_std")
 
     def _diagnostics_attribute_to_frame(self, attr):
-        vec = np.empty_like(self.names)
+        vec = np.zeros_like(self.names, dtype="float")
         for j, n in enumerate(self.names):
             try:
                 vec[j] = getattr(self.diagnostics[n], attr)
