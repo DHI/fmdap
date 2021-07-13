@@ -13,11 +13,10 @@ setuptools.setup(
         "numpy",
         "pandas",
         "matplotlib",
-        "requests",
         "scipy",
         "statsmodels",
         "mikeio >= 0.7",
-        "fmskill",        
+        "fmskill",
     ],
     extras_require={
         "dev": [
@@ -28,7 +27,7 @@ setuptools.setup(
             "shapely",
             "plotly >= 4.5",
         ],
-        "test": ["pytest"],
+        "test": ["pytest", "shapely"],
     },
     author="Jesper Sandvig Mariegaard",
     author_email="jem@dhigroup.com",
