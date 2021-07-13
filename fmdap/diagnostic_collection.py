@@ -10,6 +10,10 @@ from fmdap import pfs_helper as pfs
 
 class DiagnosticCollection(Mapping):
     @property
+    def names(self):
+        return list(self.diagnostics.keys())
+
+    @property
     def df_attrs(self):
         if self._df_attrs is None:
             all_attrs = [self.diagnostics[n].attrs for n in self.names]
@@ -18,7 +22,7 @@ class DiagnosticCollection(Mapping):
 
     def __init__(self, diagnostics=None, names=None, attrs=None):
         self.diagnostics = {}
-        self.names = []
+        # self.names = []
         self._df_attrs = None
         self._comparer = None
         if diagnostics is not None:
@@ -243,7 +247,7 @@ class DiagnosticCollection(Mapping):
         for n in self.names:
             try:
                 diag = getattr(self.diagnostics[n], attr)
-                attrs = diag.attrs
+                attrs = self.diagnostics[n].attrs
                 dc._add_single_diagnostics(diag, name=n, attrs=attrs)
             except AttributeError:
                 warnings.warn(f"Could not select '{attr}' from {n}. No such attribute.")
@@ -268,6 +272,29 @@ class DiagnosticCollection(Mapping):
                 diag = self.diagnostics[n]
                 cc.add_comparer(diag.comparer)
             except AttributeError:
-                warnings.warn(f"Could not add 'comparer' from {n}. No such attribute.")
+                pass
+                # warnings.warn(f"Could not add 'comparer' from {n}. No such attribute.")
         return cc
+
+    @property
+    def bias(self):
+        return self._diagnostics_attribute_to_frame("bias")
+
+    @property
+    def rmse(self):
+        return self._diagnostics_attribute_to_frame("rmse")
+
+    @property
+    def ensemble_std(self):
+        return self._diagnostics_attribute_to_frame("ensemble_std")
+
+    def _diagnostics_attribute_to_frame(self, attr):
+        vec = np.empty_like(self.names)
+        for j, n in enumerate(self.names):
+            try:
+                vec[j] = getattr(self.diagnostics[n], attr)
+            except AttributeError:
+                vec[j] = np.nan
+        df = pd.Series(dict(zip(self.names, vec))).to_frame(name=attr)
+        return df
 
