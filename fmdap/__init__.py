@@ -22,4 +22,5 @@ if "64" not in architecture()[0]:
     raise Exception("This library has not been tested for a 32 bit system.")
 
 from .diagnostic_output import read_diagnostic
+from .diagnostic_collection import DiagnosticCollection
 from .diagnostic_output_altimetry import DiagnosticOutputAltimetry
