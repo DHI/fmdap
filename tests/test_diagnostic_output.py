@@ -284,12 +284,6 @@ def test_innovation_EnKF():
     assert inno.values.shape == (125, 10)
 
 
-def test_innovation_nonMeas():
-    diag = read_diagnostic(filename_nonMeas)
-    inno = diag.innovation
-    assert inno is None
-
-
 def test_innovation_EnKF_alti():
     diag = read_diagnostic(filename_EnKF_alti)
     inno = diag.innovation
