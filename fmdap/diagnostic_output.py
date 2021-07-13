@@ -165,15 +165,14 @@ class DiagnosticDataframe:
                 out.append(
                     f" Measurements: {len(vals)} values from {vals.min():.4f} to {vals.max():.4f} with mean {vals.mean():.4f}"
                 )
-                resi = (df["Mean_State"] - df["Measurement"]).to_numpy()
-                rmse = np.sqrt(np.mean(resi ** 2))
+                # resi = (df["Mean_State"] - df["Measurement"]).to_numpy()
+                rmse = self.rmse  # np.sqrt(np.mean(resi ** 2))
+                bias = self.bias
                 stdtxt = ""
                 if self.is_ensemble:
                     stdval = self.values.std(axis=1).mean()
                     stdtxt = f"ensemble_std={stdval:.4f}"
-                out.append(
-                    f" Mean skill: bias={resi.mean():.4f}, rmse={rmse:.4f} {stdtxt}"
-                )
+                out.append(f" Mean skill: bias={bias:.4f}, rmse={rmse:.4f} {stdtxt}")
 
         return str.join("\n", out)
 
@@ -301,6 +300,11 @@ class DiagnosticDataframe:
     def std(self, **kwargs):
         return self.df[self._member_cols].std(**kwargs)
 
+    @property
+    def ensemble_std(self):
+        # if self.is_ensemble:
+        return self.values.std(axis=1).mean()
+
 
 class DiagnosticIncrements(DiagnosticDataframe):
     def __init__(self, df: pd.DataFrame, name=None, eumText=None):
@@ -339,14 +343,6 @@ class DiagnosticResults(DiagnosticDataframe):
         self._comparer = None
 
     @property
-    def measurement(self):
-        if self.has_measurement:
-            return self.df[["Measurement"]].dropna()
-        else:
-            warnings.warn("Only MeasurementDiagnostics has measurement")
-            return None
-
-    @property
     def has_measurement(self):
         return self.type == DiagnosticType.Measurement
 
@@ -360,23 +356,6 @@ class DiagnosticResults(DiagnosticDataframe):
     @property
     def _member_cols(self):
         return [c for c in self.df.columns if c.startswith("State_")]
-
-    @property
-    def innovation(self):
-        """innovation (y-Hx) object"""
-        if self.type == DiagnosticType.NonMeasurementPoint:
-            warnings.warn("innovations only available for MeasurementDiagnostics file")
-            return None
-        if self._innovations is None:
-            self._innovations = self._get_innovation()
-        return self._innovations
-
-    def _get_innovation(self):
-        df = self.df.drop(columns="Mean_State").dropna()
-        dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
-        return DiagnosticInnovations(
-            dfi, name=f"{self.name} innovation", eumText=self.eumText,
-        )
 
     def plot(self, figsize=(10, 5), **kwargs):
         _, ax = plt.subplots(figsize=figsize, **kwargs)
@@ -397,39 +376,6 @@ class DiagnosticResults(DiagnosticDataframe):
     def hist(self, bins=100, show_Gaussian=False, **kwargs):
         super().hist(bins=bins, show_Gaussian=show_Gaussian, **kwargs)
 
-    def skill(self, **kwargs):
-        return self.comparer.skill(**kwargs)
-
-    def scatter(self, **kwargs):
-        return self.comparer.scatter(**kwargs)
-
-    @property
-    def comparer(self):
-        if self._comparer is None:
-            self._comparer = self._get_comparer()
-        return self._comparer
-
-    def _get_comparer(self):
-        import fmskill
-
-        if not self.has_measurement:
-            raise ValueError(
-                "This is a NonMeasurementPointDiagnostic: No measurement to compare with!"
-            )
-
-        if self.is_point:
-            mod = fmskill.ModelResult(self.df[["Mean_State"]])
-            obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
-        else:
-            df = self.df.reset_index(["x", "y"])
-            mod = fmskill.ModelResult(df[["x", "y", "Mean_State"]], type="track")
-            obs = fmskill.TrackObservation(
-                df[["x", "y", "Measurement"]], name=self.name
-            )
-
-        con = fmskill.Connector(obs, mod)
-        return con.extract()[0]
-
 
 class _DiagnosticIndexMixin:
     """Mixin handling indexing of forecast, analysis and no-update steps"""
@@ -445,6 +391,11 @@ class _DiagnosticIndexMixin:
         self._total_forecast = None
         self._analysis = None
         self._total_result = None
+
+    @property
+    def _output_class(self):
+        has_meas = "Measurement" in self.df.columns
+        return MeasurementDiagnostic if has_meas else DiagnosticResults
 
     @property
     def increment(self):
@@ -488,7 +439,7 @@ class _DiagnosticIndexMixin:
     def _get_forecast_at_update(self):
         """Get a diagnostic object containing forecast values only before updates"""
         df = self.df.iloc[self.idx_forecast]
-        return DiagnosticResults(
+        return self._output_class(
             df,
             type=self.type,
             name=f"{self.name} forecast@update",
@@ -498,21 +449,21 @@ class _DiagnosticIndexMixin:
     def _get_total_forecast(self):
         """Get a diagnostic object containing no-update and forecast values"""
         df = self.df.iloc[self.idx_forecast | self.idx_no_update]
-        return DiagnosticResults(
+        return self._output_class(
             df, type=self.type, name=f"{self.name} forecast", eumText=self.eumText,
         )
 
     def _get_analysis(self):
         """Get a diagnostic object containing analysis values"""
         df = self.df.iloc[self.idx_analysis]
-        return DiagnosticResults(
+        return self._output_class(
             df, type=self.type, name=f"{self.name} analysis", eumText=self.eumText,
         )
 
     def _get_total_result(self):
         """Get a diagnostic object containing no-update and analysis values"""
         df = self.df.iloc[self.idx_analysis | self.idx_no_update]
-        return DiagnosticResults(
+        return self._output_class(
             df, type=self.type, name=f"{self.name} result", eumText=self.eumText,
         )
 
@@ -587,7 +538,74 @@ class _DiagnosticIndexMixin:
         return df_increment
 
 
-class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
+class MeasurementDiagnostic(DiagnosticResults):
+    @property
+    def measurement(self):
+        return self.df[["Measurement"]].dropna()
+
+    @property
+    def innovation(self):
+        """innovation (y-Hx) object"""
+        if self._innovations is None:
+            self._innovations = self._get_innovation()
+        return self._innovations
+
+    def _get_innovation(self):
+        df = self.df.drop(columns="Mean_State").dropna()
+        dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
+        return DiagnosticInnovations(
+            dfi, name=f"{self.name} innovation", eumText=self.eumText,
+        )
+
+    @property
+    def residual(self):
+        cols = self._member_cols + ["Measurement"]
+        df = self.df[cols].dropna()
+        return df[self._member_cols] - np.vstack(df["Measurement"])
+
+    @property
+    def bias(self):
+        return np.mean(self.residual.mean(axis=1))
+
+    @property
+    def rmse(self):
+        resi = self.residual.mean(axis=1).to_numpy()
+        return np.sqrt(np.mean(resi ** 2))
+
+    def skill(self, **kwargs):
+        return self.comparer.skill(**kwargs)
+
+    def scatter(self, **kwargs):
+        return self.comparer.scatter(**kwargs)
+
+    @property
+    def comparer(self):
+        if self._comparer is None:
+            self._comparer = self._get_comparer()
+        return self._comparer
+
+    def _get_comparer(self):
+        import fmskill
+
+        if self.is_point:
+            mod = fmskill.ModelResult(self.df[["Mean_State"]])
+            obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
+        else:
+            df = self.df.reset_index(["x", "y"])
+            mod = fmskill.ModelResult(df[["x", "y", "Mean_State"]], type="track")
+            obs = fmskill.TrackObservation(
+                df[["x", "y", "Measurement"]], name=self.name
+            )
+
+        con = fmskill.Connector(obs, mod)
+        cc = con.extract()
+        if (cc is None) or (len(cc) == 0):
+            return cc  # None
+        else:
+            return cc[0]
+
+
+class MeasurementPointDiagnostic(_DiagnosticIndexMixin, MeasurementDiagnostic):
     def __init__(self, df, name, eumItem=None, filename=None):
         type = DiagnosticType.Measurement
         eumText = "" if eumItem is None else _get_eum_text(eumItem)
@@ -610,7 +628,7 @@ class MeasurementPointDiagnostic(_DiagnosticIndexMixin, DiagnosticResults):
             cr = self.result.comparer
             return cf + cfau + ca + cr
         else:
-            return super().comparer
+            return self.result.comparer
 
     def scatter(self, **kwargs):
         return self.result.scatter(**kwargs)
