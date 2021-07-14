@@ -67,7 +67,7 @@ class DiagnosticCollection(Mapping):
                 if DA_type == 0:
                     df["assimilated"] = False
                 else:
-                    df["assimilated"] = df["include_measurement"] == 1
+                    df["assimilated"] = (df.include_measurement == 1) & (df.type == 1)
         else:
             df = dfd
 
@@ -191,6 +191,11 @@ class DiagnosticCollection(Mapping):
         return iter(self.diagnostics.values())
 
     def sel(self, **kwargs):
+        for key in kwargs.keys():
+            cols = list(self.df_attrs.columns)
+            if key not in cols:
+                raise KeyError(f"Could not find key '{key}' in df_attrs: {cols}!")
+
         dc = self.__class__()
         for n in self.names:
             diag = self.diagnostics[n]
@@ -201,17 +206,18 @@ class DiagnosticCollection(Mapping):
 
     def query(self, q):
         dc = self.__class__()
-        # for n in self.names:
-        #     diag = self.diagnostics[n]
-        #     attrs = diag.attrs
-        #     if self._selected_by_attrs(attrs, q):
-        #         dc._add_single_diagnostics(diag, name=n, attrs=attrs)
+        df_attrs = self.df_attrs.query(q)
+        for n in df_attrs.index:
+            diag = self.diagnostics[n]
+            dc._add_single_diagnostics(diag, name=n, attrs=diag.attrs)
         return dc
 
     def _selected_by_attrs(self, attrs, **kwargs):
         selected = True
         for key, val in kwargs.items():
             attr_val = attrs.get(key)
+            # if attr_val == None:
+            #     raise KeyError(f"Could not find key '{key}' in df_attrs!")
             if attr_val != val:
                 selected = False
         return selected
