@@ -16,7 +16,7 @@ setuptools.setup(
         "scipy",
         "statsmodels",
         "mikeio >= 0.7",
-        "fmskill",
+        "fmskill >= 0.3.3",
     ],
     extras_require={
         "dev": [
