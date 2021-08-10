@@ -26,7 +26,8 @@ import os
 import warnings
 import numpy as np
 import pandas as pd
-import datetime
+from copy import deepcopy
+#import datetime
 import matplotlib.pyplot as plt
 from statsmodels.distributions.empirical_distribution import ECDF
 from scipy.stats import norm
@@ -53,7 +54,7 @@ def read_diagnostic(filename, name=None):
         filename = ""
         if name is None:
             name = "Diagnostic"
-        items = [eum.EumItem(eum.EUMType.Undefined)]
+        items = [eum.ItemInfo(eum.EUMType.Undefined)]
     else:
         dfs = Dfs0(filename)
         if name is None:
@@ -118,6 +119,10 @@ class DiagnosticDataframe:
         return len(self._member_cols)
 
     @property
+    def shape(self):
+        return self.df[self._member_cols].shape
+
+    @property
     def is_ensemble(self):
         return self.n_members > 1
 
@@ -165,13 +170,11 @@ class DiagnosticDataframe:
                 out.append(
                     f" Measurements: {len(vals)} values from {vals.min():.4f} to {vals.max():.4f} with mean {vals.mean():.4f}"
                 )
-                # resi = (df["Mean_State"] - df["Measurement"]).to_numpy()
-                rmse = self.rmse  # np.sqrt(np.mean(resi ** 2))
+                rmse = self.rmse
                 bias = self.bias
                 stdtxt = ""
                 if self.is_ensemble:
-                    stdval = self.values.std(axis=1).mean()
-                    stdtxt = f"ensemble_std={stdval:.4f}"
+                    stdtxt = f"ensemble_std={self.ensemble_std:.4f}"
                 out.append(f" Mean skill: bias={bias:.4f}, rmse={rmse:.4f} {stdtxt}")
 
         return str.join("\n", out)
@@ -190,6 +193,12 @@ class DiagnosticDataframe:
 
     def __len__(self):
         return len(self.df)
+    
+    def __copy__(self):
+        return deepcopy(self)
+
+    def copy(self):
+        return self.__copy__()
 
     def hist(self, bins=100, show_Gaussian=True, **kwargs):
         """plot histogram of values using plt.hist()
@@ -285,20 +294,20 @@ class DiagnosticDataframe:
 
         fig.show()
 
-    def min(self, **kwargs):
-        return self.df[self._member_cols].min(**kwargs)
+    def min(self, axis=1, **kwargs):
+        return self.df[self._member_cols].min(axis=axis, **kwargs)
 
-    def max(self, **kwargs):
-        return self.df[self._member_cols].max(**kwargs)
+    def max(self, axis=1, **kwargs):
+        return self.df[self._member_cols].max(axis=axis, **kwargs)
 
-    def mean(self, **kwargs):
-        return self.df[self._member_cols].mean(**kwargs)
+    def mean(self, axis=1, **kwargs):
+        return self.df[self._member_cols].mean(axis=axis, **kwargs)
 
-    def median(self, **kwargs):
-        return self.df[self._member_cols].median(**kwargs)
+    def median(self, axis=1, **kwargs):
+        return self.df[self._member_cols].median(axis=axis, **kwargs)
 
-    def std(self, **kwargs):
-        return self.df[self._member_cols].std(**kwargs)
+    def std(self, axis=1, **kwargs):
+        return self.df[self._member_cols].std(axis=axis, **kwargs)
 
     @property
     def ensemble_std(self):
