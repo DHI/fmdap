@@ -27,7 +27,6 @@ import warnings
 import numpy as np
 import pandas as pd
 from copy import deepcopy
-#import datetime
 import matplotlib.pyplot as plt
 from statsmodels.distributions.empirical_distribution import ECDF
 from scipy.stats import norm
@@ -193,7 +192,7 @@ class DiagnosticDataframe:
 
     def __len__(self):
         return len(self.df)
-    
+
     def __copy__(self):
         return deepcopy(self)
 
@@ -240,59 +239,77 @@ class DiagnosticDataframe:
     ):  # pragma: no cover
         import plotly.graph_objects as go
 
-        if title is None:
-            title = self.name
-
         fig = go.Figure()
 
-        plot_markers = "" if "Mean_State" in self.df.columns else "+markers"
         show_members = (self.n_members > 1) or ("Mean_State" not in self.df.columns)
-
         if show_members:
-            for j in range(self.n_members):
-                fig.add_trace(
-                    go.Scatter(
-                        x=self.df.index,
-                        y=self.df.iloc[:, j],
-                        name=f"State {j+1}",
-                        showlegend=False,
-                        mode="lines" + plot_markers,
-                        line=dict(color="#999999", width=1),
-                        marker=dict(size=3),
-                    )
-                )
+            plot_markers = "" if "Mean_State" in self.df.columns else "+markers"
+            self._iplot_add_members(fig, self.df, self.n_members, plot_markers)
 
-        if "Mean_State" in self.df.columns:
-            fig.add_trace(
-                go.Scatter(
-                    x=self.df.index,
-                    y=self.df.Mean_State,
-                    name=f"Mean_State",
-                    showlegend=True,
-                    mode="lines",
-                    line=dict(color="#333333"),
-                )
-            )
-
-        if "Measurement" in self.df.columns:
-            fig.add_trace(
-                go.Scatter(
-                    x=self.df.index,
-                    y=self.df.Measurement,
-                    name=f"Measurement",
-                    showlegend=True,
-                    mode="markers",
-                    line=dict(color="#EE1133"),
-                )
-            )
+        self._iplot_add_mean_state(fig, self.df)
+        self._iplot_add_measurement(fig, self.df)
 
         if isinstance(self, (DiagnosticIncrements, DiagnosticInnovations)):
             fig.add_hline(y=0.0)
 
+        title = title if title else self.name
         fig.update_layout(title=title, yaxis_title=self.eumText, **kwargs)
         fig.update_yaxes(range=ylim)
 
         fig.show()
+
+    @staticmethod
+    def _iplot_add_members(fig, df, n_members, plot_markers):  # pragma: no cover
+        import plotly.graph_objects as go
+
+        for j in range(n_members):
+            fig.add_trace(
+                go.Scatter(
+                    x=df.index,
+                    y=df.iloc[:, j],
+                    name=f"State {j+1}",
+                    showlegend=False,
+                    mode="lines" + plot_markers,
+                    line=dict(color="#999999", width=1),
+                    marker=dict(size=3),
+                )
+            )
+
+    @staticmethod
+    def _iplot_add_mean_state(fig, df):  # pragma: no cover
+        import plotly.graph_objects as go
+
+        if "Mean_State" not in df.columns:
+            return
+
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df.Mean_State,
+                name=f"Mean_State",
+                showlegend=True,
+                mode="lines",
+                line=dict(color="#333333"),
+            )
+        )
+
+    @staticmethod
+    def _iplot_add_measurement(fig, df):  # pragma: no cover
+        import plotly.graph_objects as go
+
+        if "Measurement" not in df.columns:
+            return
+
+        fig.add_trace(
+            go.Scatter(
+                x=df.index,
+                y=df.Measurement,
+                name=f"Measurement",
+                showlegend=True,
+                mode="markers",
+                line=dict(color="#EE1133"),
+            )
+        )
 
     def min(self, axis=1, **kwargs):
         return self.df[self._member_cols].min(axis=axis, **kwargs)
