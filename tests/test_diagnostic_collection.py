@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+import sys
 from fmdap import DiagnosticCollection
 
 
@@ -29,10 +30,12 @@ def dc_EnKF10(fldr_and_pfs_EnKF10):
     return DiagnosticCollection.from_pfs(fn, folder=fldr)
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_repr(dc_free1):
     assert "Viken" in repr(dc_free1)
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_getitem_free(dc_free1):
     dc = dc_free1
     assert "Viken" in repr(dc)
@@ -44,6 +47,7 @@ def test_getitem_free(dc_free1):
     assert len(dc) == 12
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_getitem_EnKF(dc_EnKF10):
     dc = dc_EnKF10
     assert "Viken" in repr(dc)
@@ -55,24 +59,28 @@ def test_getitem_EnKF(dc_EnKF10):
     assert len(dc) == 6
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_forecast_at_update(dc_EnKF10):
     fc = dc_EnKF10.forecast_at_update
     assert len(fc) == 6
     assert fc["Klagshamn"].n == 1105
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_increment(dc_EnKF10):
     incr = dc_EnKF10.increment
     assert len(incr) == 6
     assert incr["Klagshamn"].n == 1105
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_innovation(dc_EnKF10):
     inno = dc_EnKF10.innovation
     assert len(inno) == 4
     assert inno["Viken"].n == 2258
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_add_diagnostic(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc) == 6
@@ -89,6 +97,7 @@ def test_add_diagnostic(dc_EnKF10):
     assert "Drogden2" in dc
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_sel(dc_EnKF10):
     dc = dc_EnKF10
 
@@ -104,12 +113,14 @@ def test_sel(dc_EnKF10):
     assert "Viken" in dcs
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_query(dc_EnKF10):
     dc = dc_EnKF10
     dcq = dc.query("measurement_id<4 & data_offset>0.2")
     assert "Viken" in dcq
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_skill(dc_EnKF10):
     dc = dc_EnKF10
     s = dc.skill()
@@ -127,22 +138,26 @@ def test_skill(dc_EnKF10):
     assert sf.loc["Klagshamn"].n == s.loc["Klagshamn", "forecast"].n
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_scatter(dc_EnKF10):
     dc_EnKF10.scatter()
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_rmse(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.rmse) == 6
     assert np.all(dc.rmse.loc["Diagnostics_wlbc_err_North"].isnull())
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_bias(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.bias) == 6
     assert dc.bias.loc["Drogden"][0] == -0.005636754118753848
 
 
+@pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
 def test_ensemble_std(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.ensemble_std) == 6
