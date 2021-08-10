@@ -3,6 +3,7 @@ import sys, os
 import numpy as np
 from fmdap import read_diagnostic
 from fmdap import diagnostic_output as do
+from mikeio import Dfs0
 import pytest
 
 # common
@@ -23,6 +24,13 @@ def test_read():
     assert diag.df.shape == (744, 12)
 
 
+def test_read_as_dataframe():
+    df = Dfs0(filename_EnKF).to_dataframe()
+    diag = read_diagnostic(df)
+    assert diag.df.values[0, 0] == 1.749464750289917
+    assert diag.df.shape == (744, 12)
+
+
 def test_diag_type_1():
     diag = read_diagnostic(filename_EnKF)
     assert diag.type == do.DiagnosticType.Measurement
@@ -31,7 +39,18 @@ def test_diag_type_1():
     assert diag.n_members == 10
     assert diag.is_point
     assert diag.n_updates == 347
+    assert diag.has_updates
     assert diag.values.shape == (744, 10)
+
+    assert "Measurements: " in repr(diag)
+
+
+def test_plot_diag_type_1():
+    diag = read_diagnostic(filename_EnKF)
+
+    diag.scatter()
+    diag.ecdf()
+    diag.hist()
 
 
 def test_diag_type_2():
@@ -45,6 +64,8 @@ def test_diag_type_2():
     assert diag.is_point
     assert diag.n_updates == 0
     assert diag.values.shape == (114, 3)
+
+    assert "Measurements: " not in repr(diag)
 
 
 def test_diag_type_3():
@@ -193,6 +214,11 @@ def test_analysis_EnKF():
     assert res.n_members == 10
     assert res.values.shape == (347, 10)
 
+    assert res.ensemble.shape == (347, 10)
+
+    mi = res.min()
+    ma = res.max()
+
     res.plot()
 
 
@@ -210,6 +236,7 @@ def test_analysis_EnKF_alti():
     assert res.n_members == 7
     assert res.values.shape == (31, 7)
 
+    assert np.all(res.max() - res.min() >= 0)
     res.hist()
 
 
@@ -223,6 +250,7 @@ def test_analysis_OI():
     assert res.values.shape == (168, 1)
 
     res.ecdf()
+    res.scatter()
 
 
 # ======= result ==========
@@ -234,6 +262,8 @@ def test_result_EnKF():
     assert isinstance(res, do.DiagnosticResults)
     assert res.n_members == 10
     assert res.values.shape == (397, 10)
+
+    assert np.all(res.median() - res.min() >= 0)
 
     res.hist()
 
@@ -269,6 +299,8 @@ def test_result_OI():
     assert res.n_members == 1
     assert res.values.shape == (2017, 1)
 
+    assert res.std().sum() == 0
+
     res.plot()
 
 
@@ -283,6 +315,10 @@ def test_innovation_EnKF():
     assert inno.n_members == 10
     assert inno.values.shape == (125, 10)
 
+    assert np.all(inno.mean() - inno.min() >= 0)
+
+    inno.hist()
+
 
 def test_innovation_EnKF_alti():
     diag = read_diagnostic(filename_EnKF_alti)
@@ -293,6 +329,8 @@ def test_innovation_EnKF_alti():
     assert inno.n_members == 7
     assert inno.values.shape == (62, 7)
 
+    inno.ecdf()
+
 
 def test_innovation_OI():
     diag = read_diagnostic(filename_OI)
@@ -301,7 +339,9 @@ def test_innovation_OI():
     assert len(inno) == 1171
     assert len(np.unique(inno.time)) == 1004
     assert inno.n_members == 1
-    assert inno.values.shape == (1171, 1)
+    assert inno.shape == (1171, 1)
+
+    inno.plot()
 
 
 # ======= increment ==========
@@ -313,6 +353,8 @@ def test_increment_EnKF():
     assert isinstance(incr, do.DiagnosticIncrements)
     assert incr.n_members == 10
     assert incr.values.shape == (347, 10)
+
+    incr.ecdf()
 
 
 def test_increment_nonMeas():
@@ -330,6 +372,8 @@ def test_increment_EnKF_alti():
     assert incr.n_members == 7
     assert incr.values.shape == (31, 7)
 
+    incr.plot()
+
 
 def test_increment_OI():
     diag = read_diagnostic(filename_OI)
@@ -339,3 +383,33 @@ def test_increment_OI():
     assert len(np.unique(incr.time)) == 168
     assert incr.n_members == 1
     assert incr.values.shape == (168, 1)
+
+    incr.hist()
+
+
+# ======= skill ==========
+
+
+def test_skill_EnKF():
+    diag = read_diagnostic(filename_EnKF, name="F16")
+    s = diag.skill()
+    assert s["rmse"]["F16 analysis"] == 0.4192413254399028
+    assert s["rmse"]["F16 forecast"] == 0.39355685960438835
+
+    sa = diag.analysis.skill()
+    assert sa["rmse"]["F16 analysis"] == s["rmse"]["F16 analysis"]
+
+    sf = diag.forecast.skill()
+    assert sf["rmse"]["F16 forecast"] == s["rmse"]["F16 forecast"]
+
+
+def test_skill_EnKF_alti():
+    diag = read_diagnostic(filename_EnKF_alti, name="alti")
+    s = diag.skill()
+
+    sa = diag.analysis.skill()
+    assert sa["rmse"]["alti analysis"] == s["rmse"]["alti analysis"]
+
+    sf = diag.forecast.skill()
+    assert sf["rmse"]["alti forecast"] == s["rmse"]["alti forecast"]
+
