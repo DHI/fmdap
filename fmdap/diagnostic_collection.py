@@ -22,7 +22,6 @@ class DiagnosticCollection(Mapping):
 
     def __init__(self, diagnostics=None, names=None, attrs=None):
         self.diagnostics = {}
-        # self.names = []
         self._df_attrs = None
         self._comparer = None
         if diagnostics is not None:
@@ -54,31 +53,33 @@ class DiagnosticCollection(Mapping):
         DA_type = d.get("METHOD", {}).get("type", 0)
 
         dfd = pfs.get_diagnostics_df(d)
+
+        if types is not None:
+            types = [types] if isinstance(types, int) else types
+            dfd = dfd[dfd.type.isin(types)]
+
         if "include" not in dfd:
             dfd["include"] = 1
+        else:
+            dfd.loc[dfd.include.isnull(), "include"] = 1
+
         dfd.index.name = "output_id"
         if dfd.type.isin([1]).any():
             dfm = pfs.get_measurements_df(d)
             if "include" not in dfm:
                 dfm["include"] = 1
+            else:
+                dfm.loc[dfm.include.isnull(), "include"] = 1
+            if DA_type == 0:
+                dfm["assimilated"] = False
+            else:
+                dfm["assimilated"] = dfm.include == 1
+
             df = dfd.join(dfm, on="measurement_id", lsuffix="", rsuffix="_measurement")
-            if "include_measurement" in df:
-                df.loc[df.include.isnull(), "include_measurement"] = 1
-                if DA_type == 0:
-                    df["assimilated"] = False
-                else:
-                    df["assimilated"] = (df.include_measurement == 1) & (df.type == 1)
         else:
             df = dfd
 
-        if types is not None:
-            types = [types] if isinstance(types, int) else types
-            df = df[df.type.isin(types)]
-
-        if "include" in df:
-            df.loc[df.include.isnull(), "include"] = 1
-            df = df[df.include == 1].drop(columns="include")
-
+        df = df[df.include == 1].drop(columns="include")
         return df.dropna(axis=1, how="all"), DA_type
 
     @classmethod
