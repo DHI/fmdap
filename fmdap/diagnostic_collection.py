@@ -258,6 +258,28 @@ class DiagnosticCollection(Mapping):
                 warnings.warn(f"Could not select '{attr}' from {n}. No such attribute.")
         return dc
 
+    @property
+    def bias(self):
+        return self._diagnostics_attribute_to_frame("bias")
+
+    @property
+    def rmse(self):
+        return self._diagnostics_attribute_to_frame("rmse")
+
+    @property
+    def ensemble_std(self):
+        return self._diagnostics_attribute_to_frame("ensemble_std")
+
+    def _diagnostics_attribute_to_frame(self, attr):
+        vec = np.zeros_like(self.names, dtype="float")
+        for j, n in enumerate(self.names):
+            try:
+                vec[j] = getattr(self.diagnostics[n], attr)
+            except AttributeError:
+                vec[j] = np.nan
+        df = pd.Series(dict(zip(self.names, vec))).to_frame(name=attr)
+        return df
+
     def skill(self, **kwargs):
         s = self.comparer.skill(**kwargs)
         s.df = self._split_skill_index(s.df)
@@ -296,26 +318,3 @@ class DiagnosticCollection(Mapping):
                 pass
                 # warnings.warn(f"Could not add 'comparer' from {n}. No such attribute.")
         return cc
-
-    @property
-    def bias(self):
-        return self._diagnostics_attribute_to_frame("bias")
-
-    @property
-    def rmse(self):
-        return self._diagnostics_attribute_to_frame("rmse")
-
-    @property
-    def ensemble_std(self):
-        return self._diagnostics_attribute_to_frame("ensemble_std")
-
-    def _diagnostics_attribute_to_frame(self, attr):
-        vec = np.zeros_like(self.names, dtype="float")
-        for j, n in enumerate(self.names):
-            try:
-                vec[j] = getattr(self.diagnostics[n], attr)
-            except AttributeError:
-                vec[j] = np.nan
-        df = pd.Series(dict(zip(self.names, vec))).to_frame(name=attr)
-        return df
-
