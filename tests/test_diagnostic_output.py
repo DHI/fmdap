@@ -20,14 +20,14 @@ def test_folder():
 
 def test_read():
     diag = read_diagnostic(filename_EnKF)
-    assert diag.df.values[0, 0] == 1.749464750289917
+    assert diag.df.values[0, 0] == pytest.approx(1.7494647)
     assert diag.df.shape == (744, 12)
 
 
 def test_read_as_dataframe():
     df = Dfs0(filename_EnKF).to_dataframe()
     diag = read_diagnostic(df)
-    assert diag.df.values[0, 0] == 1.749464750289917
+    assert diag.df.values[0, 0] == pytest.approx(1.7494647)
     assert diag.df.shape == (744, 12)
 
 
@@ -76,14 +76,14 @@ def test_diag_type_3():
 def test_get_total_forecast():
     diag = read_diagnostic(filename_EnKF)
     dff = diag.forecast.df
-    assert dff.values[-1, 4] == 5.08772611618042
+    assert dff.values[-1, 4] == pytest.approx(5.087726)
     assert dff.shape == (397, 12)
 
 
 def test_get_total_analysis():
     diag = read_diagnostic(filename_EnKF)
     dfa = diag.analysis.df
-    assert dfa.values[-1, 4] == 5.099072456359863
+    assert dfa.values[-1, 4] == pytest.approx(5.0990724)
     assert dfa.shape == (347, 12)
 
 
@@ -99,7 +99,7 @@ def test_idx_at_updates():
 def test_get_increments():
     diag = read_diagnostic(filename_EnKF)
     dfi = diag.increment.df
-    assert dfi.values[3, 3] == 0.013921260833740234
+    assert dfi.values[3, 3] == pytest.approx(0.0139213)
 
 
 def test_get_all_increments_as_array():
@@ -112,7 +112,7 @@ def test_get_mean_increments():
     diag = read_diagnostic(filename_EnKF)
     ianalysis = diag.idx_analysis
     dfi = diag._get_mean_increments()
-    assert dfi.values[3, 0] == 0.03600311279296875
+    assert dfi.values[3, 0] == pytest.approx(0.036003)
 
 
 # ======= forecast ==========
@@ -393,8 +393,8 @@ def test_increment_OI():
 def test_skill_EnKF():
     diag = read_diagnostic(filename_EnKF, name="F16")
     s = diag.skill()
-    assert s["rmse"]["F16 analysis"] == 0.4192413254399028
-    assert s["rmse"]["F16 forecast"] == 0.39355685960438835
+    assert s["rmse"]["F16 analysis"] == pytest.approx(0.4192413)
+    assert s["rmse"]["F16 forecast"] == pytest.approx(0.3935569)
 
     sa = diag.analysis.skill()
     assert sa["rmse"]["F16 analysis"] == s["rmse"]["F16 analysis"]
