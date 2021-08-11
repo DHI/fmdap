@@ -4,7 +4,13 @@ import numpy as np
 import warnings
 import pandas as pd
 from fmskill.comparison import ComparerCollection
-from fmdap.diagnostic_output import DiagnosticDataframe, DiagnosticType, read_diagnostic
+from fmdap.diagnostic_output import (
+    DiagnosticDataframe,
+    DiagnosticIncrements,
+    DiagnosticInnovations,
+    DiagnosticType,
+    read_diagnostic,
+)
 from fmdap import pfs_helper as pfs
 
 
@@ -318,3 +324,43 @@ class DiagnosticCollection(Mapping):
                 pass
                 # warnings.warn(f"Could not add 'comparer' from {n}. No such attribute.")
         return cc
+
+    def iplot(self, title=None, **kwargs):  # pragma: no cover
+        from plotly.subplots import make_subplots
+        import plotly.graph_objects as go
+
+        nrows = len(self)
+        if nrows == 1:
+            self[0].iplot()
+        else:
+            fig = make_subplots(
+                rows=nrows,
+                cols=1,
+                shared_xaxes=True,
+                vertical_spacing=0.02,
+                row_titles=self.names,
+            )
+
+            for row in range(nrows):
+                self._iplot_add_subplot(fig, row + 1, self[row])
+
+            fig.update_layout(title=title, **kwargs)
+            fig.show()
+
+    @staticmethod
+    def _iplot_add_subplot(fig, row, diag):  # pragma: no cover
+        import plotly.graph_objects as go
+
+        n_members = diag.n_members
+        df = diag.df
+
+        show_members = (n_members > 1) or ("Mean_State" not in df.columns)
+        if show_members:
+            plot_markers = "" if "Mean_State" in df.columns else "+markers"
+            diag._iplot_add_members(fig, df, n_members, plot_markers, row=row)
+
+        diag._iplot_add_mean_state(fig, df, name=diag.name, row=row)
+        diag._iplot_add_measurement(fig, df, marker_size=3, row=row)
+
+        if isinstance(diag, (DiagnosticIncrements, DiagnosticInnovations)):
+            fig.add_hline(y=0.0)
