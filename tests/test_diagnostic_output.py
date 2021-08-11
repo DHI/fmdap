@@ -99,7 +99,7 @@ def test_idx_at_updates():
 def test_get_increments():
     diag = read_diagnostic(filename_EnKF)
     dfi = diag.increment.df
-    assert dfi.values[3, 3] == pytest.approx(0.0139213)
+    assert dfi.values[3, 3] == pytest.approx(0.01392126)
 
 
 def test_get_all_increments_as_array():
@@ -112,7 +112,7 @@ def test_get_mean_increments():
     diag = read_diagnostic(filename_EnKF)
     ianalysis = diag.idx_analysis
     dfi = diag._get_mean_increments()
-    assert dfi.values[3, 0] == pytest.approx(0.036003)
+    assert dfi.values[3, 0] == pytest.approx(0.03600311)
 
 
 # ======= forecast ==========

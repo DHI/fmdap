@@ -125,7 +125,7 @@ def test_skill(dc_EnKF10):
     dc = dc_EnKF10
     s = dc.skill()
     assert s.loc["Barsebaeck", "result"].rmse == pytest.approx(0.0351065)
-    assert s.loc["Barsebaeck", "analysis"].bias == pytest.approx(-0.021444)
+    assert s.loc["Barsebaeck", "analysis"].bias == pytest.approx(-0.021444086)
     assert s.loc["Klagshamn", "forecast"].n == 97
 
     sr = dc.result.skill()
@@ -154,7 +154,7 @@ def test_rmse(dc_EnKF10):
 def test_bias(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.bias) == 6
-    assert dc.bias.loc["Drogden"][0] == pytest.approx(-0.0056368)
+    assert dc.bias.loc["Drogden"][0] == pytest.approx(-0.005636754)
 
 
 @pytest.mark.skipif(sys.platform != "win32", reason="only runs on windows")
@@ -162,4 +162,4 @@ def test_ensemble_std(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.ensemble_std) == 6
     assert np.all(dc.ensemble_std > 0)
-    assert dc.ensemble_std.loc["Viken"][0] == pytest.approx(0.012998)
+    assert dc.ensemble_std.loc["Viken"][0] == pytest.approx(0.01299819)
