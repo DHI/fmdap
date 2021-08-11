@@ -246,7 +246,7 @@ class DiagnosticDataframe:
             plot_markers = "" if "Mean_State" in self.df.columns else "+markers"
             self._iplot_add_members(fig, self.df, self.n_members, plot_markers)
 
-        self._iplot_add_mean_state(fig, self.df)
+        self._iplot_add_mean_state(fig, self.df, color="#333333")
         self._iplot_add_measurement(fig, self.df)
 
         if isinstance(self, (DiagnosticIncrements, DiagnosticInnovations)):
@@ -259,9 +259,12 @@ class DiagnosticDataframe:
         fig.show()
 
     @staticmethod
-    def _iplot_add_members(fig, df, n_members, plot_markers):  # pragma: no cover
+    def _iplot_add_members(
+        fig, df, n_members, plot_markers, row=None
+    ):  # pragma: no cover
         import plotly.graph_objects as go
 
+        col = None if row is None else 1
         for j in range(n_members):
             fig.add_trace(
                 go.Scatter(
@@ -272,34 +275,42 @@ class DiagnosticDataframe:
                     mode="lines" + plot_markers,
                     line=dict(color="#999999", width=1),
                     marker=dict(size=3),
-                )
+                ),
+                row=row,
+                col=col,
             )
 
     @staticmethod
-    def _iplot_add_mean_state(fig, df):  # pragma: no cover
+    def _iplot_add_mean_state(
+        fig, df, name=f"Mean_State", color=None, row=None
+    ):  # pragma: no cover
         import plotly.graph_objects as go
 
         if "Mean_State" not in df.columns:
             return
 
+        col = None if row is None else 1
         fig.add_trace(
             go.Scatter(
                 x=df.index,
                 y=df.Mean_State,
-                name=f"Mean_State",
+                name=name,
                 showlegend=True,
                 mode="lines",
-                line=dict(color="#333333"),
-            )
+                line=dict(color=None),
+            ),
+            row=row,
+            col=col,
         )
 
     @staticmethod
-    def _iplot_add_measurement(fig, df):  # pragma: no cover
+    def _iplot_add_measurement(fig, df, marker_size=None, row=None):  # pragma: no cover
         import plotly.graph_objects as go
 
         if "Measurement" not in df.columns:
             return
 
+        col = None if row is None else 1
         fig.add_trace(
             go.Scatter(
                 x=df.index,
@@ -308,7 +319,10 @@ class DiagnosticDataframe:
                 showlegend=True,
                 mode="markers",
                 line=dict(color="#EE1133"),
-            )
+                marker=dict(size=marker_size),
+            ),
+            row=row,
+            col=col,
         )
 
     def min(self, axis=1, **kwargs):
