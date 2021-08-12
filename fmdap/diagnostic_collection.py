@@ -4,13 +4,7 @@ import numpy as np
 import warnings
 import pandas as pd
 from fmskill.comparison import ComparerCollection
-from fmdap.diagnostic_output import (
-    DiagnosticDataframe,
-    DiagnosticIncrements,
-    DiagnosticInnovations,
-    DiagnosticType,
-    read_diagnostic,
-)
+import fmdap.diagnostic_output
 from fmdap import pfs_helper as pfs
 
 
@@ -140,8 +134,8 @@ class DiagnosticCollection(Mapping):
 
     def _add_single_diagnostics(self, diagnostic, name=None, attrs=None):
         if isinstance(diagnostic, str):
-            diagnostic = read_diagnostic(diagnostic, name=name)
-        assert isinstance(diagnostic, DiagnosticDataframe)
+            diagnostic = fmdap.diagnostic_output.read_diagnostic(diagnostic, name=name)
+        assert isinstance(diagnostic, fmdap.diagnostic_output.DiagnosticDataframe)
         if name is None:
             name = diagnostic.name
         if name in self.names:
@@ -164,6 +158,12 @@ class DiagnosticCollection(Mapping):
         return str.join("\n", out)
 
     def __getitem__(self, x):
+        if isinstance(x, slice):
+            dc = DiagnosticCollection()
+            for xi in range(*x.indices(len(self))):
+                dc.add_diagnostics(self[xi])
+            return dc
+
         if isinstance(x, int):
             x = self._get_diag_name(x)
 
@@ -181,11 +181,13 @@ class DiagnosticCollection(Mapping):
             else:
                 raise KeyError(f"diagnostic {diag} could not be found in {self.names}")
         elif isinstance(diag, int):
+            if diag < 0:  # Handle negative indices
+                diag += len(self)
             if diag >= 0 and diag < len(self):
                 diag_id = diag
             else:
                 raise IndexError(
-                    f"diagnostic id was {diag} - must be within 0 and {len(self)-1}"
+                    f"diagnostic id {diag} is out of range (0, {len(self)-1})"
                 )
         else:
             raise KeyError("must be str or int")
@@ -196,6 +198,15 @@ class DiagnosticCollection(Mapping):
 
     def __iter__(self):
         return iter(self.diagnostics.values())
+
+    def __add__(self, other):
+        if isinstance(other, fmdap.diagnostic_output.DiagnosticDataframe):
+            self.add_diagnostics(other)
+        elif isinstance(other, DiagnosticCollection):
+            for n in other.names:
+                self.add_diagnostics(other[n], names=n)
+        else:
+            raise TypeError(f"Cannot add {type(other)} to {type(self)}")
 
     def sel(self, **kwargs):
         for key in kwargs.keys():
@@ -362,5 +373,14 @@ class DiagnosticCollection(Mapping):
         diag._iplot_add_mean_state(fig, df, name=diag.name, row=row)
         diag._iplot_add_measurement(fig, df, marker_size=3, row=row)
 
-        if isinstance(diag, (DiagnosticIncrements, DiagnosticInnovations)):
+        if isinstance(
+            diag,
+            (
+                fmdap.diagnostic_output.DiagnosticIncrements,
+                fmdap.diagnostic_output.DiagnosticInnovations,
+            ),
+        ):
             fig.add_hline(y=0.0)
+
+        fig["layout"][f"yaxis{row}"]["title"] = diag.eumText
+

@@ -22,6 +22,7 @@ Examples
 >>> d.result.plot()
 """
 from enum import IntEnum
+import fmdap.diagnostic_collection
 import os
 import warnings
 import numpy as np
@@ -143,7 +144,6 @@ class DiagnosticDataframe:
         else:
             nsteps_normal, nsteps_update = self._get_nsteps_with_type()
             nsteps = nsteps_normal + nsteps_update
-            # nsteps = len(self.df.index.get_level_values(0).unique())
             if nsteps == 1:
                 txt = "with" if nsteps_update == 1 else "without"
                 out.append(f" Time: {self.time[0]} (1 record {txt} update)")
@@ -171,9 +171,9 @@ class DiagnosticDataframe:
                 )
                 rmse = self.rmse
                 bias = self.bias
-                stdtxt = ""
-                if self.is_ensemble:
-                    stdtxt = f"ensemble_std={self.ensemble_std:.4f}"
+                stdtxt = (
+                    f"ensemble_std={self.ensemble_std:.4f}" if self.is_ensemble else ""
+                )
                 out.append(f" Mean skill: bias={bias:.4f}, rmse={rmse:.4f} {stdtxt}")
 
         return str.join("\n", out)
@@ -198,6 +198,15 @@ class DiagnosticDataframe:
 
     def copy(self):
         return self.__copy__()
+
+    def __add__(self, other):
+        if not isinstance(other, DiagnosticDataframe):
+            raise TypeError(f"Cannot add {type(other)} to {type(self)}")
+
+        dc = fmdap.diagnostic_collection.DiagnosticCollection()
+        dc.add_diagnostics(self)
+        dc.add_diagnostics(other)
+        return dc
 
     def hist(self, bins=100, show_Gaussian=True, **kwargs):
         """plot histogram of values using plt.hist()
