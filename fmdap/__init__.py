@@ -24,3 +24,4 @@ if "64" not in architecture()[0]:
 from .diagnostic_output import read_diagnostic
 from .diagnostic_collection import DiagnosticCollection
 from .diagnostic_output_altimetry import DiagnosticOutputAltimetry
+from .pfs import Pfs
