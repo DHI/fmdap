@@ -25,6 +25,11 @@ Check out the examples in the [notebooks folder](https://nbviewer.jupyter.org/gi
 * [Diagnostic_output_plots.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Diagnostic_output_plots.ipynb)
 * [Diagnostic_output_skill.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Diagnostic_output_skill.ipynb)
 
+
+### Read settings from PFS file
+
+* [Pfs_file.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Pfs_file.ipynb)
+
 ### Estimate temporal and spatial correlation lenght scales
 
 * [Analyze_forcing_data.ipynb](https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Analyze_forcing_data.ipynb)
