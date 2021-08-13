@@ -54,7 +54,7 @@ def fit_gaussian(x, values, max_dist=None):
         idx = x < max_dist
         x = x[idx].copy()
         values = values[idx].copy()
-    popt, pcov = curve_fit(gaussian, x, values, spatial_corr_guess)
+    popt, _ = curve_fit(gaussian, x, values, spatial_corr_guess)
     return popt[0]
 
 
