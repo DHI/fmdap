@@ -1,6 +1,5 @@
 from statsmodels.tsa.arima.model import ARIMA
-
-# from statsmodels.tsa.arima_process import ArmaProcess
+from statsmodels.tsa.arima_process import ArmaProcess
 import numpy as np
 import pandas as pd
 
@@ -43,3 +42,29 @@ def estimate_AR1_halflife(df):
     except:
         dt = 1
     return phi_to_halflife(phi, dt=dt)
+
+
+def simulate_AR1(*, phi=None, halflife=None, st_dev=1, index=None, n_sample=1000):
+
+    dt = 1
+    if index is not None:
+        assert isinstance(index, pd.DatetimeIndex)
+        dt = index.freq.delta.seconds
+        n_sample = len(index)
+
+    if phi is None:
+        if halflife is None:
+            raise ValueError("Either 'phi' or 'halflife' must be provided")
+        phi = halflife_to_phi(halflife, dt=dt)
+
+    st_dev = st_dev * np.sqrt(1 - phi ** 2)
+    ar_coeff = np.array([1, -phi])
+    AR1_process = ArmaProcess(ar_coeff, ma=None)
+    simulated_AR1 = st_dev * AR1_process.generate_sample(nsample=n_sample)
+
+    if index is not None:
+        df = pd.DataFrame(simulated_AR1, index=index)
+        df.columns = ["AR1"]
+        return df
+    else:
+        return simulated_AR1
