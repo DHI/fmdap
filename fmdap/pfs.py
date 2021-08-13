@@ -3,6 +3,15 @@ import pandas as pd
 import mikeio
 
 
+# class PfsSection(dict):
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args, **kwargs)
+#         self.__dict__ = self
+
+#     def __getattr__(self, key):
+#         return self.get(key.upper())
+
+
 class Pfs:
     def __init__(self, pfs_file=None) -> None:
         self.d = None
@@ -12,36 +21,50 @@ class Pfs:
         self._diagnostics = None
 
         if pfs_file:
-            self.d = self._pfs2dict(pfs_file)
-
-    @staticmethod
-    def _pfs2dict(pfs_file):
-        return mikeio.Pfs(pfs_file)._data
+            pfs = mikeio.Pfs(pfs_file)
+            self.data = pfs.data  # NestedNamespace
+            self.d = pfs._data  # dictionary
 
     @property
     def dda(self):
+        """Dictionary of settings in DATA_ASSIMILATION_MODULE"""
         return self.d["DATA_ASSIMILATION_MODULE"]
 
     @property
     def sections(self):
+        """List of the DA Pfs sections"""
         if self._sections is None:
             self._sections = self._get_DA_sections()
         return self._sections
 
     @property
     def model_errors(self):
+        """DataFrame with model errors"""
         if self._model_errors is None:
             self._model_errors = self._get_model_errors_df()
         return self._model_errors
 
     @property
     def measurements(self):
+        """DataFrame with measurements"""
         if self._measurements is None:
             self._measurements = self._get_measurements_df()
         return self._measurements
 
     @property
+    def measurement_positions(self):
+        """DataFrame with measurement positions"""
+        df = self.measurements.copy()
+        df[["x", "y"]] = df.position.to_list()
+        return df[["name", "x", "y"]]
+
+    # def validate_positions(mesh, df):
+    #     assert isinstance(mesh, (mikeio.Mesh, mikeio.Dfsu))
+    #     mesh.contains()
+
+    @property
     def diagnostics(self):
+        """DataFrame with diagnostic outputs"""
         if self._diagnostics is None:
             self._diagnostics = self._get_diagnostics_df()
         return self._diagnostics
@@ -53,7 +76,7 @@ class Pfs:
         return self.dda.get(key.upper())
 
     def __getattr__(self, key):
-        return self.dda.get(key.upper())
+        return self[key]
 
     def _get_model_errors_df(self, dda=None):
         if dda is None:
