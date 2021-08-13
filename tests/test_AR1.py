@@ -1,5 +1,6 @@
 import pytest
 import numpy as np
+import pandas as pd
 from mikeio import Dfs0
 from fmdap import AR1
 
@@ -33,3 +34,24 @@ def test_halflife_to_phi():
 def test_estimate_AR1_halflife(ts):
     halflife = AR1.estimate_AR1_halflife(ts) / 3600
     assert np.round(halflife, 3) == 93.657
+
+    with pytest.raises(TypeError):
+        # only DataFrame/Series accepted
+        AR1.estimate_AR1_halflife(ts.to_numpy())
+
+
+def test_simulate_AR1(ts):
+    rho = 3 * 3600
+
+    df = AR1.simulate_AR1(halflife=rho, index=ts.index)
+    assert isinstance(df, pd.DataFrame)
+    assert len(df) == len(ts)
+
+    phi = AR1.halflife_to_phi(rho)
+    vals = AR1.simulate_AR1(phi=phi, n_sample=len(ts))
+    assert isinstance(vals, np.ndarray)
+    assert len(vals) == len(ts)
+
+    with pytest.raises(ValueError):
+        # must provide either phi or halflife
+        AR1.simulate_AR1(n_sample=len(ts))
