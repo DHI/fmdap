@@ -1,4 +1,5 @@
 # from collections import namedtuple
+import numpy as np
 import pandas as pd
 import mikeio
 
@@ -58,9 +59,35 @@ class Pfs:
         df[["x", "y"]] = df.position.to_list()
         return df[["name", "x", "y"]]
 
-    # def validate_positions(mesh, df):
-    #     assert isinstance(mesh, (mikeio.Mesh, mikeio.Dfsu))
-    #     mesh.contains()
+    @classmethod
+    def validate_positions(cls, mesh, df):
+        """Determine if positions are inside mesh and find nearest cell centers"""
+        # TODO: handle empty positions
+        assert isinstance(mesh, (mikeio.Mesh, mikeio.Dfsu))
+
+        if ("x" in df) and ("y" in df):
+            xy = df[["x", "y"]].to_numpy()
+        elif "position" in df:
+            n = len(df)
+            xy = np.concatenate(df.position.to_numpy()).reshape(n, 2)
+        else:
+            raise ValueError(
+                "Could not find 'x', 'y' or 'position' columns in DataFrame"
+            )
+
+        inside = mesh.contains(xy)
+        elemid, dist = mesh.find_nearest_elements(xy, return_distances=True)
+        new_positions = mesh.element_coordinates[elemid, :2]
+
+        df2 = pd.DataFrame(index=df.index)
+        if "name" in df:
+            df2["name"] = df.name
+        df2[["x_old", "y_old"]] = xy
+        df2["inside"] = inside
+        df2["dist"] = dist
+        df2["elem_id"] = elemid
+        df2[["x_cc", "y_cc"]] = new_positions
+        return df2
 
     @property
     def diagnostics(self):
