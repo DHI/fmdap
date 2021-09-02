@@ -22,7 +22,7 @@ setuptools.setup(
         "dev": [
             "pytest",
             "sphinx",
-            "sphinx-rtd-theme",
+            "sphinx-book-theme",
             "black==20.8b1",
             "shapely",
             "plotly >= 4.5",
