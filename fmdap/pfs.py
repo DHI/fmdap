@@ -1,4 +1,5 @@
 # from collections import namedtuple
+import warnings
 import numpy as np
 import pandas as pd
 import mikeio
@@ -22,7 +23,9 @@ class Pfs:
         self._diagnostics = None
 
         if pfs_file:
-            pfs = mikeio.Pfs(pfs_file)
+            with warnings.catch_warnings():
+                warnings.simplefilter("ignore")
+                pfs = mikeio.Pfs(pfs_file)
             self.data = pfs.data  # NestedNamespace
             self.d = pfs._data  # dictionary
 
