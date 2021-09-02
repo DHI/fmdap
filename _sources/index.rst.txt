@@ -21,5 +21,7 @@ This package is simple to install and deploy operationally and is accessible to 
    :caption: Contents:
    :hidden:
 
+   overview
+   vision
    api
 

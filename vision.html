@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FMDAp: MIKE FM Data Assimilation Processing tool &#8212; FMDAp  documentation</title>
+    <title>Vision &#8212; FMDAp  documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -34,7 +34,8 @@
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="overview.html" />
+    <link rel="next" title="API Documentation" href="api.html" />
+    <link rel="prev" title="Overview" href="overview.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -51,7 +52,7 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="#">
+    <a class="navbar-brand text-wrap" href="index.html">
       
       <img src="_static/mike-fm-dap-rgb.svg" class="logo" alt="logo">
       
@@ -69,14 +70,14 @@
   Contents:
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="overview.html">
    Overview
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="vision.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Vision
   </a>
  </li>
@@ -126,7 +127,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/index.rst.txt"><button type="button"
+        <a class="dropdown-buttons" href="_sources/vision.rst.txt"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
@@ -151,6 +152,53 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Vision
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#design-principles">
+     Design principles
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#functional-objectives">
+   Functional objectives
+  </a>
+  <ul class="visible nav section-nav flex-column">
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#is-my-da-scheme-performing-well">
+     Is my DA scheme performing well?
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#visualization">
+     Visualization
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#input-settings-pre-processing">
+     Input/settings (pre-processing)
+    </a>
+   </li>
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#automatic-reporting">
+     Automatic reporting
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -159,14 +207,89 @@
         
               <div>
                 
-  <img alt="https://raw.githubusercontent.com/DHI/fmdap/main/images/logo/mike-fm-dap-rgb.svg" src="https://raw.githubusercontent.com/DHI/fmdap/main/images/logo/mike-fm-dap-rgb.svg" /><div class="line-block">
-<div class="line"><br /></div>
+  <div class="section" id="vision">
+<span id="id1"></span><h1>Vision<a class="headerlink" href="#vision" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="design-principles">
+<h2>Design principles<a class="headerlink" href="#design-principles" title="Permalink to this headline">¶</a></h2>
+<p>Like <a class="reference external" href="https://github.com/DHI/mikeio">MIKE IO</a> and <a class="reference external" href="https://github.com/DHI/fmskill">FMSkill</a>, FMDAp should be:</p>
+<ul class="simple">
+<li><p>Easy to use</p></li>
+<li><p>Easy to install</p></li>
+<li><p>Easy to get started</p></li>
+<li><p>Open Source​</p></li>
+<li><p>Easy to collaborate​</p></li>
+<li><p>Reproducible</p></li>
+<li><p>Easy access to new features</p></li>
+</ul>
 </div>
-<div class="section" id="fmdap-mike-fm-data-assimilation-processing-tool">
-<h1>FMDAp: MIKE FM Data Assimilation Processing tool<a class="headerlink" href="#fmdap-mike-fm-data-assimilation-processing-tool" title="Permalink to this headline">¶</a></h1>
-<p>Python package containing pre- and post-processing tools for MIKE 21/3 Data Assimilation workflows.</p>
-<p>This package is simple to install and deploy operationally and is accessible to everyone as open-source.</p>
-<div class="toctree-wrapper compound">
+</div>
+<div class="section" id="functional-objectives">
+<h1>Functional objectives<a class="headerlink" href="#functional-objectives" title="Permalink to this headline">¶</a></h1>
+<p>FMDAp should cover the following <strong>user stories</strong>:</p>
+<div class="section" id="is-my-da-scheme-performing-well">
+<h2>Is my DA scheme performing well?<a class="headerlink" href="#is-my-da-scheme-performing-well" title="Permalink to this headline">¶</a></h2>
+<p>As a user, I want to detect…</p>
+<ul class="simple">
+<li><p>model instabilities</p></li>
+<li><p>non-physical behavior</p></li>
+<li><p>DA over-fitting (big difference between forecast and analysis)</p></li>
+<li><p>DA under-fitting (little impact of assimilation)</p></li>
+<li><p>non-Gaussian behavior (e.g. biases)</p></li>
+<li><p>auto-correlation in innovation/increments</p></li>
+<li><p>observation offset/biases</p></li>
+</ul>
+</div>
+<div class="section" id="visualization">
+<h2>Visualization<a class="headerlink" href="#visualization" title="Permalink to this headline">¶</a></h2>
+<p>As a user, I want to plot…</p>
+<ul class="simple">
+<li><p>observations on map showing the model domain</p></li>
+<li><p>diagnostic positions on a map showing the model domain</p></li>
+<li><p>multiple timeseries together, interactively</p></li>
+</ul>
+<p>As a user, I want to</p>
+<ul class="simple">
+<li><p>make all the <em>static</em> plots for my report/paper</p></li>
+<li><dl class="simple">
+<dt>make <em>interactive</em> plots for…</dt><dd><ul>
+<li><p>troubleshooting</p></li>
+<li><p>DA calibration</p></li>
+<li><p>DA assessment (exploratory; setup phase)</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</div>
+<div class="section" id="input-settings-pre-processing">
+<h2>Input/settings (pre-processing)<a class="headerlink" href="#input-settings-pre-processing" title="Permalink to this headline">¶</a></h2>
+<p>As a user, I want to…</p>
+<ul class="simple">
+<li><p>create MEASUREMENTS section from xlsx file</p></li>
+<li><p>create MODEL_ERROR section from xlsx file</p></li>
+<li><p>check if measurements are inside domain, otherwise find nearest point inside</p></li>
+<li><p>Estimate AR(1) half life from observations or forcing data</p></li>
+<li><p>Estimate spatial correlation length scales</p></li>
+</ul>
+</div>
+<div class="section" id="automatic-reporting">
+<h2>Automatic reporting<a class="headerlink" href="#automatic-reporting" title="Permalink to this headline">¶</a></h2>
+<p>After doing a DA simulation, I would like to get a <strong>report</strong> with:</p>
+<ul class="simple">
+<li><p>summary of DA settings</p></li>
+<li><p>map showing domain and observations</p></li>
+<li><p>timeline showing simulation and observation coverage</p></li>
+<li><p>summary skill table</p></li>
+<li><p>summary bar chart</p></li>
+<li><p>summary scatter plot</p></li>
+<li><dl class="simple">
+<dt>For each observation:</dt><dd><ul>
+<li><p>info/stats</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
 </div>
 </div>
 
@@ -180,11 +303,20 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="overview.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">Overview</p>
+            </div>
+        </a>
+    </div>
      <div id="next">
-        <a class="right-next" href="overview.html" title="next page">
+        <a class="right-next" href="api.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Overview</p>
+                <p class="prevnext-title">API Documentation</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>

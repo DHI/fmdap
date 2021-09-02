@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>FMDAp: MIKE FM Data Assimilation Processing tool &#8212; FMDAp  documentation</title>
+    <title>Overview &#8212; FMDAp  documentation</title>
     
   <link href="_static/css/theme.css" rel="stylesheet" />
   <link href="_static/css/index.c5995385ac14fb8791e8eb36b4908be2.css" rel="stylesheet" />
@@ -34,7 +34,8 @@
     <script src="_static/sphinx-book-theme.12a9622fbb08dcb3a2a40b2c02b83a57.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Overview" href="overview.html" />
+    <link rel="next" title="Vision" href="vision.html" />
+    <link rel="prev" title="FMDAp: MIKE FM Data Assimilation Processing tool" href="index.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="en" />
     
@@ -51,7 +52,7 @@
 <div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
         <div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="#">
+    <a class="navbar-brand text-wrap" href="index.html">
       
       <img src="_static/mike-fm-dap-rgb.svg" class="logo" alt="logo">
       
@@ -69,9 +70,9 @@
   Contents:
  </span>
 </p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="overview.html">
+<ul class="current nav bd-sidenav">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Overview
   </a>
  </li>
@@ -126,7 +127,7 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/index.rst.txt"><button type="button"
+        <a class="dropdown-buttons" href="_sources/overview.rst.txt"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
                 data-placement="left">.rst</button></a>
         <!-- Download PDF via print -->
@@ -151,6 +152,19 @@
         <!-- Table of contents -->
         <div class="d-none d-md-block col-md-2 bd-toc show">
             
+            <div class="tocsection onthispage pt-5 pb-3">
+                <i class="fas fa-list"></i> Contents
+            </div>
+            <nav id="bd-toc-nav" aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#key-features">
+   Key features
+  </a>
+ </li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -159,14 +173,52 @@
         
               <div>
                 
-  <img alt="https://raw.githubusercontent.com/DHI/fmdap/main/images/logo/mike-fm-dap-rgb.svg" src="https://raw.githubusercontent.com/DHI/fmdap/main/images/logo/mike-fm-dap-rgb.svg" /><div class="line-block">
-<div class="line"><br /></div>
-</div>
-<div class="section" id="fmdap-mike-fm-data-assimilation-processing-tool">
-<h1>FMDAp: MIKE FM Data Assimilation Processing tool<a class="headerlink" href="#fmdap-mike-fm-data-assimilation-processing-tool" title="Permalink to this headline">¶</a></h1>
-<p>Python package containing pre- and post-processing tools for MIKE 21/3 Data Assimilation workflows.</p>
-<p>This package is simple to install and deploy operationally and is accessible to everyone as open-source.</p>
-<div class="toctree-wrapper compound">
+  <div class="section" id="overview">
+<span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>FMDAp has the following modules:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="api.html#pfs">PFS</a></p></li>
+<li><p><a class="reference external" href="api.html#module-fmdap.diagnostic_output">Diagnostic outputs</a></p></li>
+<li><p><a class="reference external" href="api.html#ensembleoutput">Ensemble output</a></p></li>
+<li><p><a class="reference external" href="api.html#module-fmdap.AR1">AR1</a></p></li>
+<li><p><a class="reference external" href="api.html#module-fmdap.spatial">Spatial</a></p></li>
+</ul>
+<div class="section" id="key-features">
+<h2>Key features<a class="headerlink" href="#key-features" title="Permalink to this headline">¶</a></h2>
+<p><a class="reference external" href="api.html#pfs">PFS files</a></p>
+<ul class="simple">
+<li><p>Get a dictionary with all DA settings</p></li>
+<li><p>Get DataFrame of measurements</p></li>
+<li><p>Get DataFrame of model errors</p></li>
+<li><p>Get DataFrame of diagnostic outputs</p></li>
+<li><p>Check if points are inside domain, find nearest cell centers</p></li>
+</ul>
+<p>See <a class="reference external" href="https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Pfs_file.ipynb">PFS notebook</a> for examples of use.</p>
+<p><a class="reference external" href="api.html#module-fmdap.diagnostic_output">Diagnostic outputs</a></p>
+<ul class="simple">
+<li><p>Get summary statistics</p></li>
+<li><p>Plot timeseries</p></li>
+<li><p>Plot histogram</p></li>
+<li><p>Plot ecdf</p></li>
+<li><p>Get analysis, forecast, result, increments and innovations</p></li>
+</ul>
+<p><a class="reference external" href="api.html#ensembleoutput">Ensemble output</a></p>
+<ul class="simple">
+<li><p>xx</p></li>
+</ul>
+<p><a class="reference external" href="api.html#module-fmdap.AR1">AR1</a></p>
+<ul class="simple">
+<li><p>Estimate AR(1) half-life from data</p></li>
+<li><p>Simulate AR(1) process</p></li>
+</ul>
+<p>See <a class="reference external" href="https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Analyze_forcing_data.ipynb">Analyze forcing data notebook</a> for examples of use.</p>
+<p><a class="reference external" href="api.html#module-fmdap.spatial">Spatial</a></p>
+<img alt="https://raw.githubusercontent.com/DHI/fmdap/main/images/spatial_correlation.png" src="https://raw.githubusercontent.com/DHI/fmdap/main/images/spatial_correlation.png" />
+<ul class="simple">
+<li><p>Get pair-wise distances and correlation coefficient from Dfsu file</p></li>
+<li><p>Fit Gaussian distance function to the above</p></li>
+</ul>
+<p>See <a class="reference external" href="https://nbviewer.jupyter.org/github/DHI/fmdap/blob/main/notebooks/Analyze_forcing_data.ipynb">Analyze forcing data notebook</a> for examples of use.</p>
 </div>
 </div>
 
@@ -180,11 +232,20 @@
 
 <div class='prev-next-bottom'>
     
+    <div id="prev">
+        <a class="left-prev" href="index.html" title="previous page">
+            <i class="prevnext-label fas fa-angle-left"></i>
+            <div class="prevnext-info">
+                <p class="prevnext-label">previous</p>
+                <p class="prevnext-title">FMDAp: MIKE FM Data Assimilation Processing tool</p>
+            </div>
+        </a>
+    </div>
      <div id="next">
-        <a class="right-next" href="overview.html" title="next page">
+        <a class="right-next" href="vision.html" title="next page">
             <div class="prevnext-info">
                 <p class="prevnext-label">next</p>
-                <p class="prevnext-title">Overview</p>
+                <p class="prevnext-title">Vision</p>
             </div>
             <i class="prevnext-label fas fa-angle-right"></i>
         </a>
