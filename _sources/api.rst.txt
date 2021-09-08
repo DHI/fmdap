@@ -4,17 +4,6 @@ API Documentation
 =================
 
 
-DiagnosticOutput
-----------------
-.. automodule:: fmdap.diagnostic_output
-	:members:
-	:inherited-members:
-
-.. automodule:: fmdap.diagnostic_collection
-	:members:
-	:inherited-members:
-
-
 
 DiagnosticOutputAltimetry
 -------------------------
