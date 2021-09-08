@@ -23,5 +23,6 @@ This package is simple to install and deploy operationally and is accessible to 
 
    overview
    vision
+   diagnostic_output
    api
 
