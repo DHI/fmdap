@@ -1,0 +1,1908 @@
+// Created    : 2020-10-07 13:11:39
+// Executable : C:\Progra~2\DHI\MIKE Zero\2021\bin\x64\FemEngine.exe
+// Version    : 19.0.0.14277
+
+
+======================= Computing Environment ========================
+  Local machine name              : JEM-PC2
+  Number of subdomains            : 4
+  Local subdomain id              : 0
+  Specified threads per subdomain : 4
+======================================================================
+
+
+======================================================================
+Target: FemEngineSW
+
+    delete_logfile : 1 (default)
+    merge_data_default : 2 (default)
+
+
+  Section: SYSTEM ----------------------------------------------------
+
+
+  Section: TIME ------------------------------------------------------
+      start_time : 2017 10 27 0 0 0 
+      time_step_interval : 600
+      number_of_time_steps : 30
+
+
+  Section: DOMAIN ----------------------------------------------------
+      number_of_dimensions : 2
+      file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\SW_local_DWF_MSL_coarse_v2.mesh
+      check_mesh : 1 (default)
+      datum_depth : 0
+      minimum_depth : 16.83973
+      thresshold_depth : 16.83973 (default)
+
+
+========================== Mesh information ==========================
+  Number of elements         : 958
+  Number of faces            : 1527
+  Number of nodes            : 570
+  Number of sections         : 3
+  Min x-coordinate (degree)  : -1.578551
+  Max x-coordinate (degree)  : 8.852402
+  Min y-coordinate (degree)  : 49.872667
+  Max y-coordinate (degree)  : 55.327193
+  Min z-coordinate (m)       : -93.390062
+  Max z-coordinate (m)       : 16.83973
+======================================================================
+
+
+======================== Boundary information ========================
+
+  number                code    number of points     number of faces
+       1                   1                 125                 123
+       2                   3                  52                  51
+       3                   5                   7                   6
+======================================================================
+      type_of_partitioning : 2 (default)
+      type_of_weighting : 0 (default)
+      use_METIS5_options : 0 (default)
+      small_master_partition : 1 (default)
+      type_of_halo_layer : 2 (default)
+      write_partitioning : 0 (default)
+
+
+============================= Partition ==============================
+  Number of partitions: 4
+ 
+  Dimension of mesh: 2
+ 
+ ---------------------------------------------------------------------
+  Partition Total elements     Domains           Halo elements
+                                            Internal      External
+ ---------------------------------------------------------------------
+          1             239             2            28            30
+          2             240             2            34            33
+          3             239             3            62            56
+          4             240             1            19            24
+ ---------------------------------------------------------------------
+        Sum             958             8           143           143
+        Min             239             1            19            24
+        Max             240             3            62            56
+       Mean      0.2390E+03    0.2000E+01    0.3500E+02    0.3500E+02
+        Std      0.7071E+00    0.7071E+00    0.1609E+02    0.1216E+02
+ ---------------------------------------------------------------------
+======================================================================
+
+
+================= Mesh information - 2D (subdomain) ==================
+  Number of elements         : 269
+  Number of elements (int.)  : 239
+  Number of faces            : 435
+  Number of faces (int.)     : 387
+  Number of nodes            : 167
+  Number of nodes (int.)     : 149
+  Number of sections         : 2
+  Min x-coordinate (degree)  : -1.578551
+  Max x-coordinate (degree)  : 3.078968
+  Min y-coordinate (degree)  : 52.323018
+  Max y-coordinate (degree)  : 55.32413
+  Min z-coordinate (m)       : -93.390062
+  Max z-coordinate (m)       : -0.907613
+======================================================================
+
+
+=============== Boundary information - 2D (subdomain) ================
+
+  number                code    number of points     number of faces
+       1                   1                  25                  24
+       2                   3                  21                  20
+======================================================================
+
+
+============== Halo layer information - 2D (subdomain) ===============
+
+ Internal layer
+
+  number    connected domain  number of elements
+       1                   2                  12
+       2                   3                  16
+
+ External layer
+
+  number    connected domain  number of elements
+       1                   2                  13
+       2                   3                  17
+======================================================================
+
+
+    Section: MATERIAL ------------------------------------------------
+
+
+    Section: INFRASTRUCTURE ------------------------------------------
+
+
+  Section: MODULE_SELECTION ------------------------------------------
+      mode_of_data_assimilation_module : 2
+
+
+  Section: SPECTRAL_WAVE_MODULE --------------------------------------
+      mode : 2
+
+
+    Section: EQUATION ------------------------------------------------
+        formulation : 2
+        time_formulation : 2
+        type_of_settings : 1 (default)
+
+
+    Section: TIME ----------------------------------------------------
+        start_time_step : 0
+        time_step_factor : 1
+
+
+    Section: SPACE ---------------------------------------------------
+
+
+    Section: SPECTRAL ------------------------------------------------
+        type_of_frequency_discretization : 2
+        number_of_frequencies : 25
+        minimum_frequency : 0.055
+        frequency_factor : 1.1
+        type_of_directional_discretization : 1
+        number_of_directions : 16
+        separation_of_wind_sea_and_swell : 0
+        type_of_cutoff_frequency : 1 (default)
+        cutoff_factor : 2.5 (default)
+        cutoff_mean_frequency_power : -1 (default)
+
+
+====================== Frequency discretization ======================
+
+ Number   Frequency (1/s)    Interval (1/s)        Period (s)
+
+      1        0.5500E-01        0.5250E-02        0.1818E+02
+      2        0.6050E-01        0.5775E-02        0.1653E+02
+      3        0.6655E-01        0.6353E-02        0.1503E+02
+      4        0.7321E-01        0.6988E-02        0.1366E+02
+      5        0.8053E-01        0.7687E-02        0.1242E+02
+      6        0.8858E-01        0.8455E-02        0.1129E+02
+      7        0.9744E-01        0.9301E-02        0.1026E+02
+      8        0.1072E+00        0.1023E-01        0.9330E+01
+      9        0.1179E+00        0.1125E-01        0.8482E+01
+     10        0.1297E+00        0.1238E-01        0.7711E+01
+     11        0.1427E+00        0.1362E-01        0.7010E+01
+     12        0.1569E+00        0.1498E-01        0.6373E+01
+     13        0.1726E+00        0.1648E-01        0.5793E+01
+     14        0.1899E+00        0.1812E-01        0.5267E+01
+     15        0.2089E+00        0.1994E-01        0.4788E+01
+     16        0.2297E+00        0.2193E-01        0.4353E+01
+     17        0.2527E+00        0.2412E-01        0.3957E+01
+     18        0.2780E+00        0.2654E-01        0.3597E+01
+     19        0.3058E+00        0.2919E-01        0.3270E+01
+     20        0.3364E+00        0.3211E-01        0.2973E+01
+     21        0.3700E+00        0.3532E-01        0.2703E+01
+     22        0.4070E+00        0.3885E-01        0.2457E+01
+     23        0.4477E+00        0.4274E-01        0.2234E+01
+     24        0.4925E+00        0.4701E-01        0.2031E+01
+     25        0.5417E+00        0.5171E-01        0.1846E+01
+======================================================================
+
+
+===================== Directional discretization =====================
+
+ Number  Direction (degree)   Interval (degree)
+
+      1          0.0000E+00          0.2250E+02
+      2          0.2250E+02          0.2250E+02
+      3          0.4500E+02          0.2250E+02
+      4          0.6750E+02          0.2250E+02
+      5          0.9000E+02          0.2250E+02
+      6          0.1125E+03          0.2250E+02
+      7          0.1350E+03          0.2250E+02
+      8          0.1575E+03          0.2250E+02
+      9          0.1800E+03          0.2250E+02
+     10          0.2025E+03          0.2250E+02
+     11          0.2250E+03          0.2250E+02
+     12          0.2475E+03          0.2250E+02
+     13          0.2700E+03          0.2250E+02
+     14          0.2925E+03          0.2250E+02
+     15          0.3150E+03          0.2250E+02
+     16          0.3375E+03          0.2250E+02
+======================================================================
+
+
+    Section: SOLUTION_TECHNIQUE --------------------------------------
+        error_level : 0
+        maximum_number_of_errors : 200
+        type_of_growth_limiter : 1 (default)
+        scheme_of_space_discretization_geographical : 1
+        scheme_of_space_discretization_direction : 1
+        scheme_of_space_discretization_frequency : 1
+        scheme_of_time_integration : 1 (default)
+        number_of_levels_in_transport_calc : 32
+        number_of_steps_in_source_calc : 1
+        type_of_CFL_number : 2 (default)
+        maximum_CFL_number : 1
+        dt_min : 0.01
+        dt_max : 600
+
+
+    Section: DEPTH ---------------------------------------------------
+        type : 1
+        minimum_depth : 0.01
+  
+  Number of water points:          269
+  
+        format : 3
+        soft_time_interval : 0
+        file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\HD_1hr.dfsu
+        item_number : 1
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\HD_1hr.dfsu
+  Title  : AreaHD
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00    67       3600  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006         -2 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Surface elevation    Surface Elevation     -2.347003   3.756879 meter
+  Current velocity, U  u-velocity component  -0.974063    0.80037 meter/sec
+  Current velocity, V  v-velocity component  -1.364337   1.163211 meter/sec
+----------------------------------------------------------------------
+
+
+    Section: CURRENT -------------------------------------------------
+        type : 1
+        format : 3
+        soft_time_interval : 0
+        file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\HD_1hr.dfsu
+        item_number_for_x_velocity : 2
+        item_number_for_y_velocity : 3
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\HD_1hr.dfsu
+  Title  : AreaHD
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00    67       3600  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006         -2 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Surface elevation    Surface Elevation     -2.347003   3.756879 meter
+  Current velocity, U  u-velocity component  -0.974063    0.80037 meter/sec
+  Current velocity, V  v-velocity component  -1.364337   1.163211 meter/sec
+----------------------------------------------------------------------
+        type_blocking : 1
+        factor_blocking : 0.1
+
+
+    Section: WIND ----------------------------------------------------
+        type : 1
+        format : 3
+        soft_time_interval : 0
+        file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\Wind_1hr.dfsu
+        item_number_for_speed : 1
+        item_number_for_direction : 2
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\Wind_1hr.dfsu
+  Title  : AreaWind
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00    67       3600  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006         -2 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Wind speed           Wind speed             1.190171  26.213045 meter/sec
+  Wind direction       Wind Direction         0.016943 359.950104 degree
+----------------------------------------------------------------------
+        linear_growth_coefficient : 0.0015
+        type_of_air_sea_interaction : 0
+        non_dimensional_growth_parameter : 1.2 (default)
+        wave_age_turning_parameter : 0.011 (default)
+        height_of_wind_specification : 10 (default)
+        type_of_drag : 1
+        Charnock_parameter : 0.02
+        number_of_u_entries : 200 (default)
+        u_max : 100 (default)
+        write_total_stress_table : 0 (default)
+        number_of_ustar_entries : 100 (default)
+        ustar_max : 5 (default)
+        number_of_alpha_entries : 100 (default)
+        alpha_max : 0.2 (default)
+        write_high_frequency_stress_table : 0 (default)
+
+
+      Section: CORRECTION_OF_FRICTION_VELOCITY -----------------------
+
+
+      Section: CURRENT -----------------------------------------------
+
+
+    Section: WATER_PROPERTIES ----------------------------------------
+      type_of_density : 1 (default)
+
+
+    Section: DENSITY -------------------------------------------------
+      format : 0 (default)
+      constant_value : 1010 (default)
+
+
+    Section: AIR_PROPERTIES ------------------------------------------
+      type_of_density : 1 (default)
+
+
+    Section: DENSITY -------------------------------------------------
+      format : 0 (default)
+      constant_value : 1.23725 (default)
+
+
+    Section: ICE -----------------------------------------------------
+        type : 0
+
+
+    Section: DIFFRACTION ---------------------------------------------
+        type : 0
+
+
+    Section: TRANSFER ------------------------------------------------
+        type : 1
+        cnl : 27784160.8 (default)
+        type_triad : 0
+
+
+    Section: BOTTOM_FRICTION -----------------------------------------
+        type : 3
+        constant_fc : 0
+
+
+      Section: NIKURADSE_ROUGHNESS -----------------------------------
+          format : 0
+          constant_value : 0.01
+
+
+    Section: WAVE_BREAKING -------------------------------------------
+        type : 1
+        type_of_gamma : 1
+        alpha : 1
+        type_of_roller : 0
+
+
+      Section: GAMMA -------------------------------------------------
+          format : 0
+          constant_value : 0.8
+
+
+    Section: WHITECAPPING --------------------------------------------
+        type : 1
+        mean_frequency_power : 1
+        mean_wave_number_power : 1
+        swell_dissipation : 0 (default)
+
+
+      Section: DISSIPATION_CDISS -------------------------------------
+          format : 0
+          constant_value : 2.1
+
+
+      Section: DISSIPATION_DELTA -------------------------------------
+          format : 0
+          constant_value : 0.337
+
+
+    Section: WAKE_WASH -----------------------------------------------
+
+
+    Section: STRUCTURES ----------------------------------------------
+
+
+      Section: POINT_STRUCTURES --------------------------------------
+        type : 0
+
+
+      Section: LINE_STRUCTURES ---------------------------------------
+          number_of_structures : 0
+          output_of_link_data : 0
+
+
+    Section: INITIAL_CONDITIONS --------------------------------------
+        type : 1
+        type_of_spectra : 1
+        type_of_fetch : 2 (default)
+        fetch : 100000
+        max_peak_frequency : 0.4
+        max_Phillips_constant : 0.0081
+        type_of_frequency_spectrum : 2 (default)
+        type_of_frequency_normalization : 1 (default)
+        shape_parameter_sigma_a : 0.07
+        shape_parameter_sigma_b : 0.09
+        peakednes_parameter_gamma : 3.3
+        type_of_directional_distribution : 1 (default)
+        type_of_directional_normalization : 1 (default)
+
+
+    Section: BOUNDARY_CONDITIONS -------------------------------------
+
+
+      Section: CODE_1 ------------------------------------------------
+          type : 1 (default)
+
+
+      Section: CODE_3 ------------------------------------------------
+          type : 4
+          format : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\north_wave_params.dfs0
+          item_numbers : 1 2 3 4 
+          type_of_soft_start : 1
+          soft_time_interval : 0
+          reference_values : 0 8 270 5 
+          type_of_time_interpolation : 1
+          type_of_frequency_spectrum : 2
+          type_of_frequency_normalization : 1
+          sigma_a : 0.07
+          sigma_b : 0.09
+          gamma : 3.3
+          type_of_directional_distribution : 1
+          type_of_directional_normalization : 1
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\north_wave_params.dfs0
+  Title  : NorthBC
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00   401        600  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Point 1: Sign. Wave  Significant wave hei   0.856615   6.707698 meter
+  Point 1: Peak Wave P Wave period            3.753001  12.281271 second
+  Point 1: Mean Wave D Mean Wave Direction  297.948212 351.921661 degree
+  Point 1: Dir. Stand. Directional Standard  26.330421  35.616829 degree
+----------------------------------------------------------------------
+          type_of_angle_definition : 1 (default)
+
+
+      Section: CODE_5 ------------------------------------------------
+          type : 4
+          format : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\input\south_wave_params.dfs0
+          item_numbers : 1 2 3 4 
+          type_of_soft_start : 1
+          soft_time_interval : 0
+          reference_values : 0 8 270 5 
+          type_of_time_interpolation : 1
+          type_of_frequency_spectrum : 2
+          type_of_frequency_normalization : 1
+          sigma_a : 0.07
+          sigma_b : 0.09
+          gamma : 3.3
+          type_of_directional_distribution : 1
+          type_of_directional_normalization : 1
+          type_of_angle_definition : 1 (default)
+
+
+    Section: OUTPUTS -------------------------------------------------
+        number_of_outputs : 2
+        merge_data : 2 (default)
+
+
+      Section: OUTPUT_1 ----------------------------------------------
+          include : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\HKZN_local_2017_DutchCoast.dfsu
+          title : Area
+          type : 1
+          format : 2
+          delete_value : 1.E-35 (default)
+          flood_and_dry : 2
+          ordering : 2 (default)
+          precision : 2 (default)
+          use_end_time : 1
+          first_time_step : 0
+          time_step_frequency : 18
+          number_of_variables : 0 (default)
+          interpolation_type : 1
+
+
+        Section: INTEGRAL_WAVE_PARAMETERS ----------------------------
+            type_of_spectrum : 1
+            separation_of_wind_sea_and_swell : 3
+            maximum_threshold_frequency : 0.125
+            hm0_minimum : 0.01
+            type_of_h_max : 3
+            duration : 10800
+            distance_above_bed_for_particle_velocity : 0
+
+
+          Section: Total_wave_parameters -----------------------------
+              Significant_wave_height : 1
+              Maximum_wave_height : 1
+              Peak_wave_period : 1
+              Wave_period_t01 : 1
+              Wave_period_t02 : 1
+              Wave_period_tm10 : 0
+              Peak_wave_direction : 1
+              Mean_wave_direction : 1
+              Directional_standard_deviation : 1
+              Wave_velocity_components : 1
+              Radiation_stresses : 0
+              Particle_velocities : 0
+              Wave_power : 0
+
+
+          Section: Wind_sea_parameters -------------------------------
+              Significant_wave_height : 0
+              Maximum_wave_height : 0
+              Peak_wave_period : 0
+              Wave_period_t01 : 0
+              Wave_period_t02 : 0
+              Wave_period_tm10 : 0
+              Peak_wave_direction : 0
+              Mean_wave_direction : 0
+              Directional_standard_deviation : 0
+              Wave_velocity_components : 0
+              Radiation_stresses : 0
+              Particle_velocities : 0
+              Wave_power : 0
+
+
+          Section: Swell_parameters ----------------------------------
+              Significant_wave_height : 0
+              Maximum_wave_height : 0
+              Peak_wave_period : 0
+              Wave_period_t01 : 0
+              Wave_period_t02 : 0
+              Wave_period_tm10 : 0
+              Peak_wave_direction : 0
+              Mean_wave_direction : 0
+              Directional_standard_deviation : 0
+              Wave_velocity_components : 0
+              Radiation_stresses : 0
+              Particle_velocities : 0
+              Wave_power : 0
+
+
+        Section: INPUT_PARAMETERS ------------------------------------
+            Surface_elevation : 1
+            Water_depth : 0
+            Current_velocity_components : 1
+            Wind_speed : 1
+            Wind_direction : 1
+            Dissipation_coefficient_c : 0 (default)
+            Dissipation_coefficient_delta : 0 (default)
+            Ice_concentration : 0
+            Water_density : 0 (default)
+            Air_density : 0 (default)
+
+
+        Section: MODEL_PARAMETERS ------------------------------------
+            Wind_friction_speed : 0
+            Roughness_length : 0
+            Drag_coefficient : 0
+            Charnock_constant : 0
+            Friction_coefficient : 0
+            Breaking_parameter_gamma : 0
+            Threshold_period : 0
+            Courant_number : 0
+            Time_step_factor : 0
+            Convergence_angle : 0
+            Length : 0
+            Area : 0
+            Breaking_index : 0
+            Iribarren_number : 0 (default)
+          coordinate_type : LONG/LAT
+
+
+        Section: AREA ------------------------------------------------
+            number_of_points : 4
+
+
+          Section: POINT_1 -------------------------------------------
+              x : -1.682861
+              y : 49.818122
+
+
+          Section: POINT_2 -------------------------------------------
+              x : -1.682861
+              y : 55.381738
+
+
+          Section: POINT_3 -------------------------------------------
+              x : 8.956712
+              y : 55.381738
+
+
+          Section: POINT_4 -------------------------------------------
+              x : 8.956712
+              y : 49.818122
+
+
+      Section: OUTPUT_2 ----------------------------------------------
+          include : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ts_storm_4.dfs0
+          title : points
+          type : 1
+          format : 0
+          delete_value : 1.E-35 (default)
+          flood_and_dry : 2
+          precision : 2 (default)
+          use_end_time : 1
+          first_time_step : 0
+          time_step_frequency : 1
+          number_of_variables : 0 (default)
+          interpolation_type : 1
+
+
+        Section: INTEGRAL_WAVE_PARAMETERS ----------------------------
+            type_of_spectrum : 1
+            separation_of_wind_sea_and_swell : 3
+            maximum_threshold_frequency : 0.125
+            hm0_minimum : 0.01
+            type_of_h_max : 3
+            duration : 10800
+            distance_above_bed_for_particle_velocity : 0
+
+
+          Section: Total_wave_parameters -----------------------------
+              Significant_wave_height : 1
+              Maximum_wave_height : 0
+              Peak_wave_period : 0
+              Wave_period_t01 : 0
+              Wave_period_t02 : 0
+              Wave_period_tm10 : 0
+              Peak_wave_direction : 0
+              Mean_wave_direction : 0
+              Directional_standard_deviation : 0
+              Wave_velocity_components : 0
+              Radiation_stresses : 0
+              Particle_velocities : 0
+              Wave_power : 0
+
+
+          Section: Wind_sea_parameters -------------------------------
+              Significant_wave_height : 1
+              Maximum_wave_height : 0
+              Peak_wave_period : 0
+              Wave_period_t01 : 0
+              Wave_period_t02 : 0
+              Wave_period_tm10 : 0
+              Peak_wave_direction : 0
+              Mean_wave_direction : 0
+              Directional_standard_deviation : 0
+              Wave_velocity_components : 0
+              Radiation_stresses : 0
+              Particle_velocities : 0
+              Wave_power : 0
+
+
+          Section: Swell_parameters ----------------------------------
+              Significant_wave_height : 1
+              Maximum_wave_height : 0
+              Peak_wave_period : 0
+              Wave_period_t01 : 0
+              Wave_period_t02 : 0
+              Wave_period_tm10 : 0
+              Peak_wave_direction : 0
+              Mean_wave_direction : 0
+              Directional_standard_deviation : 0
+              Wave_velocity_components : 0
+              Radiation_stresses : 0
+              Particle_velocities : 0
+              Wave_power : 0
+
+
+        Section: INPUT_PARAMETERS ------------------------------------
+            Surface_elevation : 0
+            Water_depth : 0
+            Current_velocity_components : 0
+            Wind_speed : 1
+            Wind_direction : 1
+            Dissipation_coefficient_c : 0 (default)
+            Dissipation_coefficient_delta : 0 (default)
+            Ice_concentration : 0
+            Water_density : 0 (default)
+            Air_density : 0 (default)
+
+
+        Section: MODEL_PARAMETERS ------------------------------------
+            Wind_friction_speed : 0
+            Roughness_length : 0
+            Drag_coefficient : 0
+            Charnock_constant : 0
+            Friction_coefficient : 0
+            Breaking_parameter_gamma : 0
+            Threshold_period : 0
+            Courant_number : 0
+            Time_step_factor : 0
+            Convergence_angle : 0
+            Length : 0
+            Area : 0
+            Breaking_index : 0
+            Iribarren_number : 0 (default)
+          coordinate_type : LONG/LAT
+          input_format : 1
+          number_of_points : 4
+
+
+        Section: POINT_1 ---------------------------------------------
+            name : Europlatform
+            x : 3.276
+            y : 51.999
+
+
+        Section: POINT_2 ---------------------------------------------
+            name : K14
+            x : 3.6333
+            y : 53.2667
+
+
+        Section: POINT_3 ---------------------------------------------
+            name : F16
+            x : 4.0122
+            y : 54.1167
+
+
+        Section: POINT_4 ---------------------------------------------
+            name : F3
+            x : 4.6939
+            y : 54.8489
+
+
+====================== Point Output Information ======================
+
+  Element  Domain      x (degree)      y (degree)           z (m)
+
+      522       4      3.31800410     51.97119709    -28.77049806
+      632       4      3.52783649     53.29199020    -28.36156602
+      120       4      4.02987555     54.17259322    -46.74125847
+      425       4      4.64257200     54.92712060    -45.22625663
+======================================================================
+
+
+  Section: DATA_ASSIMILATION_MODULE ----------------------------------
+
+
+    Section: TIME ----------------------------------------------------
+        start_time_step : 0
+        start_time_step_assimilation : 6
+        time_step_factor_assimilation : 2
+
+
+    Section: METHOD --------------------------------------------------
+        type : 1
+        ensemble_size : 10
+        algorithm : 1
+        inflation : 1 (default)
+        spread_reduction_factor : 1 (default)
+        Rfactor_relative : 3
+        Rfactor_all : 1
+        include_nudging : False (default)
+
+
+    Section: MODEL_ERROR_MODEL ---------------------------------------
+        use_clock_based_seeds : False
+        random_seed : 1000000 (default)
+        number_of_model_errors : 1
+
+
+      Section: MODEL_ERROR_1 -----------------------------------------
+          include : 1 (default)
+          type : wind
+          include_in_state : True (default)
+
+
+        Section: Error_Formulation -----------------------------------
+            st_dev : 1.5
+            minimum_value : -1.E+10 (default)
+            maximum_value : 1.E+10 (default)
+            perturbation_type : additive (default)
+            propagation_type : AR(1)
+            propagation_parameter : 10800
+  AR(1): xi = alp*xi + eta;  alp = 0.5^(dt/tau) = 0.9622;  st_dev_f = st_dev*sqrt(1-alp^2) = 0.4084
+            initialization_type : 1
+            horizontal_discretization_type : 2
+            horizontal_grid_spacing : 80000
+            horizontal_corr_function : 1
+            horizontal_corr : 500000
+
+  Error discretization: 
+   n_err_pts=  99, nx= 11, ny=  9; dx=     0.020667, dy=     0.012557
+   lower corner: (    -0.039489,     0.867555)
+   upper corner: (     0.167180,     0.968010)
+  2D Grid Error (comp=1, id=1). Average grid factor g= 1.65
+
+
+        Section: Error_Formulation -----------------------------------
+            st_dev : 1.5
+            minimum_value : -1.E+10 (default)
+            maximum_value : 1.E+10 (default)
+            perturbation_type : additive (default)
+            propagation_type : AR(1)
+            propagation_parameter : 10800
+  AR(1): xi = alp*xi + eta;  alp = 0.5^(dt/tau) = 0.9622;  st_dev_f = st_dev*sqrt(1-alp^2) = 0.4084
+            initialization_type : 1
+            horizontal_discretization_type : 2
+            horizontal_grid_spacing : 80000
+            horizontal_corr_function : 1
+            horizontal_corr : 500000
+
+
+    Section: MODEL_STATE_SPACE ---------------------------------------
+        sw_state_space_type : 1
+        type_Hm0 : 1 (default)
+        type_Tp : 0 (default)
+        type_windspeed : 0 (default)
+        number_of_variable_transforms : 0
+
+
+============== Model/error variables included in state ===============
+  
+   ------------------------------------------------------------------
+    var type     id                           name     size   ndim
+   ------------------------------------------------------------------
+    model-var:    1                           SW%a   107600     4
+    model-var:    2                         SW%Hm0      269     2
+    error-var:    3                   err01_wind_u       99     2
+    error-var:    4                   err01_wind_v       99     2
+   ------------------------------------------------------------------
+  
+    modpp-var:    5                        SW%tauw      269
+   ------------------------------------------------------------------
+======================================================================
+
+
+    Section: STATE_BIAS ----------------------------------------------
+
+
+    Section: MEASUREMENTS --------------------------------------------
+        number_of_independent_measurements : 5
+
+
+      Section: MEASUREMENT_1 -----------------------------------------
+          include : 1
+          name : Hm0_EPL
+          measured_variable : SW%Hm0
+          type : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\eur_Hm0_20171026-20171029_UTC.dfs0
+          item_number : 1
+          item_number_stdev : 0 (default)
+          data_offset : 0
+          type_time_interpolation : 1
+          position : 3.276 51.999 
+--------------------------- Data File Summary ---------------------------
+  Creator: Matlab DFS
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\eur_Hm0_20171026-20171029_UTC.dfs0
+  Title  : Hm0 eur_
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-26    01:00:00    95 338399.999  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Hm0                  Significant wave hei   0.479999       4.27 meter
+----------------------------------------------------------------------
+          coordinate_type : LONG/LAT
+          type_of_space_interpolation : 1 (default)
+          st_dev : 0.4
+          max_abs_innovation_point : 1.E+10 (default)
+          group : 1
+
+
+=============== Measurement point information (global) ===============
+
+ point      id    global_id  domain   #elements      x             y
+
+    1        0      522        2        0  0.571770E-01  0.907554E+00
+======================================================================
+
+
+      Section: MEASUREMENT_2 -----------------------------------------
+          include : 1
+          name : Hm0_K14
+          measured_variable : SW%Hm0
+          type : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\k14_Hm0_20171026-20171029_UTC.dfs0
+          item_number : 1
+          item_number_stdev : 0 (default)
+          data_offset : 0
+          type_time_interpolation : 1
+          position : 3.6333 53.2667 
+--------------------------- Data File Summary ---------------------------
+  Creator: Matlab DFS
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\k14_Hm0_20171026-20171029_UTC.dfs0
+  Title  : Hm0 k14_
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-26    01:00:00    95 338399.999  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Hm0                  Significant wave hei   0.769999       6.63 meter
+----------------------------------------------------------------------
+          coordinate_type : LONG/LAT
+          type_of_space_interpolation : 1 (default)
+          st_dev : 0.4
+          max_abs_innovation_point : 1.E+10 (default)
+          group : 1
+
+
+=============== Measurement point information (global) ===============
+
+ point      id    global_id  domain   #elements      x             y
+
+    1        0      632        3        0  0.634130E-01  0.929679E+00
+======================================================================
+
+
+      Section: MEASUREMENT_3 -----------------------------------------
+          include : 2
+          name : Hm0_F16
+          measured_variable : SW%Hm0
+          type : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\f16_Hm0_20171026-20171029_UTC.dfs0
+          item_number : 1
+          data_offset : 0
+          type_time_interpolation : 0
+          time_window_in_seconds : 1 (default)
+          position : 4.0122 54.1167 
+--------------------------- Data File Summary ---------------------------
+  Creator: Matlab DFS
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\f16_Hm0_20171026-20171029_UTC.dfs0
+  Title  : Hm0 f16_
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-26    01:00:00    95 338399.999  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Hm0                  Significant wave hei       1.24       7.14 meter
+----------------------------------------------------------------------
+          coordinate_type : LONG/LAT
+          type_of_space_interpolation : 1 (default)
+
+
+=============== Measurement point information (global) ===============
+
+ point      id    global_id  domain   #elements      x             y
+
+    1        0      120        3        0  0.700261E-01  0.944515E+00
+======================================================================
+
+
+      Section: MEASUREMENT_4 -----------------------------------------
+          include : 1
+          name : Hm0_F3
+          measured_variable : SW%Hm0
+          type : 1
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\f03_Hm0_20171026-20171029_UTC.dfs0
+          item_number : 1
+          item_number_stdev : 0 (default)
+          data_offset : 0 (default)
+          type_time_interpolation : 1
+          position : 4.6939 54.8489 
+--------------------------- Data File Summary ---------------------------
+  Creator: Matlab DFS
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\f03_Hm0_20171026-20171029_UTC.dfs0
+  Title  : Hm0 f03_
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-26    01:00:00    95 338399.999  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Hm0                  Significant wave hei       1.57       7.61 meter
+----------------------------------------------------------------------
+          coordinate_type : LONG/LAT
+          type_of_space_interpolation : 1 (default)
+          st_dev : 0.4
+          max_abs_innovation_point : 1.E+10 (default)
+          group : 1
+
+
+=============== Measurement point information (global) ===============
+
+ point      id    global_id  domain   #elements      x             y
+
+    1        0      425        4        0  0.819240E-01  0.957294E+00
+======================================================================
+
+
+      Section: MEASUREMENT_5 -----------------------------------------
+          include : 2
+          name : Hm0_Cryosat2
+          measured_variable : SW%Hm0
+          type : 2
+          file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\RADS_North_Sea_rads_c2_Dutch_102017_all_params_20km-20171027-20171029.dfs0
+          item_number : 4
+          data_offset : 0
+          time_window_in_seconds : 600 (default)
+--------------------------- Data File Summary ---------------------------
+  Creator: Matlab DFS
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\obs\RADS_North_Sea_rads_c2_Dutch_102017_all_params_20km-20171027-20171029.dfs0
+  Title  : RADS_North_Sea
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-27    12:51:59   398 172852.327  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Longitude            Water Level           -0.041284   9.360867 meter
+  Latitude             Water Level           51.253353  59.998505 meter
+  ws                   Wind speed                 7.43      17.67 meter/sec
+  swh                  Significant wave hei      1.383      5.326 meter
+  adt dhi              Water Level           -0.505999     1.3124 meter
+  adt                  Water Level              0.0863   0.520399 meter
+----------------------------------------------------------------------
+
+Warning: Data track file contains no data in simulation period
+          coordinate_type : LONG/LAT
+          type_of_space_interpolation : 1 (default)
+
+
+================= Measurements information (global) ==================
+ 
+       id   type      name               npts  domain
+     -------------------------------------------------------
+        1     1   Hm0_EPL                   1     2
+        2     1   Hm0_K14                   1     3
+        3     2   Hm0_F16                   1     3
+        4     1   Hm0_F3                    1     4
+        5     0
+======================================================================
+
+
+    Section: ESTIMATOR -----------------------------------------------
+
+
+      Section: REGULARIZATION ----------------------------------------
+          use_temporal_smoothing : True
+          smoothing_halftime : 3600
+   Smoothing: factor=  0.206299474015900     
+          use_localization : False
+
+
+    Section: ERRCOV_IO -----------------------------------------------
+
+
+      Section: INPUT -------------------------------------------------
+          type : 0
+
+
+      Section: OUTPUTS -----------------------------------------------
+          number_of_outputs : 1
+
+
+        Section: OUTPUT_1 --------------------------------------------
+            include : 1
+            first_time_step : 6 (default)
+            last_time_step : 30 (default)
+            time_step_frequency : 24 (default)
+            time_average : True
+            smoothed_out : False
+            file_name_area : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Area.dfsu
+            file_name_spectrum : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Spectrum.dfsu
+            file_name_err01_wind_u : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Wind_err_u.dfs2
+            file_name_err01_wind_v : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Wind_err_v.dfs2
+
+
+    Section: ENSEMBLE_IO ---------------------------------------------
+
+
+      Section: INPUT -------------------------------------------------
+          type : 0
+
+
+      Section: STATEUPDATEINPUT --------------------------------------
+
+
+      Section: OUTPUTS -----------------------------------------------
+          number_of_outputs : 2
+
+
+        Section: OUTPUT_1 --------------------------------------------
+            type : 2
+            is_stateupdate : False (default)
+            first_time_step : 0 (default)
+            last_time_step : 30 (default)
+            time_step_frequency : 10
+            include_model_variables : True
+            include_model_errors : True
+            file_name_area : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Area_ens.dfsu
+            file_name_spectrum : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Spectrum_ens.dfsu
+            file_name_err01_wind_u : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Wind_err_u.dfs2
+            file_name_err01_wind_v : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Wind_err_v.dfs2
+            time_average : False (default)
+
+
+        Section: OUTPUT_2 --------------------------------------------
+            type : 1
+            is_stateupdate : True
+            first_time_step : 18
+            last_time_step : 30 (default)
+            time_step_frequency : 6
+            include_model_variables : True
+            include_model_errors : True
+            file_name_area : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Area.dfsu
+            file_name_spectrum : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Spectrum.dfsu
+            file_name_err01_wind_u : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Wind_err_u.dfs2
+            file_name_err01_wind_v : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Wind_err_v.dfs2
+
+
+    Section: DIAGNOSTICS ---------------------------------------------
+
+
+      Section: OUTPUTS -----------------------------------------------
+          number_of_outputs : 7
+
+
+        Section: OUTPUT_1 --------------------------------------------
+            include : 1
+            type : 1
+            file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_EPL.dfs0
+            measurement_id : 1
+
+
+        Section: OUTPUT_2 --------------------------------------------
+            include : 1
+            type : 1
+            file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_K14.dfs0
+            measurement_id : 2
+
+
+        Section: OUTPUT_3 --------------------------------------------
+            include : 1
+            type : 1
+            file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_F16.dfs0
+            measurement_id : 3
+
+
+        Section: OUTPUT_4 --------------------------------------------
+            include : 1
+            type : 1
+            file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_F3.dfs0
+            measurement_id : 4
+
+
+        Section: OUTPUT_5 --------------------------------------------
+            include : 0
+
+
+        Section: OUTPUT_6 --------------------------------------------
+            include : 1
+            type : 1
+            file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_C2.dfs0
+            measurement_id : 5
+
+Warning: DIAGNOSTIC OUTPUT: Illegal measurement id! Skipping!
+
+
+        Section: OUTPUT_7 --------------------------------------------
+            include : 1
+            type : 3
+            file_name : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Global_stats.dfs0
+
+
+======================== COMPUTATION STARTED =========================
+
+
+========================= COMPUTATION ENDED ==========================
+
+
+========================= Output Statistics ==========================
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\HKZN_local_2017_DutchCoast.dfsu
+  Title  : Area
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00     2      10800  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Sign. Wave Height    Significant wave hei          0   2.677964 meter
+  Max. Wave Height     Maximum wave height    0.099186   5.208949 meter
+  Peak Wave Period     Wave period             1.84592   7.154535 second
+  Wave Period, T01     Wave period            1.489383   5.954425 second
+  Wave Period, T02     Wave period            1.407923   5.442707 second
+  Peak Wave Direction  Wave direction                0   5.890486 radian
+  Mean Wave Direction  Mean Wave Direction    0.278336 358.151306 degree
+  Dir. Stand. Deviatio Directional Standard  17.530497  51.048706 degree
+  x-comp. of wave heig u-velocity component  -0.231223   1.877652 meter/sec
+  y-comp. of wave heig v-velocity component  -2.179146   0.102653 meter/sec
+  Surface elevation    Surface Elevation     -1.404703   2.478718 meter
+  Current velocity, U  u-velocity component  -0.828589   0.716954 meter/sec
+  Current velocity, V  v-velocity component  -1.167682    0.76539 meter/sec
+  Wind speed           Wind speed               3.6601   15.44054 meter/sec
+  Wind direction       Wind Direction       288.693146 351.852661 degree
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ts_storm_4.dfs0
+  Title  : points
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00    31        600  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Europlatform: Sign.  Significant wave hei   1.430124   1.723018 meter
+  K14: Sign. Wave Heig Significant wave hei   1.599632   2.007464 meter
+  F16: Sign. Wave Heig Significant wave hei   1.763122   2.443363 meter
+  F3: Sign. Wave Heigh Significant wave hei    1.43509   2.937601 meter
+  Europlatform: Sign.  Significant wave hei   1.294425   1.634693 meter
+  K14: Sign. Wave Heig Significant wave hei   1.485217   1.874507 meter
+  F16: Sign. Wave Heig Significant wave hei    1.65968   2.334128 meter
+  F3: Sign. Wave Heigh Significant wave hei   1.392851   2.819406 meter
+  Europlatform: Sign.  Significant wave hei   0.512765   0.620346 meter
+  K14: Sign. Wave Heig Significant wave hei   0.547079   0.719051 meter
+  F16: Sign. Wave Heig Significant wave hei   0.595032   0.722404 meter
+  F3: Sign. Wave Heigh Significant wave hei   0.345615   0.883839 meter
+  Europlatform: Wind s Wind speed             9.754228  11.317247 meter/sec
+  K14: Wind speed      Wind speed            10.777992  11.643677 meter/sec
+  F16: Wind speed      Wind speed            11.845624  13.389833 meter/sec
+  F3: Wind speed       Wind speed            12.382586   14.22629 meter/sec
+  Europlatform: Wind d Wind Direction        324.84024 331.886719 degree
+  K14: Wind direction  Wind Direction       311.036133 328.721954 degree
+  F16: Wind direction  Wind Direction       320.402832 333.149841 degree
+  F3: Wind direction   Wind Direction       319.441376   332.5849 degree
+----------------------------------------------------------------------
+ 
+======================================================================
+
+
+===================== ErrCovIO Output Statistics =====================
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Area.dfsu
+  Title  : Area data
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    05:00:00     1      14400  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Sign. Wave Height, H Significant wave hei  -0.008334    0.02758 meter
+  Sign. Wave Height, H Significant wave hei  -0.007366   0.023833 meter
+  Sign. Wave Height, H Significant wave hei   -0.00592   0.024882 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Spectrum.dfsu
+  Title  : Spectrum data
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    05:00:00     1      14400  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+  Frequency            Wave frequency         0.054999   0.541735 hertz
+  Direction            Wave direction                0   5.890486 radian
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Action density, Hm0_ Wave action density   -0.005368   0.074776 meter^2*sec^2/rad
+  Action density, Hm0_ Wave action density   -0.004806   0.092564 meter^2*sec^2/rad
+  Action density, Hm0_ Wave action density   -0.004103   0.092323 meter^2*sec^2/rad
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Wind_err_u.dfs2
+  Title  : err01_wind_u
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    05:00:00     1      14400  second
+
+  Axis  Sets   Interval  Axis origin  Unit
+     1    11   0.020666            0   meter
+     2     9   0.012556            0   meter
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Bathymetry           Bathymetry                    0          0 meter
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  error 1, Hm0_EPL     Undefined             -0.056858   0.057571 undefined
+  error 1, Hm0_K14     Undefined              -0.03874   0.094622 undefined
+  error 1, Hm0_F3      Undefined             -0.024782   0.125321 undefined
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\ErrCovIO_avg_Wind_err_v.dfs2
+  Title  : err01_wind_v
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    05:00:00     1      14400  second
+
+  Axis  Sets   Interval  Axis origin  Unit
+     1    11   0.020666            0   meter
+     2     9   0.012556            0   meter
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Bathymetry           Bathymetry                    0          0 meter
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  error 2, Hm0_EPL     Undefined             -0.152215  -0.059268 undefined
+  error 2, Hm0_K14     Undefined             -0.119268  -0.008741 undefined
+  error 2, Hm0_F3      Undefined             -0.131044   0.026843 undefined
+----------------------------------------------------------------------
+ 
+======================================================================
+
+
+==================== EnsembleIO Output Statistics ====================
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Area_ens.dfsu
+  Title  : Area data
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00     4       6000  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Sign. Wave Height, s Significant wave hei          0   3.394852 meter
+  Sign. Wave Height, s Significant wave hei          0    2.92264 meter
+  Sign. Wave Height, s Significant wave hei          0    2.91707 meter
+  Sign. Wave Height, s Significant wave hei          0   3.062408 meter
+  Sign. Wave Height, s Significant wave hei          0   3.277537 meter
+  Sign. Wave Height, s Significant wave hei          0   3.050058 meter
+  Sign. Wave Height, s Significant wave hei          0   2.904725 meter
+  Sign. Wave Height, s Significant wave hei          0   3.077305 meter
+  Sign. Wave Height, s Significant wave hei          0   3.093328 meter
+  Sign. Wave Height, s Significant wave hei          0   2.948385 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Spectrum_ens.dfsu
+  Title  : Spectrum data
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00     4       6000  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+  Frequency            Wave frequency         0.054999   0.541735 hertz
+  Direction            Wave direction                0   5.890486 radian
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Action density, stat Wave action density  -7.869E-07   8.105392 meter^2*sec^2/rad
+  Action density, stat Wave action density  -8.733E-07   5.940419 meter^2*sec^2/rad
+  Action density, stat Wave action density  -7.353E-07   6.290157 meter^2*sec^2/rad
+  Action density, stat Wave action density  -7.848E-07   6.810561 meter^2*sec^2/rad
+  Action density, stat Wave action density   -0.000001   7.434073 meter^2*sec^2/rad
+  Action density, stat Wave action density  -8.368E-07   6.467077 meter^2*sec^2/rad
+  Action density, stat Wave action density   -0.000001   6.051396 meter^2*sec^2/rad
+  Action density, stat Wave action density  -6.991E-07   6.563398 meter^2*sec^2/rad
+  Action density, stat Wave action density  -7.551E-07   6.933733 meter^2*sec^2/rad
+  Action density, stat Wave action density  -6.841E-07   6.016868 meter^2*sec^2/rad
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Area.dfsu
+  Title  : Area data
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    03:00:00     3       3600  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Sign. Wave Height, s Significant wave hei  -0.027697   0.042457 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Spectrum.dfsu
+  Title  : Spectrum data
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    03:00:00     3       3600  second
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Node id              Grid Codes                    1        570 Integer
+  X-coord              Latitude/longitude    -1.578551   8.852402 degree
+  Y-coord              Latitude/longitude    49.872667  55.327193 degree
+  Z-coord              Item geometry 3-dime  -93.39006  16.839729 meter
+  Code                 Grid Codes                    0          5 Integer
+  Element id           Grid Codes                    1        958 Integer
+  Element type         Grid Codes                   21         21 Integer
+  No of nodes          Grid Codes                    3          3 Integer
+  Connectivity         Grid Codes                    1        570 Integer
+  Frequency            Wave frequency         0.054999   0.541735 hertz
+  Direction            Wave direction                0   5.890486 radian
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  Action density, stat Wave action density   -0.112908   0.184433 meter^2*sec^2/rad
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Wind_err_u.dfs2
+  Title  : err01_wind_u
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00     4       6000  second
+
+  Axis  Sets   Interval  Axis origin  Unit
+     1    11   0.020666            0   meter
+     2     9   0.012556            0   meter
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Bathymetry           Bathymetry                    0          0 meter
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  error 1, state 1     Undefined             -1.431107   4.795728 undefined
+  error 1, state 2     Undefined             -2.686853   2.411165 undefined
+  error 1, state 3     Undefined             -1.944064   2.546109 undefined
+  error 1, state 4     Undefined             -1.391412   1.921329 undefined
+  error 1, state 5     Undefined             -2.306732   3.155766 undefined
+  error 1, state 6     Undefined             -0.472545   2.929541 undefined
+  error 1, state 7     Undefined              -1.08081   2.420536 undefined
+  error 1, state 8     Undefined             -2.336073   3.848534 undefined
+  error 1, state 9     Undefined             -2.420364     0.9858 undefined
+  error 1, state 10    Undefined             -0.615657   3.451176 undefined
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\State_Wind_err_v.dfs2
+  Title  : err01_wind_v
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    00:00:00     4       6000  second
+
+  Axis  Sets   Interval  Axis origin  Unit
+     1    11   0.020666            0   meter
+     2     9   0.012556            0   meter
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Bathymetry           Bathymetry                    0          0 meter
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  error 2, state 1     Undefined             -2.622644   1.590713 undefined
+  error 2, state 2     Undefined             -2.371219   3.260826 undefined
+  error 2, state 3     Undefined             -4.032545   2.037889 undefined
+  error 2, state 4     Undefined             -2.300487   2.714263 undefined
+  error 2, state 5     Undefined             -2.132649   1.750199 undefined
+  error 2, state 6     Undefined             -2.046201   1.862049 undefined
+  error 2, state 7     Undefined             -0.436296    2.60327 undefined
+  error 2, state 8     Undefined             -1.736306   3.038784 undefined
+  error 2, state 9     Undefined             -3.668056    1.32491 undefined
+  error 2, state 10    Undefined             -0.804549   3.085447 undefined
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Wind_err_u.dfs2
+  Title  : err01_wind_u
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    03:00:00     3       3600  second
+
+  Axis  Sets   Interval  Axis origin  Unit
+     1    11   0.020666            0   meter
+     2     9   0.012556            0   meter
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Bathymetry           Bathymetry                    0          0 meter
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  error 1, state updat Undefined             -0.079715   0.258393 undefined
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\StateUpdate_Wind_err_v.dfs2
+  Title  : err01_wind_v
+
+  Start date  Start time  Sets   Interval  Unit
+  2017-10-27    03:00:00     3       3600  second
+
+  Axis  Sets   Interval  Axis origin  Unit
+     1    11   0.020666            0   meter
+     2     9   0.012556            0   meter
+
+  Static items:
+  Item name            Item type               Minimum    Maximum Unit
+  Bathymetry           Bathymetry                    0          0 meter
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  error 2, state updat Undefined             -0.216715   0.188774 undefined
+----------------------------------------------------------------------
+ 
+======================================================================
+
+
+========================= Output Statistics ==========================
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_EPL.dfs0
+  Title  : Hm0_EPL
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-27    00:00:00    44      18000  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  State 1Sign. Wave He Significant wave hei   1.440205   1.943618 meter
+  State 2Sign. Wave He Significant wave hei   1.440205   1.738601 meter
+  State 3Sign. Wave He Significant wave hei   1.440205   1.879952 meter
+  State 4Sign. Wave He Significant wave hei   1.440205    1.71168 meter
+  State 5Sign. Wave He Significant wave hei   1.440205   1.740142 meter
+  State 6Sign. Wave He Significant wave hei   1.440205   1.876538 meter
+  State 7Sign. Wave He Significant wave hei   1.366074   1.564654 meter
+  State 8Sign. Wave He Significant wave hei   1.440205   1.822791 meter
+  State 9Sign. Wave He Significant wave hei   1.440205   2.005275 meter
+  State 10Sign. Wave H Significant wave hei   1.440205   1.671334 meter
+  Mean StateSign. Wave Significant wave hei   1.440205   1.737251 meter
+  MeasurementSign. Wav Significant wave hei       0.92       1.66 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_K14.dfs0
+  Title  : Hm0_K14
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-27    00:00:00    44      18000  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  State 1Sign. Wave He Significant wave hei   1.604888   2.334182 meter
+  State 2Sign. Wave He Significant wave hei   1.604888   1.882645 meter
+  State 3Sign. Wave He Significant wave hei   1.604888   1.949205 meter
+  State 4Sign. Wave He Significant wave hei   1.604888   2.060754 meter
+  State 5Sign. Wave He Significant wave hei   1.504632   1.992723 meter
+  State 6Sign. Wave He Significant wave hei   1.604888   2.034815 meter
+  State 7Sign. Wave He Significant wave hei   1.525483   1.763719 meter
+  State 8Sign. Wave He Significant wave hei   1.604888   2.135603 meter
+  State 9Sign. Wave He Significant wave hei   1.604888    2.17795 meter
+  State 10Sign. Wave H Significant wave hei   1.604888   1.921066 meter
+  Mean StateSign. Wave Significant wave hei   1.604888   2.023625 meter
+  MeasurementSign. Wav Significant wave hei       1.35       2.05 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_F16.dfs0
+  Title  : Hm0_F16
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-27    00:00:00    44      18000  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  State 1Sign. Wave He Significant wave hei   1.749465   2.830786 meter
+  State 2Sign. Wave He Significant wave hei   1.749465   2.225884 meter
+  State 3Sign. Wave He Significant wave hei   1.749465   2.269974 meter
+  State 4Sign. Wave He Significant wave hei   1.749465   2.498278 meter
+  State 5Sign. Wave He Significant wave hei   1.706402   2.381351 meter
+  State 6Sign. Wave He Significant wave hei   1.749465   2.419895 meter
+  State 7Sign. Wave He Significant wave hei   1.749465   2.170572 meter
+  State 8Sign. Wave He Significant wave hei   1.749465   2.505707 meter
+  State 9Sign. Wave He Significant wave hei   1.749465   2.524659 meter
+  State 10Sign. Wave H Significant wave hei   1.749465   2.370355 meter
+  Mean StateSign. Wave Significant wave hei   1.749465   2.427393 meter
+  MeasurementSign. Wav Significant wave hei       1.72       2.41 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Diagnostics_F3.dfs0
+  Title  : Hm0_F3
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-27    00:00:00    44      18000  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  State 1Sign. Wave He Significant wave hei   1.568608   3.326102 meter
+  State 2Sign. Wave He Significant wave hei   1.568608   2.669859 meter
+  State 3Sign. Wave He Significant wave hei   1.568608   2.720363 meter
+  State 4Sign. Wave He Significant wave hei   1.568608    2.98609 meter
+  State 5Sign. Wave He Significant wave hei    1.40406   2.990856 meter
+  State 6Sign. Wave He Significant wave hei   1.568608   2.880368 meter
+  State 7Sign. Wave He Significant wave hei   1.479084   2.715431 meter
+  State 8Sign. Wave He Significant wave hei   1.568608   2.957053 meter
+  State 9Sign. Wave He Significant wave hei   1.568608   2.968887 meter
+  State 10Sign. Wave H Significant wave hei   1.568608   2.819101 meter
+  Mean StateSign. Wave Significant wave hei   1.568608   2.909917 meter
+  MeasurementSign. Wav Significant wave hei       2.26       3.11 meter
+----------------------------------------------------------------------
+ 
+--------------------------- Data File Summary ---------------------------
+  Creator: 
+  File   : C:\Users\JEM\Source\mikefmda_regtest\tests\SW_SouthernNorthSea\SW_SNS_T1_EnKF_sch1.sw - Result Files\Global_stats.dfs0
+  Title  : general DA diagnostics
+
+  Start date  Start time  Sets       Span  Unit
+  2017-10-27    01:00:00    39      14400  second
+
+  Dynamic items:
+  Item name            Item type               Minimum    Maximum Unit
+  points assimilated   Undefined                     1          1 undefined
+  var 1 mean update    Undefined             -0.001109   0.002321 undefined
+  var 1 min update     Undefined             -0.101198  -0.000816 undefined
+  var 1 max update     Undefined              0.000356    0.25154 undefined
+  var 2 mean update    Undefined             -0.028313   0.051144 undefined
+  var 2 min update     Undefined             -0.041299  -0.000733 undefined
+  var 2 max update     Undefined              0.000273   0.080386 undefined
+  var 3 mean update    Undefined             -0.069082   0.158592 undefined
+  var 3 min update     Undefined             -0.167838    0.02081 undefined
+  var 3 max update     Undefined              0.001358   0.288245 undefined
+  var 4 mean update    Undefined             -0.226059    0.23833 undefined
+  var 4 min update     Undefined              -0.41321   0.154139 undefined
+  var 4 max update     Undefined             -0.051374   0.309233 undefined
+----------------------------------------------------------------------
+ 
+======================================================================
+
+
+================ Spectral Wave Simulation Diagnostic =================
+  Average number of time steps : 42
+  Duration time (s)             : 18000
+  Minimum time step (s)         : 50
+  Maximum time step (s)         : 600
+  Level factor                  : 1.662268
+======================================================================
+
+
+==================== Data Assimilation Diagnostic ====================
+
+
+========== Measurement statistics - DA stations (forecast) ===========
+  ------------------------------------------------------------------
+  Measurement       n_pts   bias       RMSE      max(err)   St_dev
+  ------------------------------------------------------------------
+   1 Hm0_EPL          30  0.352E+00  0.415E+00  0.821E+00  0.140E+00
+   2 Hm0_K14          30  0.243E+00  0.284E+00  0.619E+00  0.129E+00
+   4 Hm0_F3           30 -0.485E+00  0.565E+00  0.110E+01  0.133E+00
+  ------------------------------------------------------------------
+     Total            90  0.368E-01  0.437E+00  0.110E+01  0.134E+00
+  ------------------------------------------------------------------
+======================================================================
+
+
+========== Measurement statistics - DA stations (analysis) ===========
+  ------------------------------------------------------------------
+  Measurement       n_pts   bias       RMSE      max(err)   St_dev
+  ------------------------------------------------------------------
+   1 Hm0_EPL          13  0.297E+00  0.363E+00  0.804E+00  0.148E+00
+   2 Hm0_K14          13  0.229E+00  0.277E+00  0.585E+00  0.136E+00
+   4 Hm0_F3           13 -0.415E+00  0.497E+00  0.110E+01  0.142E+00
+  ------------------------------------------------------------------
+     Total            39  0.369E-01  0.390E+00  0.110E+01  0.142E+00
+  ------------------------------------------------------------------
+======================================================================
+
+
+============ Measurement statistics - Validation stations ============
+  ------------------------------------------------------------------
+  Measurement       n_pts   bias       RMSE      max(err)   St_dev
+  ------------------------------------------------------------------
+   3 Hm0_F16           5 -0.426E-01  0.132E+00  0.448E+00  0.154E+00
+  ------------------------------------------------------------------
+======================================================================
+
+
+====== Measurement statistics - Validation stations (analysis) =======
+  ------------------------------------------------------------------
+  Measurement       n_pts   bias       RMSE      max(err)   St_dev
+  ------------------------------------------------------------------
+   3 Hm0_F16           5 -0.409E-01  0.139E+00  0.464E+00  0.147E+00
+  ------------------------------------------------------------------
+======================================================================
+
+
+========================= Simulation Timings =========================
+  ------------------------------------------------------------------
+  Task                                      CPU time    Elapsed time
+  ------------------------------------------------------------------
+  Spectral Wave Module                         16.11           17.77
+    Update forcings                             0.70            1.01
+    Transport step                              3.45            3.79
+    Growth/decay step                           5.47            5.95
+    Other calculations                          6.48            7.02
+  ------------------------------------------------------------------
+  Total                                        16.11           17.77
+  ------------------------------------------------------------------
+======================================================================
+
+
+===================== Data Assimilation Timings ======================
+  ------------------------------------------------------------------
+  Task                                      CPU time    Elapsed time
+  ------------------------------------------------------------------
+  Update measurements                           0.00            0.00
+  Propagate model errors                        0.02            0.02
+  PutModel                                      0.00            0.00
+  Assimilation                                  1.22            1.44
+    Analysis                                    0.00            0.00
+    Ensemble <-> Anomalies                      0.20            0.24
+  Postprocessing ensemble members               0.38            0.44
+  Postprocessing MeanState                      0.31            0.27
+  Other calculations                            0.09            0.07
+  ------------------------------------------------------------------
+  Total                                         2.02            2.23
+  ------------------------------------------------------------------
+======================================================================
+
+
+===================== MPI Communication Timings ======================
+  ------------------------------------------------------------------
+  Task                                      CPU time    Elapsed time
+  ------------------------------------------------------------------
+  Halo data                                     1.45            1.63
+  Additional data                               0.97            1.21
+  ------------------------------------------------------------------
+  Total                                         2.44            2.86
+  ------------------------------------------------------------------
+======================================================================
+
+
+========================== Overall Timings ===========================
+  ------------------------------------------------------------------
+  Task                                      CPU time    Elapsed time
+  ------------------------------------------------------------------
+  Pre-processing                                0.20            0.61
+  Calculation                                  18.12           20.01
+  License check                                 0.06            0.11
+  Post-processing                               0.72            1.81
+  ------------------------------------------------------------------
+  Total                                        19.11           22.53
+  ------------------------------------------------------------------
+======================================================================
+
+
+============================ Memory Usage ============================
+  Peak memory usage (MB)                                       85.09
+======================================================================
+
+
+========================== Parallelization ===========================
+  Number of threads per subdomain : 1
+  Number of subdomains            : 4
+======================================================================
+ 
+  Number of warnings: 2
+ 
+  Normal run completion
