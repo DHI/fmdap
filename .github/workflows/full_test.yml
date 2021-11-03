@@ -41,7 +41,4 @@ jobs:
         pip install .[test]
     - name: Test with pytest
       run: |
-        pytest
-      env:
-        DHI_ALTIMETRY_USER: ${{ secrets.DHI_ALTIMETRY_USER }} 
-        DHI_ALTIMETRY_PASSWORD: ${{ secrets.DHI_ALTIMETRY_PASSWORD }} 
+        pytest --cov=fmdap --ignore tests/notebooks/

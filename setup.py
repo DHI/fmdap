@@ -8,7 +8,7 @@ with open("LICENSE") as fh:
 
 setuptools.setup(
     name="fmdap",
-    version="0.1.dev2",
+    version="0.1.dev3",
     install_requires=[
         "numpy",
         "pandas",
@@ -28,6 +28,12 @@ setuptools.setup(
             "plotly >= 4.5",
         ],
         "test": ["pytest", "shapely"],
+        "notebooks": [
+            "nbformat",
+            "nbconvert",
+            "jupyter",
+            "plotly",
+        ],
     },
     author="Jesper Sandvig Mariegaard",
     author_email="jem@dhigroup.com",
