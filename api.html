@@ -22,12 +22,12 @@
       
 
     
-    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <link rel="stylesheet" href="_static/sphinx-book-theme.e8f53015daec13862f6db5e763c41738.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.css?digest=c3fdc42140077d1ad13ad2f1588a4309" />
     
   <link rel="preload" as="script" href="_static/js/index.1c5a1a01449ed65a7b51.js">
 
-    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
@@ -53,6 +53,10 @@
         <div class="navbar-brand-box">
     <a class="navbar-brand text-wrap" href="index.html">
       
+        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+        
+      
+      
       <img src="_static/mike-fm-dap-rgb.svg" class="logo" alt="logo">
       
       
@@ -64,7 +68,7 @@
   <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
 </form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item active">
-        <p class="caption">
+        <p class="caption" role="heading">
  <span class="caption-text">
   Contents:
  </span>
@@ -202,29 +206,29 @@
 <div class="section" id="diagnosticoutputaltimetry">
 <h2>DiagnosticOutputAltimetry<a class="headerlink" href="#diagnosticoutputaltimetry" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output_altimetry.</span></code><code class="sig-name descname"><span class="pre">DiagnosticOutputAltimetry</span></code><a class="headerlink" href="#fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output_altimetry.</span></span><span class="sig-name descname"><span class="pre">DiagnosticOutputAltimetry</span></span><a class="headerlink" href="#fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="py method">
-<dt id="fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read">
-<code class="sig-name descname"><span class="pre">read</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_diag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_col_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adt_dhi'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read">
+<span class="sig-name descname"><span class="pre">read</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_diag</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file_obs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">obs_col_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'adt_dhi'</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read diagnostic output dfs0 and associated observation dfs0 and store as data frames</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>-- path to the diagnostic dfs0 file</strong> (<em>file_diag</em>) – </p></li>
-<li><p><strong>-- path to the observation dfs0 file</strong> (<em>file_obs</em>) – </p></li>
+<li><p><strong>file</strong> (<em>file_obs -- path to the observation dfs0</em>) – </p></li>
+<li><p><strong>file</strong> – </p></li>
 </ul>
 </dd>
 </dl>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read_mesh">
-<code class="sig-name descname"><span class="pre">read_mesh</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_mesh</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read_mesh" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read_mesh">
+<span class="sig-name descname"><span class="pre">read_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">file_mesh</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output_altimetry.DiagnosticOutputAltimetry.read_mesh" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read diagnostic output dfs0 file, determine type and store as data frame</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>-- path to the dfs0 file</strong> (<em>filename</em>) – </p>
+<dd class="field-odd"><p><strong>file</strong> (<em>filename -- path to the dfs0</em>) – </p>
 </dd>
 </dl>
 </dd></dl>
@@ -238,20 +242,20 @@
 <div class="section" id="module-fmdap.AR1">
 <span id="ar1"></span><h2>AR1<a class="headerlink" href="#module-fmdap.AR1" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="fmdap.AR1.estimate_AR1_halflife">
-<code class="sig-prename descclassname"><span class="pre">fmdap.AR1.</span></code><code class="sig-name descname"><span class="pre">estimate_AR1_halflife</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.AR1.estimate_AR1_halflife" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.AR1.estimate_AR1_halflife">
+<span class="sig-prename descclassname"><span class="pre">fmdap.AR1.</span></span><span class="sig-name descname"><span class="pre">estimate_AR1_halflife</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.AR1.estimate_AR1_halflife" title="Permalink to this definition">¶</a></dt>
 <dd><p>Estimate AR(1) half-life of columns in DataFrame</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fmdap.AR1.halflife_to_phi">
-<code class="sig-prename descclassname"><span class="pre">fmdap.AR1.</span></code><code class="sig-name descname"><span class="pre">halflife_to_phi</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.AR1.halflife_to_phi" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.AR1.halflife_to_phi">
+<span class="sig-prename descclassname"><span class="pre">fmdap.AR1.</span></span><span class="sig-name descname"><span class="pre">halflife_to_phi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rho</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.AR1.halflife_to_phi" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert half-life to the AR(1) propagation parameter phi</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fmdap.AR1.phi_to_halflife">
-<code class="sig-prename descclassname"><span class="pre">fmdap.AR1.</span></code><code class="sig-name descname"><span class="pre">phi_to_halflife</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.AR1.phi_to_halflife" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.AR1.phi_to_halflife">
+<span class="sig-prename descclassname"><span class="pre">fmdap.AR1.</span></span><span class="sig-name descname"><span class="pre">phi_to_halflife</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">phi</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.AR1.phi_to_halflife" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert the AR(1) propagation parameter phi to half-life</p>
 </dd></dl>
 
@@ -259,20 +263,20 @@
 <div class="section" id="module-fmdap.spatial">
 <span id="spatial"></span><h2>Spatial<a class="headerlink" href="#module-fmdap.spatial" title="Permalink to this headline">¶</a></h2>
 <dl class="py function">
-<dt id="fmdap.spatial.fit_gaussian">
-<code class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></code><code class="sig-name descname"><span class="pre">fit_gaussian</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.fit_gaussian" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.spatial.fit_gaussian">
+<span class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></span><span class="sig-name descname"><span class="pre">fit_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.fit_gaussian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fit the Gaussian distance function to data</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fmdap.spatial.gaussian">
-<code class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></code><code class="sig-name descname"><span class="pre">gaussian</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_corr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.gaussian" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.spatial.gaussian">
+<span class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></span><span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_corr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.gaussian" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gaussian distance function with value 1 at 0 and zero mean</p>
 </dd></dl>
 
 <dl class="py function">
-<dt id="fmdap.spatial.get_distance_and_corrcoef">
-<code class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></code><code class="sig-name descname"><span class="pre">get_distance_and_corrcoef</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.get_distance_and_corrcoef" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.spatial.get_distance_and_corrcoef">
+<span class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></span><span class="sig-name descname"><span class="pre">get_distance_and_corrcoef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.get_distance_and_corrcoef" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate pairwise distances and correlations from sample of point in dfs file</p>
 </dd></dl>
 
@@ -280,47 +284,47 @@
 <div class="section" id="pfs">
 <h2>Pfs<a class="headerlink" href="#pfs" title="Permalink to this headline">¶</a></h2>
 <dl class="py class">
-<dt id="fmdap.pfs.Pfs">
-<em class="property"><span class="pre">class</span> </em><code class="sig-prename descclassname"><span class="pre">fmdap.pfs.</span></code><code class="sig-name descname"><span class="pre">Pfs</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pfs_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.pfs.Pfs" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="py method">
-<dt id="fmdap.pfs.Pfs.dda">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">dda</span></code><a class="headerlink" href="#fmdap.pfs.Pfs.dda" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs">
+<em class="property"><span class="pre">class</span> </em><span class="sig-prename descclassname"><span class="pre">fmdap.pfs.</span></span><span class="sig-name descname"><span class="pre">Pfs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pfs_file</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.pfs.Pfs" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="py property">
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.dda">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">dda</span></span><a class="headerlink" href="#fmdap.pfs.Pfs.dda" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dictionary of settings in DATA_ASSIMILATION_MODULE</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="fmdap.pfs.Pfs.diagnostics">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">diagnostics</span></code><a class="headerlink" href="#fmdap.pfs.Pfs.diagnostics" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.diagnostics">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">diagnostics</span></span><a class="headerlink" href="#fmdap.pfs.Pfs.diagnostics" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame with diagnostic outputs</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="fmdap.pfs.Pfs.measurement_positions">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">measurement_positions</span></code><a class="headerlink" href="#fmdap.pfs.Pfs.measurement_positions" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.measurement_positions">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">measurement_positions</span></span><a class="headerlink" href="#fmdap.pfs.Pfs.measurement_positions" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame with measurement positions</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="fmdap.pfs.Pfs.measurements">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">measurements</span></code><a class="headerlink" href="#fmdap.pfs.Pfs.measurements" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.measurements">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">measurements</span></span><a class="headerlink" href="#fmdap.pfs.Pfs.measurements" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame with measurements</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="fmdap.pfs.Pfs.model_errors">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">model_errors</span></code><a class="headerlink" href="#fmdap.pfs.Pfs.model_errors" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.model_errors">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">model_errors</span></span><a class="headerlink" href="#fmdap.pfs.Pfs.model_errors" title="Permalink to this definition">¶</a></dt>
 <dd><p>DataFrame with model errors</p>
 </dd></dl>
 
-<dl class="py method">
-<dt id="fmdap.pfs.Pfs.sections">
-<em class="property"><span class="pre">property</span> </em><code class="sig-name descname"><span class="pre">sections</span></code><a class="headerlink" href="#fmdap.pfs.Pfs.sections" title="Permalink to this definition">¶</a></dt>
+<dl class="py property">
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.sections">
+<em class="property"><span class="pre">property</span> </em><span class="sig-name descname"><span class="pre">sections</span></span><a class="headerlink" href="#fmdap.pfs.Pfs.sections" title="Permalink to this definition">¶</a></dt>
 <dd><p>List of the DA Pfs sections</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="fmdap.pfs.Pfs.validate_positions">
-<em class="property"><span class="pre">classmethod</span> </em><code class="sig-name descname"><span class="pre">validate_positions</span></code><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.pfs.Pfs.validate_positions" title="Permalink to this definition">¶</a></dt>
+<dt class="sig sig-object py" id="fmdap.pfs.Pfs.validate_positions">
+<em class="property"><span class="pre">classmethod</span> </em><span class="sig-name descname"><span class="pre">validate_positions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mesh</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.pfs.Pfs.validate_positions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine if positions are inside mesh and find nearest cell centers</p>
 </dd></dl>
 
@@ -353,7 +357,7 @@
         
         </div>
     </div>
-    <footer class="footer mt-5 mt-md-0">
+    <footer class="footer">
     <div class="container">
       <p>
         
