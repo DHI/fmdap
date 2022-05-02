@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from mikeio.spatial import dist_in_meters
+from mikeio.spatial.utils import dist_in_meters
 from mikeio import Dfsu
 from scipy.optimize import curve_fit
 
@@ -26,7 +26,7 @@ def _dist_corrcoef_to_array(dist, cc):
 
 def get_distance_and_corrcoef(dfs, item=0, n_sample=100):
     """Calculate pairwise distances and correlations from sample of point in dfs file"""
-    assert isinstance(dfs, Dfsu)
+    # assert isinstance(dfs, Dfsu)
 
     elem_ids = None
     if n_sample is not None and n_sample < dfs.n_elements:
@@ -37,7 +37,7 @@ def get_distance_and_corrcoef(dfs, item=0, n_sample=100):
     dd = _pairwise_distance(ec, is_geo=dfs.is_geo)
 
     ds = dfs.read(items=[item], elements=elem_ids)[0]
-    cc = np.corrcoef(ds.T)
+    cc = np.corrcoef(ds.values.T)
 
     return _dist_corrcoef_to_array(dd, cc)
 
@@ -59,4 +59,3 @@ def fit_gaussian(x, values, max_dist=None):
 
 
 #
-
