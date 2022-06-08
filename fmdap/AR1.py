@@ -1,7 +1,7 @@
-from statsmodels.tsa.arima.model import ARIMA
-from statsmodels.tsa.arima_process import ArmaProcess
 import numpy as np
 import pandas as pd
+from statsmodels.tsa.arima.model import ARIMA
+from statsmodels.tsa.arima_process import ArmaProcess
 
 
 def phi_to_halflife(phi, dt=1):
