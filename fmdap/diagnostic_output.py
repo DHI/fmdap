@@ -32,7 +32,7 @@ import matplotlib.pyplot as plt
 from statsmodels.distributions.empirical_distribution import ECDF
 from scipy.stats import norm
 
-from mikeio import Dfs0, eum
+import mikeio
 
 # TODO
 # http://www.data-assimilation.net/Documents/sangomaDL6.14.pdf
@@ -54,9 +54,9 @@ def read_diagnostic(filename, name=None):
         filename = ""
         if name is None:
             name = "Diagnostic"
-        items = [eum.ItemInfo(eum.EUMType.Undefined)]
+        items = [mikeio.ItemInfo(mikeio.EUMType.Undefined)]
     else:
-        dfs = Dfs0(filename)
+        dfs = mikeio.open(filename)
         if name is None:
             name = os.path.basename(filename).split(".")[0]
         items = dfs.items
@@ -244,7 +244,10 @@ class DiagnosticDataframe:
         plt.title(f"CDF of {self.name}")
 
     def iplot(
-        self, title=None, ylim=None, **kwargs,
+        self,
+        title=None,
+        ylim=None,
+        **kwargs,
     ):  # pragma: no cover
         import plotly.graph_objects as go
 
@@ -383,7 +386,11 @@ class DiagnosticInnovations(DiagnosticDataframe):
 
 class DiagnosticResults(DiagnosticDataframe):
     def __init__(
-        self, df: pd.DataFrame, type: DiagnosticType, name=None, eumText=None,
+        self,
+        df: pd.DataFrame,
+        type: DiagnosticType,
+        name=None,
+        eumText=None,
     ):
         super().__init__(df, name=name, eumText=eumText)
         self.type = type
@@ -416,7 +423,11 @@ class DiagnosticResults(DiagnosticDataframe):
         self.df[["Mean_State"]].plot(color="0.2", ax=ax)
         if self.has_measurement:
             self.measurement.plot(
-                color="red", marker=".", markersize=8, linestyle="None", ax=ax,
+                color="red",
+                marker=".",
+                markersize=8,
+                linestyle="None",
+                ax=ax,
             )
         ax.set_ylabel(self.eumText)
         ax.set_title(self.name)
@@ -499,21 +510,30 @@ class _DiagnosticIndexMixin:
         """Get a diagnostic object containing no-update and forecast values"""
         df = self.df.iloc[self.idx_forecast | self.idx_no_update]
         return self._output_class(
-            df, type=self.type, name=f"{self.name} forecast", eumText=self.eumText,
+            df,
+            type=self.type,
+            name=f"{self.name} forecast",
+            eumText=self.eumText,
         )
 
     def _get_analysis(self):
         """Get a diagnostic object containing analysis values"""
         df = self.df.iloc[self.idx_analysis]
         return self._output_class(
-            df, type=self.type, name=f"{self.name} analysis", eumText=self.eumText,
+            df,
+            type=self.type,
+            name=f"{self.name} analysis",
+            eumText=self.eumText,
         )
 
     def _get_total_result(self):
         """Get a diagnostic object containing no-update and analysis values"""
         df = self.df.iloc[self.idx_analysis | self.idx_no_update]
         return self._output_class(
-            df, type=self.type, name=f"{self.name} result", eumText=self.eumText,
+            df,
+            type=self.type,
+            name=f"{self.name} result",
+            eumText=self.eumText,
         )
 
     def _get_increment(self):
@@ -523,7 +543,9 @@ class _DiagnosticIndexMixin:
         dfa = self.df[self._member_cols].iloc[self.idx_analysis]
         df_increment = dfa.subtract(dff)
         return DiagnosticIncrements(
-            df_increment, name=f"{self.name} increment", eumText=self.eumText,
+            df_increment,
+            name=f"{self.name} increment",
+            eumText=self.eumText,
         )
 
     @property
@@ -603,7 +625,9 @@ class MeasurementDiagnostic(DiagnosticResults):
         df = self.df.drop(columns="Mean_State").dropna()
         dfi = -df.iloc[:, :-1].sub(df.iloc[:, -1], axis=0)
         return DiagnosticInnovations(
-            dfi, name=f"{self.name} innovation", eumText=self.eumText,
+            dfi,
+            name=f"{self.name} innovation",
+            eumText=self.eumText,
         )
 
     @property
@@ -619,7 +643,7 @@ class MeasurementDiagnostic(DiagnosticResults):
     @property
     def rmse(self):
         resi = self.residual.mean(axis=1).to_numpy()
-        return np.sqrt(np.mean(resi ** 2))
+        return np.sqrt(np.mean(resi**2))
 
     def skill(self, **kwargs):
         return self.comparer.skill(**kwargs)
@@ -743,14 +767,14 @@ def _unit_display_name(name: str) -> str:
 def _get_eum_text(eumType, eumUnit=None):
     if eumType is None:
         return ""
-    if isinstance(eumType, eum.ItemInfo):
+    if isinstance(eumType, mikeio.ItemInfo):
         item = eumType
         eumType = item.type
         eumUnit = item.unit
-    elif not isinstance(eumType, eum.eumType):
+    elif not isinstance(eumType, mikeio.eumType):
         raise TypeError("Input must be either ItemInfo or EumType")
     txt = f"{eumType.display_name}"
-    if eumType != eum.EUMType.Undefined:
+    if eumType != mikeio.EUMType.Undefined:
         unit = eumUnit.display_name
         txt = f"{txt} [{_unit_display_name(unit)}]"
     return txt
