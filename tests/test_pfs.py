@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from mikeio import Mesh
+import mikeio
 from fmdap import Pfs
 
 
@@ -12,7 +12,7 @@ def pfs():
 
 @pytest.fixture
 def mesh():
-    return Mesh("tests/testdata/Oresund_mesh_GEO.mesh")
+    return mikeio.open("tests/testdata/Oresund_mesh_GEO.mesh")
 
 
 def test_dda(pfs):

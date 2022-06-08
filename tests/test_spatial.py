@@ -1,13 +1,13 @@
 import pytest
 import numpy as np
-from mikeio import Dfsu
+import mikeio
 from fmdap import spatial
 
 
 @pytest.fixture
 def dfs():
     wind_file = "tests/testdata/Wind_1hr.dfsu"
-    return Dfsu(wind_file)
+    return mikeio.open(wind_file)
 
 
 def test_pairwise_distance():

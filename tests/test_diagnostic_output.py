@@ -1,10 +1,9 @@
-import re
-import sys, os
+import os
 import numpy as np
+import mikeio
+import pytest
 from fmdap import read_diagnostic
 from fmdap import diagnostic_output as do
-from mikeio import Dfs0
-import pytest
 
 # common
 filename_EnKF = "tests/testdata/Diagnostics_F16_EnKF.dfs0"
@@ -25,7 +24,7 @@ def test_read():
 
 
 def test_read_as_dataframe():
-    df = Dfs0(filename_EnKF).to_dataframe()
+    df = mikeio.open(filename_EnKF).to_dataframe()
     diag = read_diagnostic(df)
     assert diag.df.values[0, 0] == pytest.approx(1.7494647)
     assert diag.df.shape == (744, 12)
@@ -412,4 +411,3 @@ def test_skill_EnKF_alti():
 
     sf = diag.forecast.skill()
     assert sf["rmse"]["alti forecast"] == s["rmse"]["alti forecast"]
-
