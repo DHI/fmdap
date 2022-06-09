@@ -66,7 +66,7 @@ class Pfs:
     def validate_positions(cls, mesh, df):
         """Determine if positions are inside mesh and find nearest cell centers"""
         # TODO: handle empty positions
-        assert isinstance(mesh, (mikeio.Mesh, mikeio.Dfsu))
+        assert isinstance(mesh, (mikeio.Mesh, mikeio.dfsu._Dfsu))
 
         if ("x" in df) and ("y" in df):
             xy = df[["x", "y"]].to_numpy()

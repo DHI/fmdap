@@ -1,14 +1,14 @@
 import pytest
 import numpy as np
 import pandas as pd
-from mikeio import Dfs0
+import mikeio
 from fmdap import AR1
 
 
 @pytest.fixture
 def ts():
     fn = "tests/testdata/eq_ts_with_gaps.dfs0"
-    return Dfs0(fn).to_dataframe()
+    return mikeio.open(fn).to_dataframe()
 
 
 def test_phi_to_halflife():

@@ -1,7 +1,6 @@
 import random
 import numpy as np
 from mikeio.spatial.utils import dist_in_meters
-from mikeio import Dfsu
 from scipy.optimize import curve_fit
 
 
