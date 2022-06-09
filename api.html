@@ -259,7 +259,7 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spatial">
+  <a class="reference internal nav-link" href="#module-fmdap.spatial">
    Spatial
   </a>
  </li>
@@ -303,7 +303,7 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#spatial">
+  <a class="reference internal nav-link" href="#module-fmdap.spatial">
    Spatial
   </a>
  </li>
@@ -381,8 +381,26 @@ title="Print to PDF"
 </dd></dl>
 
 </section>
-<section id="spatial">
-<h2>Spatial<a class="headerlink" href="#spatial" title="Permalink to this headline">#</a></h2>
+<section id="module-fmdap.spatial">
+<span id="spatial"></span><h2>Spatial<a class="headerlink" href="#module-fmdap.spatial" title="Permalink to this headline">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="fmdap.spatial.fit_gaussian">
+<span class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></span><span class="sig-name descname"><span class="pre">fit_gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">values</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_dist</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.fit_gaussian" title="Permalink to this definition">#</a></dt>
+<dd><p>Fit the Gaussian distance function to data</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fmdap.spatial.gaussian">
+<span class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></span><span class="sig-name descname"><span class="pre">gaussian</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spatial_corr</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.gaussian" title="Permalink to this definition">#</a></dt>
+<dd><p>Gaussian distance function with value 1 at 0 and zero mean</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="fmdap.spatial.get_distance_and_corrcoef">
+<span class="sig-prename descclassname"><span class="pre">fmdap.spatial.</span></span><span class="sig-name descname"><span class="pre">get_distance_and_corrcoef</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">item</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">n_sample</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.spatial.get_distance_and_corrcoef" title="Permalink to this definition">#</a></dt>
+<dd><p>Calculate pairwise distances and correlations from sample of point in dfs file</p>
+</dd></dl>
+
 </section>
 <section id="pfs">
 <h2>Pfs<a class="headerlink" href="#pfs" title="Permalink to this headline">#</a></h2>
