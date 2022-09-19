@@ -79,8 +79,8 @@ class Pfs:
             )
 
         inside = mesh.contains(xy)
-        elemid, dist = mesh.find_nearest_elements(xy, return_distances=True)
-        new_positions = mesh.element_coordinates[elemid, :2]
+        elemid, dist = mesh.geometry.find_nearest_elements(xy, return_distances=True)
+        new_positions = mesh.geometry.element_coordinates[elemid, :2]
 
         df2 = pd.DataFrame(index=df.index)
         if "name" in df:
