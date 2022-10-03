@@ -15,7 +15,7 @@ setuptools.setup(
         "matplotlib",
         "scipy",
         "statsmodels",
-        "mikeio >= 1.0",
+        "mikeio==1.2rc0", # TODO change
         "fmskill >= 0.3.3",
     ],
     extras_require={
