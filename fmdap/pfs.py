@@ -27,7 +27,7 @@ class Pfs:
                 warnings.simplefilter("ignore")
                 pfs = mikeio.Pfs(pfs_file)
             self.data = pfs.data  # NestedNamespace
-            self.d = pfs._data  # dictionary
+            self.d = pfs.data.to_dict()  # dictionary
 
     @property
     def dda(self):

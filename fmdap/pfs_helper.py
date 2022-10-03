@@ -8,7 +8,7 @@ def pfs2dict(pfs_file):
     #         pfs = f.read()
     # y = pfs2yaml(pfs)
     # d = pfs2yaml.pfs2dict(pfs)
-    d = Pfs(pfs_file)._data
+    d = Pfs(pfs_file).data.to_dict()
     return d
 
 
