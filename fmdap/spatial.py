@@ -18,16 +18,8 @@ def _dist_corrcoef_to_array(dist, cc):
     """Take unique values from distance and corrcoef"""
     dd = np.triu(dist, 1).flatten()
     cc = np.triu(cc, 1).flatten()
-    ok = dd > 0
-    # np.argsort()
-    #Pop nan values in cc (eg. from frozen/ice elements) that will later affect the gaussian fit
-    cc_return=cc[ok]
-    dd_return=dd[ok]
-    nan_index=np.argwhere(np.isnan(cc_return))
-    cc_return=np.delete(cc_return,nan_index) #Pop nans
-    dd_return=np.delete(dd_return,nan_index) #Pop nans
-
-    return dd_return, cc_return
+    ok = np.logical_and(dd > 0, ~np.isnan(cc))
+    return dd[ok], cc[ok]   
 
 
 def get_distance_and_corrcoef(dfs, item=0, n_sample=100):
