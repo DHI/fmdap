@@ -9,6 +9,10 @@ def dfs():
     wind_file = "tests/testdata/Wind_1hr.dfsu"
     return mikeio.open(wind_file)
 
+@pytest.fixture
+def dfs_nan():
+    wind_file = "tests/testdata/Wind_1hr_nans.dfsu"
+    return mikeio.open(wind_file)
 
 def test_pairwise_distance():
     ec = np.array([[0.0, 0.0], [1.0, 0.0], [0.0, 1.0]])
@@ -19,9 +23,14 @@ def test_pairwise_distance():
     assert d[1, 0] == 1.0
 
 
-def test_get_distance_and_corrcoef(dfs):
+def test_get_distance_and_corrcoef(dfs,dfs_nan):
     d, cc = spatial.get_distance_and_corrcoef(dfs, n_sample=20)
     assert len(d) == 190
+    assert np.all(d > 0)
+    assert np.all(cc > 0)
+    #test dfsu with nans and make sure it grabs a sample that comprises nans
+    d, cc = spatial.get_distance_and_corrcoef(dfs_nan, n_sample=950)
+    assert len(d) == 433846
     assert np.all(d > 0)
     assert np.all(cc > 0)
 
