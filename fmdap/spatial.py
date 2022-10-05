@@ -18,9 +18,8 @@ def _dist_corrcoef_to_array(dist, cc):
     """Take unique values from distance and corrcoef"""
     dd = np.triu(dist, 1).flatten()
     cc = np.triu(cc, 1).flatten()
-    ok = dd > 0
-    # np.argsort()
-    return dd[ok], cc[ok]
+    ok = np.logical_and(dd > 0, ~np.isnan(cc))
+    return dd[ok], cc[ok]   
 
 
 def get_distance_and_corrcoef(dfs, item=0, n_sample=100):
