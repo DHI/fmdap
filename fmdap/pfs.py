@@ -5,15 +5,6 @@ import pandas as pd
 import mikeio
 
 
-# class PfsSection(dict):
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args, **kwargs)
-#         self.__dict__ = self
-
-#     def __getattr__(self, key):
-#         return self.get(key.upper())
-
-
 class Pfs:
     def __init__(self, pfs_file=None) -> None:
         self.d = None
@@ -26,8 +17,8 @@ class Pfs:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
                 pfs = mikeio.Pfs(pfs_file)
-            self.data = pfs.data  # NestedNamespace
-            self.d = pfs._data  # dictionary
+            self.data = pfs.data  # PfsSection
+            self.d = pfs.data.to_dict()  # dictionary
 
     @property
     def dda(self):

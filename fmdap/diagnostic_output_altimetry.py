@@ -393,7 +393,8 @@ class DiagnosticOutputAltimetry:
             filename -- path to the dfs0 file
         """
         self.msh = mikeio.open(file_mesh)
-        self.nc1 = self.msh.get_node_coords(code=1)
+        # self.nc1 = self.msh.get_node_coords(code=1)
+        self.nc1 = self.msh.node_coordinates[self.msh.geometry.codes == 1]
 
     def plot_track(self, track_id):
         dfsub = self.dfda[self.dfda.track_id == track_id]
