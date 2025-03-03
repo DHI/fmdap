@@ -8,7 +8,7 @@ with open("LICENSE") as fh:
 
 setuptools.setup(
     name="fmdap",
-    version="0.1.dev4",
+    version="0.2.dev0",
     install_requires=[
         "numpy",
         "pandas",
@@ -16,7 +16,7 @@ setuptools.setup(
         "scipy",
         "statsmodels",
         "mikeio>=1.2.0",
-        "fmskill >= 0.3.3",
+        "modelskill",
     ],
     extras_require={
         "dev": [

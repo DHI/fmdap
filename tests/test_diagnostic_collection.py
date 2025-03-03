@@ -13,7 +13,7 @@ def fldr_and_pfs():
 @pytest.fixture
 def dc_free1(fldr_and_pfs):
     fldr, fn = fldr_and_pfs
-    return DiagnosticCollection.from_pfs(fn, folder=fldr)
+    return DiagnosticCollection.from_PfsDocument(fn, folder=fldr)
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def fldr_and_pfs_EnKF10():
 @pytest.fixture
 def dc_EnKF10(fldr_and_pfs_EnKF10):
     fldr, fn = fldr_and_pfs_EnKF10
-    return DiagnosticCollection.from_pfs(fn, folder=fldr)
+    return DiagnosticCollection.from_PfsDocument(fn, folder=fldr)
 
 
 def test_repr(dc_free1):
@@ -112,7 +112,7 @@ def test_query(dc_EnKF10):
 
 def test_skill(dc_EnKF10):
     dc = dc_EnKF10
-    s = dc.skill()
+    s = dc.skill().to_dataframe()
     assert s.loc["Barsebaeck", "result"].rmse == pytest.approx(0.0351065)
     assert s.loc["Barsebaeck", "analysis"].bias == pytest.approx(-0.021444086)
     assert s.loc["Klagshamn", "forecast"].n == 97
@@ -140,11 +140,11 @@ def test_rmse(dc_EnKF10):
 def test_bias(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.bias) == 6
-    assert dc.bias.loc["Drogden"][0] == pytest.approx(-0.005636754)
+    assert dc.bias.loc["Drogden"].iloc[0] == pytest.approx(-0.005636754)
 
 
 def test_ensemble_std(dc_EnKF10):
     dc = dc_EnKF10
     assert len(dc.ensemble_std) == 6
     assert np.all(dc.ensemble_std > 0)
-    assert dc.ensemble_std.loc["Viken"][0] == pytest.approx(0.01299819)
+    assert dc.ensemble_std.loc["Viken"].iloc[0] == pytest.approx(0.01299819)

@@ -16,9 +16,8 @@ class Pfs:
         if pfs_file:
             with warnings.catch_warnings():
                 warnings.simplefilter("ignore")
-                pfs = mikeio.Pfs(pfs_file)
-            self.data = pfs.data  # PfsSection
-            self.d = pfs.data.to_dict()  # dictionary
+                pfs = mikeio.PfsDocument(pfs_file)
+            self.d = pfs.FemEngineHD.to_dict()  # dictionary
 
     @property
     def dda(self):
@@ -57,7 +56,7 @@ class Pfs:
     def validate_positions(cls, mesh, df):
         """Determine if positions are inside mesh and find nearest cell centers"""
         # TODO: handle empty positions
-        assert isinstance(mesh, (mikeio.Mesh, mikeio.dfsu._Dfsu))
+        assert isinstance(mesh, (mikeio.Mesh, mikeio.Dfsu2DH))
 
         if ("x" in df) and ("y" in df):
             xy = df[["x", "y"]].to_numpy()
@@ -69,7 +68,7 @@ class Pfs:
                 "Could not find 'x', 'y' or 'position' columns in DataFrame"
             )
 
-        inside = mesh.contains(xy)
+        inside = mesh.geometry.contains(xy)
         elemid, dist = mesh.geometry.find_nearest_elements(xy, return_distances=True)
         new_positions = mesh.geometry.element_coordinates[elemid, :2]
 

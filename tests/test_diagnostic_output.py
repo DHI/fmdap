@@ -391,23 +391,23 @@ def test_increment_OI():
 
 def test_skill_EnKF():
     diag = read_diagnostic(filename_EnKF, name="F16")
-    s = diag.skill()
+    s = diag.skill().to_dataframe()
     assert s["rmse"]["F16 analysis"] == pytest.approx(0.4192413)
     assert s["rmse"]["F16 forecast"] == pytest.approx(0.3935569)
 
-    sa = diag.analysis.skill()
+    sa = diag.analysis.skill().to_dataframe()
     assert sa["rmse"]["F16 analysis"] == s["rmse"]["F16 analysis"]
 
-    sf = diag.forecast.skill()
+    sf = diag.forecast.skill().to_dataframe()
     assert sf["rmse"]["F16 forecast"] == s["rmse"]["F16 forecast"]
 
 
 def test_skill_EnKF_alti():
     diag = read_diagnostic(filename_EnKF_alti, name="alti")
-    s = diag.skill()
+    s = diag.skill().to_dataframe()
 
-    sa = diag.analysis.skill()
+    sa = diag.analysis.skill().to_dataframe()
     assert sa["rmse"]["alti analysis"] == s["rmse"]["alti analysis"]
 
-    sf = diag.forecast.skill()
+    sf = diag.forecast.skill().to_dataframe()
     assert sf["rmse"]["alti forecast"] == s["rmse"]["alti forecast"]

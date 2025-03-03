@@ -649,7 +649,7 @@ class MeasurementDiagnostic(DiagnosticResults):
         return self.comparer.skill(**kwargs)
 
     def scatter(self, **kwargs):
-        return self.comparer.scatter(**kwargs)
+        return self.comparer.plot.scatter(**kwargs)
 
     @property
     def comparer(self):
@@ -658,24 +658,20 @@ class MeasurementDiagnostic(DiagnosticResults):
         return self._comparer
 
     def _get_comparer(self):
-        import fmskill
+        import modelskill as ms
 
         if self.is_point:
-            mod = fmskill.ModelResult(self.df[["Mean_State"]])
-            obs = fmskill.PointObservation(self.df[["Measurement"]], name=self.name)
+            mod = ms.model_result(self.df[["Mean_State"]])
+            obs = ms.PointObservation(self.df[["Measurement"]], name=self.name)
         else:
             df = self.df.reset_index(["x", "y"])
-            mod = fmskill.ModelResult(df[["x", "y", "Mean_State"]], type="track")
-            obs = fmskill.TrackObservation(
+            mod = ms.TrackModelResult(df[["x", "y", "Mean_State"]])
+            obs = ms.TrackObservation(
                 df[["x", "y", "Measurement"]], name=self.name
             )
 
-        con = fmskill.Connector(obs, mod)
-        cc = con.extract()
-        if (cc is None) or (len(cc) == 0):
-            return cc  # None
-        else:
-            return cc[0]
+        return ms.match(obs,mod)
+        
 
 
 class MeasurementPointDiagnostic(_DiagnosticIndexMixin, MeasurementDiagnostic):
