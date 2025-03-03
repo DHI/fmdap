@@ -7,18 +7,7 @@ import mikeio
 
 
 class DiagnosticOutputAltimetry:
-    dfd = None  # dataframe of diagnostic data
-    dfo = None  # dataframe of observations
-    dfda = None  # dataframe of DA steps
-    dfqa = None  # dataframe of non-DA steps
-    is_DA = None
-    nc1 = None  # boundary nodes
-    msh = None  # model mesh
-
-    def __init__(self):
-        self._dfs = None
-
-    def read(self, file_diag, file_obs, obs_col_name="adt_dhi"):
+    def __init__(self, file_diag, file_obs, obs_col_name="adt_dhi"):
         """Read diagnostic output dfs0 and associated observation dfs0 and store as data frames
 
         Arguments:
