@@ -29,7 +29,7 @@ class DiagnosticCollection(Mapping):
             self.add_diagnostics(diagnostics, names, attrs)
 
     @classmethod
-    def from_PfsDocument(cls, pfs_file, folder=None, types=[1, 2]):
+    def from_pfs(cls, pfs_file, folder=None, types=[1, 2]):
         df, DA_type = cls._parse_PfsDocument(pfs_file, types)
         df = cls._check_file_existance(df, folder)
         dc = cls()

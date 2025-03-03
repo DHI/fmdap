@@ -13,7 +13,7 @@ def fldr_and_pfs():
 @pytest.fixture
 def dc_free1(fldr_and_pfs):
     fldr, fn = fldr_and_pfs
-    return DiagnosticCollection.from_PfsDocument(fn, folder=fldr)
+    return DiagnosticCollection.from_pfs(fn, folder=fldr)
 
 
 @pytest.fixture
@@ -26,7 +26,7 @@ def fldr_and_pfs_EnKF10():
 @pytest.fixture
 def dc_EnKF10(fldr_and_pfs_EnKF10):
     fldr, fn = fldr_and_pfs_EnKF10
-    return DiagnosticCollection.from_PfsDocument(fn, folder=fldr)
+    return DiagnosticCollection.from_pfs(fn, folder=fldr)
 
 
 def test_repr(dc_free1):
