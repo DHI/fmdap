@@ -33,7 +33,7 @@ dev = [
     "sphinx-book-theme",
     "shapely",
     "plotly >= 4.5",
-    "ruff",
+    "ruff==0.11.0",
 ]
 test = ["pytest", "shapely"]
 notebooks = ["nbformat", "nbconvert", "jupyter", "plotly"]
