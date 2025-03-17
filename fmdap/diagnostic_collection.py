@@ -4,7 +4,6 @@ import numpy as np
 import warnings
 import pandas as pd
 import mikeio
-import modelskill as ms
 import fmdap.diagnostic_output
 from fmdap import pfs_helper as pfs
 

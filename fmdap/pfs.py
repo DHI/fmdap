@@ -1,6 +1,4 @@
-# from collections import namedtuple
 from pathlib import Path
-import warnings
 import numpy as np
 import pandas as pd
 import mikeio
@@ -15,8 +13,6 @@ class Pfs:
         self._diagnostics = None
 
         if pfs_file:
-            # with warnings.catch_warnings():
-            #    warnings.simplefilter("ignore")
             pfs = mikeio.PfsDocument(pfs_file)
             self.d = pfs.targets[0].to_dict()
 
