@@ -39,13 +39,12 @@ def estimate_AR1_halflife(df):
     try:
         dt = pd.Timedelta(df.index.freq).total_seconds()
         # dt = pd.infer_freq(df.index).delta.seconds
-    except:
+    except:  # noqa
         dt = 1.0
     return phi_to_halflife(phi, dt=dt)
 
 
 def simulate_AR1(*, phi=None, halflife=None, st_dev=1, index=None, n_sample=1000):
-
     dt = 1
     if index is not None:
         assert isinstance(index, pd.DatetimeIndex)
@@ -57,7 +56,7 @@ def simulate_AR1(*, phi=None, halflife=None, st_dev=1, index=None, n_sample=1000
             raise ValueError("Either 'phi' or 'halflife' must be provided")
         phi = halflife_to_phi(halflife, dt=dt)
 
-    st_dev = st_dev * np.sqrt(1 - phi ** 2)
+    st_dev = st_dev * np.sqrt(1 - phi**2)
     ar_coeff = np.array([1, -phi])
     AR1_process = ArmaProcess(ar_coeff, ma=None)
     simulated_AR1 = st_dev * AR1_process.generate_sample(nsample=n_sample)

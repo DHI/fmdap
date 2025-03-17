@@ -102,7 +102,7 @@ class DiagnosticCollection(Mapping):
             )
         df["file_name"] = file_name
 
-        return df[file_exists == True]
+        return df[file_exists]
 
     def add_diagnostics(self, diagnostics, names=None, attrs=None):
         # TODO: take single file, folder, files with wildcard
@@ -336,7 +336,6 @@ class DiagnosticCollection(Mapping):
 
     def iplot(self, title=None, **kwargs):  # pragma: no cover
         from plotly.subplots import make_subplots
-        import plotly.graph_objects as go
 
         nrows = len(self)
         if nrows == 1:
@@ -358,8 +357,6 @@ class DiagnosticCollection(Mapping):
 
     @staticmethod
     def _iplot_add_subplot(fig, row, diag):  # pragma: no cover
-        import plotly.graph_objects as go
-
         n_members = diag.n_members
         df = diag.df
 
