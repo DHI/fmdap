@@ -1,322 +1,392 @@
 
 <!DOCTYPE html>
 
-<html>
+
+<html lang="en" data-content_root="./" >
+
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <title>Diagnostic Output &#8212; FMDAp  documentation</title>
-    
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
-<link href="_static/styles/pydata-sphinx-theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    
-  <link rel="stylesheet"
-    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin
-    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
-    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
-    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+  
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf">
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
-    <script src="_static/jquery.js"></script>
-    <script src="_static/underscore.js"></script>
-    <script src="_static/doctools.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9bcbadda"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'diagnostic_output';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="API Documentation" href="api.html" />
     <link rel="prev" title="Vision" href="vision.html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="docsearch:language" content="None">
-    
-
-    <!-- Google Analytics -->
-    
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
   </head>
-  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="60">
-<!-- Checkboxes to toggle the left sidebar -->
-<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation" aria-label="Toggle navigation sidebar">
-<label class="overlay overlay-navbar" for="__navigation">
-    <div class="visually-hidden">Toggle navigation sidebar</div>
-</label>
-<!-- Checkboxes to toggle the in-page toc -->
-<input type="checkbox" class="sidebar-toggle" name="__page-toc" id="__page-toc" aria-label="Toggle in-page Table of Contents">
-<label class="overlay overlay-pagetoc" for="__page-toc">
-    <div class="visually-hidden">Toggle in-page Table of Contents</div>
-</label>
-<!-- Headers at the top -->
-<div class="announcement header-item noprint"></div>
-<div class="header header-item noprint"></div>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
 
-    
-    <div class="container-fluid" id="banner"></div>
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
-    
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search..."
+         aria-label="Search..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
 
-    <div class="container-xl">
-      <div class="row">
-          
-<!-- Sidebar -->
-<div class="bd-sidebar noprint" id="site-navigation">
-    <div class="bd-sidebar__content">
-        <div class="bd-sidebar__top"><div class="navbar-brand-box">
-    <a class="navbar-brand text-wrap" href="index.html">
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
       
-        <!-- `logo` is deprecated in Sphinx 4.0, so remove this when we stop supporting 3 -->
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
         
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    
+    
       
-      
-      <img src="_static/mike-fm-dap-rgb.svg" class="logo" alt="logo">
-      
-      
-      <h1 class="site-logo" id="site-title">FMDAp  documentation</h1>
-      
-    </a>
-</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
-  <i class="icon fas fa-search"></i>
-  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
-</form><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
-    <div class="bd-toc-item active">
-        <p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Contents:
- </span>
-</p>
+    
+    
+    <img src="_static/mike-fm-dap-rgb.svg" class="logo__image only-light" alt="FMDAp  documentation - Home"/>
+    <script>document.write(`<img src="_static/mike-fm-dap-rgb.svg" class="logo__image only-dark" alt="FMDAp  documentation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="overview.html">
-   Overview
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="vision.html">
-   Vision
-  </a>
- </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Diagnostic Output
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="api.html">
-   API Documentation
-  </a>
- </li>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="vision.html">Vision</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Diagnostic Output</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Documentation</a></li>
 </ul>
 
     </div>
 </nav></div>
-        <div class="bd-sidebar__bottom">
-             <!-- To handle the deprecated key -->
-            
-            <div class="navbar_extra_footer">
-            Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
-            </div>
-            
-        </div>
     </div>
-    <div id="rtd-footer-container"></div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/diagnostic_output.rst" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.rst</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
 </div>
 
 
-          
 
 
-          
-<!-- A tiny helper pixel to detect if we've scrolled -->
-<div class="sbt-scroll-pixel-helper"></div>
-<!-- Main content -->
-<div class="col py-0 content-container">
-    
-    <div class="header-article row sticky-top noprint">
-        
-
-
-
-<div class="col py-1 d-flex header-article-main">
-    <div class="header-article__left">
-        
-        <label for="__navigation"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="right"
-title="Toggle navigation"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-bars"></i>
-  </span>
-
-</label>
-
-        
-    </div>
-    <div class="header-article__right">
 <button onclick="toggleFullScreen()"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="bottom"
-title="Fullscreen mode"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
 >
   
 
-<span class="headerbtn__icon-container">
+<span class="btn__icon-container">
   <i class="fas fa-expand"></i>
   </span>
 
 </button>
 
-<div class="menu-dropdown menu-dropdown-download-buttons">
-  <button class="headerbtn menu-dropdown__trigger"
-      aria-label="Download this page">
-      <i class="fas fa-download"></i>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
-  <div class="menu-dropdown__content">
-    <ul>
-      <li>
-        <a href="_sources/diagnostic_output.rst.txt"
-   class="headerbtn"
-   data-toggle="tooltip"
-data-placement="left"
-title="Download source file"
->
-  
+`);
+</script>
 
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file"></i>
-  </span>
-<span class="headerbtn__text-container">.rst</span>
-</a>
 
-      </li>
-      
-      <li>
-        
-<button onclick="printPdf(this)"
-  class="headerbtn"
-  data-toggle="tooltip"
-data-placement="left"
-title="Print to PDF"
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-file-pdf"></i>
-  </span>
-<span class="headerbtn__text-container">.pdf</span>
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
 </button>
-
-      </li>
+</div></div>
       
-    </ul>
-  </div>
-</div>
-<label for="__page-toc"
-  class="headerbtn headerbtn-page-toc"
+    </div>
   
->
-  
-
-<span class="headerbtn__icon-container">
-  <i class="fas fa-list"></i>
-  </span>
-
-</label>
-
-    </div>
 </div>
-
-<!-- Table of contents -->
-<div class="col-md-3 bd-toc show noprint">
-    <div class="tocsection onthispage pt-5 pb-3">
-        <i class="fas fa-list"></i> Contents
-    </div>
-    <nav id="bd-toc-nav" aria-label="Page">
-        <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#main-properties">
-   Main Properties
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#main-properties-for-files-without-updates">
-   Main Properties for files without updates
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#diagnostic-collection">
-   Diagnostic Collection
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-fmdap.diagnostic_output">
-   API
-  </a>
- </li>
-</ul>
-
-    </nav>
 </div>
-    </div>
-    <div class="article row">
-        <div class="col pl-md-3 pl-lg-5 content-container">
-            <!-- Table of contents that is only displayed when printing the page -->
-            <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Diagnostic Output</h1>
-                <!-- Table of contents -->
-                <div id="print-main-content">
-                    <div id="jb-print-toc">
-                        
-                        <div>
-                            <h2> Contents </h2>
-                        </div>
-                        <nav aria-label="Page">
-                            <ul class="visible nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#main-properties">
-   Main Properties
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#main-properties-for-files-without-updates">
-   Main Properties for files without updates
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#diagnostic-collection">
-   Diagnostic Collection
-  </a>
- </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#module-fmdap.diagnostic_output">
-   API
-  </a>
- </li>
-</ul>
+              
+              
 
-                        </nav>
-                    </div>
-                </div>
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Diagnostic Output</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
             </div>
-            <main id="main-content" role="main">
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-properties">Main Properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-properties-for-files-without-updates">Main Properties for files without updates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostic-collection">Diagnostic Collection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-fmdap.diagnostic_output">API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType"><code class="docutils literal notranslate"><span class="pre">DiagnosticType</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.as_integer_ratio"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.as_integer_ratio()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.bit_count"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.bit_count()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.bit_length"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.bit_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.conjugate"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.conjugate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.denominator"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.denominator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.from_bytes"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.from_bytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.imag"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.imag</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.is_integer"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.is_integer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.numerator"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.numerator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.real"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.real</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.to_bytes"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.to_bytes()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.has_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.has_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.hist"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.hist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_analysis"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.idx_analysis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_forecast"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.idx_forecast</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_no_update"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.idx_no_update</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.innovation"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.innovation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.n_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.n_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.time"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.values"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.has_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.has_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.hist"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.hist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_analysis"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.idx_analysis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_forecast"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.idx_forecast</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_no_update"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.idx_no_update</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.innovation"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.innovation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.n_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.n_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.time"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.values"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.has_updates"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.has_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.hist"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.hist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_analysis"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.idx_analysis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_forecast"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.idx_forecast</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_no_update"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.idx_no_update</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.n_updates"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.n_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.time"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.values"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.read_diagnostic"><code class="docutils literal notranslate"><span class="pre">read_diagnostic()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.get"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.get()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.items"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.items()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.keys"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.keys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.values"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
                 
-              <div>
-                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
   <section id="diagnostic-output">
-<span id="id1"></span><h1>Diagnostic Output<a class="headerlink" href="#diagnostic-output" title="Permalink to this headline">#</a></h1>
+<span id="id1"></span><h1>Diagnostic Output<a class="headerlink" href="#diagnostic-output" title="Link to this heading">#</a></h1>
 <section id="main-properties">
-<h2>Main Properties<a class="headerlink" href="#main-properties" title="Permalink to this headline">#</a></h2>
+<h2>Main Properties<a class="headerlink" href="#main-properties" title="Link to this heading">#</a></h2>
 <p>The data in a diagnostics file can be categorized as</p>
 <ol class="arabic simple" start="0">
 <li><p><em>non</em>-update step</p></li>
@@ -340,7 +410,7 @@ similar functionality as the diagnostic object: min(), max(),
 std(), plot(), hist(), …</p>
 </section>
 <section id="main-properties-for-files-without-updates">
-<h2>Main Properties for files without updates<a class="headerlink" href="#main-properties-for-files-without-updates" title="Permalink to this headline">#</a></h2>
+<h2>Main Properties for files without updates<a class="headerlink" href="#main-properties-for-files-without-updates" title="Link to this heading">#</a></h2>
 <p>If the diagnostic files stem from a <strong>non-DA</strong> simulation
 it will only contain <em>non</em>-update steps (0). The object will therefore
 only contain:</p>
@@ -352,12 +422,12 @@ only contain:</p>
 <p>And <cite>forecast</cite> = <cite>result</cite>.</p>
 </section>
 <section id="diagnostic-collection">
-<h2>Diagnostic Collection<a class="headerlink" href="#diagnostic-collection" title="Permalink to this headline">#</a></h2>
+<h2>Diagnostic Collection<a class="headerlink" href="#diagnostic-collection" title="Link to this heading">#</a></h2>
 <p>It’s often convenient to load all diagnostic files from a simulation
 using FMDAp’s DiagnosticCollection. It can done with the</p>
 </section>
 <section id="module-fmdap.diagnostic_output">
-<span id="api"></span><h2>API<a class="headerlink" href="#module-fmdap.diagnostic_output" title="Permalink to this headline">#</a></h2>
+<span id="api"></span><h2>API<a class="headerlink" href="#module-fmdap.diagnostic_output" title="Link to this heading">#</a></h2>
 <p>The <cite>diagnostic_output</cite> module contains methods and classes for
 working with MIKE FM DA diagnostic outputs.</p>
 <p>The entrance point is always the <cite>read_diagnostic()</cite> method which
@@ -368,7 +438,7 @@ will return a specialized object depending on the type of diagnostic output.</p>
 <p><a class="reference internal" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic" title="fmdap.diagnostic_output.MeasurementPointDiagnostic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic</span></code></a>, <a class="reference internal" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic" title="fmdap.diagnostic_output.MeasurementDistributedDiagnostic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic</span></code></a>, <a class="reference internal" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic" title="fmdap.diagnostic_output.NonMeasurementPointDiagnostic"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic</span></code></a>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">GlobalAssimilationDiagnostic</span></code></p>
 </div>
 <p class="rubric">Examples</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">fmdap</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span><span class="w"> </span><span class="nn">fmdap</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span> <span class="o">=</span> <span class="n">fmdap</span><span class="o">.</span><span class="n">read_diagnostic</span><span class="p">(</span><span class="s2">&quot;Diagnostics_Drogden_OI.dfs0&quot;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Drogden&quot;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">increment</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">d</span><span class="o">.</span><span class="n">analysis</span><span class="o">.</span><span class="n">innovation</span><span class="o">.</span><span class="n">hist</span><span class="p">()</span>
@@ -377,25 +447,143 @@ will return a specialized object depending on the type of diagnostic output.</p>
 </div>
 <dl class="py class">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">DiagnosticType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType" title="Permalink to this definition">#</a></dt>
-<dd><p>An enumeration.</p>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">DiagnosticType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.as_integer_ratio">
+<span class="sig-name descname"><span class="pre">as_integer_ratio</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.as_integer_ratio" title="Link to this definition">#</a></dt>
+<dd><p>Return a pair of integers, whose ratio is equal to the original int.</p>
+<p>The ratio is in lowest terms and has a positive denominator.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">as_integer_ratio</span><span class="p">()</span>
+<span class="go">(10, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">as_integer_ratio</span><span class="p">()</span>
+<span class="go">(-10, 1)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">as_integer_ratio</span><span class="p">()</span>
+<span class="go">(0, 1)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.bit_count">
+<span class="sig-name descname"><span class="pre">bit_count</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.bit_count" title="Link to this definition">#</a></dt>
+<dd><p>Number of ones in the binary representation of the absolute value of self.</p>
+<p>Also known as the population count.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">bin</span><span class="p">(</span><span class="mi">13</span><span class="p">)</span>
+<span class="go">&#39;0b1101&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">13</span><span class="p">)</span><span class="o">.</span><span class="n">bit_count</span><span class="p">()</span>
+<span class="go">3</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.bit_length">
+<span class="sig-name descname"><span class="pre">bit_length</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.bit_length" title="Link to this definition">#</a></dt>
+<dd><p>Number of bits necessary to represent self in binary.</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">bin</span><span class="p">(</span><span class="mi">37</span><span class="p">)</span>
+<span class="go">&#39;0b100101&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="p">(</span><span class="mi">37</span><span class="p">)</span><span class="o">.</span><span class="n">bit_length</span><span class="p">()</span>
+<span class="go">6</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.conjugate">
+<span class="sig-name descname"><span class="pre">conjugate</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.conjugate" title="Link to this definition">#</a></dt>
+<dd><p>Returns self, the complex conjugate of any int.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.denominator">
+<span class="sig-name descname"><span class="pre">denominator</span></span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.denominator" title="Link to this definition">#</a></dt>
+<dd><p>the denominator of a rational number in lowest terms</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.from_bytes">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bytes</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byteorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'big'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.from_bytes" title="Link to this definition">#</a></dt>
+<dd><p>Return the integer represented by the given array of bytes.</p>
+<dl class="simple">
+<dt>bytes</dt><dd><p>Holds the array of bytes to convert.  The argument must either
+support the buffer protocol or be an iterable object producing bytes.
+Bytes and bytearray are examples of built-in objects that support the
+buffer protocol.</p>
+</dd>
+<dt>byteorder</dt><dd><p>The byte order used to represent the integer.  If byteorder is ‘big’,
+the most significant byte is at the beginning of the byte array.  If
+byteorder is ‘little’, the most significant byte is at the end of the
+byte array.  To request the native byte order of the host system, use
+sys.byteorder as the byte order value.  Default is to use ‘big’.</p>
+</dd>
+<dt>signed</dt><dd><p>Indicates whether two’s complement is used to represent the integer.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.imag">
+<span class="sig-name descname"><span class="pre">imag</span></span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.imag" title="Link to this definition">#</a></dt>
+<dd><p>the imaginary part of a complex number</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.is_integer">
+<span class="sig-name descname"><span class="pre">is_integer</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.is_integer" title="Link to this definition">#</a></dt>
+<dd><p>Returns True. Exists for duck type compatibility with float.is_integer.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.numerator">
+<span class="sig-name descname"><span class="pre">numerator</span></span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.numerator" title="Link to this definition">#</a></dt>
+<dd><p>the numerator of a rational number in lowest terms</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.real">
+<span class="sig-name descname"><span class="pre">real</span></span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.real" title="Link to this definition">#</a></dt>
+<dd><p>the real part of a complex number</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_output.DiagnosticType.to_bytes">
+<span class="sig-name descname"><span class="pre">to_bytes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">length</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">byteorder</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'big'</span></span></em>, <em class="sig-param"><span class="keyword-only-separator o"><abbr title="Keyword-only parameters separator (PEP 3102)"><span class="pre">*</span></abbr></span></em>, <em class="sig-param"><span class="n"><span class="pre">signed</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.DiagnosticType.to_bytes" title="Link to this definition">#</a></dt>
+<dd><p>Return an array of bytes representing an integer.</p>
+<dl class="simple">
+<dt>length</dt><dd><p>Length of bytes object to use.  An OverflowError is raised if the
+integer is not representable with the given number of bytes.  Default
+is length 1.</p>
+</dd>
+<dt>byteorder</dt><dd><p>The byte order used to represent the integer.  If byteorder is ‘big’,
+the most significant byte is at the beginning of the byte array.  If
+byteorder is ‘little’, the most significant byte is at the end of the
+byte array.  To request the native byte order of the host system, use
+sys.byteorder as the byte order value.  Default is to use ‘big’.</p>
+</dd>
+<dt>signed</dt><dd><p>Determines whether two’s complement is used to represent the integer.
+If signed is False and a negative integer is given, an OverflowError
+is raised.</p>
+</dd>
+</dl>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">MeasurementDistributedDiagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eumItem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">MeasurementDistributedDiagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eumItem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic" title="Link to this definition">#</a></dt>
 <dd><dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.has_updates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.has_updates" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.has_updates" title="Link to this definition">#</a></dt>
 <dd><p>has file any assimilation updates (duplicate index)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.hist">
-<span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.hist" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.hist" title="Link to this definition">#</a></dt>
 <dd><p>plot histogram of values using plt.hist()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>bins</strong> (<em>int</em><em>, </em><em>optional</em>) – histgram bins, by default 100</p>
 </dd>
 </dl>
@@ -403,43 +591,43 @@ will return a specialized object depending on the type of diagnostic output.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_analysis">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_analysis</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_analysis" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_analysis</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_analysis" title="Link to this definition">#</a></dt>
 <dd><p>index after assimilation updates (analysis)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_forecast">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_forecast</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_forecast" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_forecast</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_forecast" title="Link to this definition">#</a></dt>
 <dd><p>index before assimilation updates (forecast)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_no_update">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_no_update</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_no_update" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_no_update</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_no_update" title="Link to this definition">#</a></dt>
 <dd><p>index when there is no assimilation updates</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.innovation">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">innovation</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.innovation" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">innovation</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.innovation" title="Link to this definition">#</a></dt>
 <dd><p>innovation (y-Hx) object</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.n_updates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.n_updates" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.n_updates" title="Link to this definition">#</a></dt>
 <dd><p>number of assimilation updates</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.time">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.time" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.time" title="Link to this definition">#</a></dt>
 <dd><p>the time vector (index as datetime)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementDistributedDiagnostic.values">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.values" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.values" title="Link to this definition">#</a></dt>
 <dd><p>all values as a nd array</p>
 </dd></dl>
 
@@ -447,19 +635,19 @@ will return a specialized object depending on the type of diagnostic output.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">MeasurementPointDiagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eumItem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">MeasurementPointDiagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eumItem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic" title="Link to this definition">#</a></dt>
 <dd><dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.has_updates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.has_updates" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.has_updates" title="Link to this definition">#</a></dt>
 <dd><p>has file any assimilation updates (duplicate index)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.hist">
-<span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.hist" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.hist" title="Link to this definition">#</a></dt>
 <dd><p>plot histogram of values using plt.hist()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>bins</strong> (<em>int</em><em>, </em><em>optional</em>) – histgram bins, by default 100</p>
 </dd>
 </dl>
@@ -467,43 +655,43 @@ will return a specialized object depending on the type of diagnostic output.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_analysis">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_analysis</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_analysis" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_analysis</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_analysis" title="Link to this definition">#</a></dt>
 <dd><p>index after assimilation updates (analysis)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_forecast">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_forecast</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_forecast" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_forecast</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_forecast" title="Link to this definition">#</a></dt>
 <dd><p>index before assimilation updates (forecast)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_no_update">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_no_update</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_no_update" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_no_update</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_no_update" title="Link to this definition">#</a></dt>
 <dd><p>index when there is no assimilation updates</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.innovation">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">innovation</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.innovation" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">innovation</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.innovation" title="Link to this definition">#</a></dt>
 <dd><p>innovation (y-Hx) object</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.n_updates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.n_updates" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.n_updates" title="Link to this definition">#</a></dt>
 <dd><p>number of assimilation updates</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.time">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.time" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.time" title="Link to this definition">#</a></dt>
 <dd><p>the time vector (index as datetime)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.MeasurementPointDiagnostic.values">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.values" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.values" title="Link to this definition">#</a></dt>
 <dd><p>all values as a nd array</p>
 </dd></dl>
 
@@ -511,19 +699,19 @@ will return a specialized object depending on the type of diagnostic output.</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">NonMeasurementPointDiagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eumItem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">NonMeasurementPointDiagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">eumItem</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic" title="Link to this definition">#</a></dt>
 <dd><dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.has_updates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.has_updates" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">has_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.has_updates" title="Link to this definition">#</a></dt>
 <dd><p>has file any assimilation updates (duplicate index)</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.hist">
-<span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_Gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.hist" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">hist</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bins</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_Gaussian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.hist" title="Link to this definition">#</a></dt>
 <dd><p>plot histogram of values using plt.hist()</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>bins</strong> (<em>int</em><em>, </em><em>optional</em>) – histgram bins, by default 100</p>
 </dd>
 </dl>
@@ -531,37 +719,37 @@ will return a specialized object depending on the type of diagnostic output.</p>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_analysis">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_analysis</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_analysis" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_analysis</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_analysis" title="Link to this definition">#</a></dt>
 <dd><p>index after assimilation updates (analysis)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_forecast">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_forecast</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_forecast" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_forecast</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_forecast" title="Link to this definition">#</a></dt>
 <dd><p>index before assimilation updates (forecast)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_no_update">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_no_update</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_no_update" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">idx_no_update</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_no_update" title="Link to this definition">#</a></dt>
 <dd><p>index when there is no assimilation updates</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.n_updates">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.n_updates" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">n_updates</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.n_updates" title="Link to this definition">#</a></dt>
 <dd><p>number of assimilation updates</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.time">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.time" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">time</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.time" title="Link to this definition">#</a></dt>
 <dd><p>the time vector (index as datetime)</p>
 </dd></dl>
 
 <dl class="py property">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.NonMeasurementPointDiagnostic.values">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.values" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">property</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">values</span></span><a class="headerlink" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.values" title="Link to this definition">#</a></dt>
 <dd><p>all values as a nd array</p>
 </dd></dl>
 
@@ -569,58 +757,198 @@ will return a specialized object depending on the type of diagnostic output.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="fmdap.diagnostic_output.read_diagnostic">
-<span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">read_diagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.read_diagnostic" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_output.</span></span><span class="sig-name descname"><span class="pre">read_diagnostic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_output.read_diagnostic" title="Link to this definition">#</a></dt>
 <dd><p>Read diagnostic output dfs0 file</p>
 </dd></dl>
 
-<span class="target" id="module-fmdap.diagnostic_collection"></span></section>
+<dl class="py class" id="module-fmdap.diagnostic_collection">
+<dt class="sig sig-object py" id="fmdap.diagnostic_collection.DiagnosticCollection">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">fmdap.diagnostic_collection.</span></span><span class="sig-name descname"><span class="pre">DiagnosticCollection</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">diagnostics</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#fmdap.diagnostic_collection.DiagnosticCollection" title="Link to this definition">#</a></dt>
+<dd><dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_collection.DiagnosticCollection.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">k</span></span></em><span class="optional">[</span>, <em class="sig-param"><span class="n"><span class="pre">d</span></span></em><span class="optional">]</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">D[k]</span> <span class="pre">if</span> <span class="pre">k</span> <span class="pre">in</span> <span class="pre">D,</span> <span class="pre">else</span> <span class="pre">d.</span>&#160; <span class="pre">d</span> <span class="pre">defaults</span> <span class="pre">to</span> <span class="pre">None.</span></span></span><a class="headerlink" href="#fmdap.diagnostic_collection.DiagnosticCollection.get" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_collection.DiagnosticCollection.items">
+<span class="sig-name descname"><span class="pre">items</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">items</span></span></span><a class="headerlink" href="#fmdap.diagnostic_collection.DiagnosticCollection.items" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_collection.DiagnosticCollection.keys">
+<span class="sig-name descname"><span class="pre">keys</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">a</span> <span class="pre">set-like</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">keys</span></span></span><a class="headerlink" href="#fmdap.diagnostic_collection.DiagnosticCollection.keys" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="fmdap.diagnostic_collection.DiagnosticCollection.values">
+<span class="sig-name descname"><span class="pre">values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">an</span> <span class="pre">object</span> <span class="pre">providing</span> <span class="pre">a</span> <span class="pre">view</span> <span class="pre">on</span> <span class="pre">D's</span> <span class="pre">values</span></span></span><a class="headerlink" href="#fmdap.diagnostic_collection.DiagnosticCollection.values" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 </section>
 
 
-              </div>
+                </article>
               
-            </main>
-            <footer class="footer-article noprint">
-                
-    <!-- Previous / next buttons -->
-<div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="vision.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Vision</p>
-        </div>
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="vision.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Vision</p>
+      </div>
     </a>
-    <a class='right-next' id="next-link" href="api.html" title="next page">
-    <div class="prev-next-info">
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
         <p class="prev-next-title">API Documentation</p>
-    </div>
-    <i class="fas fa-angle-right"></i>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
-            </footer>
-        </div>
-    </div>
-    <div class="footer-content row">
-        <footer class="col footer"><p>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-properties">Main Properties</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-properties-for-files-without-updates">Main Properties for files without updates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#diagnostic-collection">Diagnostic Collection</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-fmdap.diagnostic_output">API</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType"><code class="docutils literal notranslate"><span class="pre">DiagnosticType</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.as_integer_ratio"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.as_integer_ratio()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.bit_count"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.bit_count()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.bit_length"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.bit_length()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.conjugate"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.conjugate()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.denominator"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.denominator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.from_bytes"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.from_bytes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.imag"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.imag</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.is_integer"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.is_integer()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.numerator"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.numerator</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.real"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.real</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.DiagnosticType.to_bytes"><code class="docutils literal notranslate"><span class="pre">DiagnosticType.to_bytes()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.has_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.has_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.hist"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.hist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_analysis"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.idx_analysis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_forecast"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.idx_forecast</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.idx_no_update"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.idx_no_update</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.innovation"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.innovation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.n_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.n_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.time"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementDistributedDiagnostic.values"><code class="docutils literal notranslate"><span class="pre">MeasurementDistributedDiagnostic.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.has_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.has_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.hist"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.hist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_analysis"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.idx_analysis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_forecast"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.idx_forecast</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.idx_no_update"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.idx_no_update</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.innovation"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.innovation</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.n_updates"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.n_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.time"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.MeasurementPointDiagnostic.values"><code class="docutils literal notranslate"><span class="pre">MeasurementPointDiagnostic.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.has_updates"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.has_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.hist"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.hist()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_analysis"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.idx_analysis</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_forecast"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.idx_forecast</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.idx_no_update"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.idx_no_update</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.n_updates"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.n_updates</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.time"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.time</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.NonMeasurementPointDiagnostic.values"><code class="docutils literal notranslate"><span class="pre">NonMeasurementPointDiagnostic.values</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_output.read_diagnostic"><code class="docutils literal notranslate"><span class="pre">read_diagnostic()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.get"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.get()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.items"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.items()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.keys"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.keys()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#fmdap.diagnostic_collection.DiagnosticCollection.values"><code class="docutils literal notranslate"><span class="pre">DiagnosticCollection.values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
   
-    By Jesper Mariegaard<br/>
-  
-      &copy; Copyright 2021, Jesper Mariegaard.<br/>
-</p>
-        </footer>
-    </div>
+  <div class="footer-item">
     
+<p class="component-author">
+By Jesper Mariegaard
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2021, Jesper Mariegaard.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
 </div>
+          </footer>
+        
 
-
-      </div>
+      </main>
     </div>
+  </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="_static/scripts/pydata-sphinx-theme.js?digest=1999514e3f237ded88cf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-
+  <footer class="bd-footer">
+  </footer>
   </body>
 </html>
