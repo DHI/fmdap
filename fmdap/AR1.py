@@ -4,7 +4,7 @@ from statsmodels.tsa.arima.model import ARIMA
 from statsmodels.tsa.arima_process import ArmaProcess
 
 
-def phi_to_halflife(phi, dt=1):
+def phi_to_halflife(phi, dt=1.0):
     """Convert the AR(1) propagation parameter phi to half-life"""
     rho = dt / (np.log2(1 / phi))
     return rho
@@ -37,10 +37,10 @@ def estimate_AR1_halflife(df):
     phi = res.params[1]
 
     try:
-        dt = df.index.freq.delta.seconds
+        dt = pd.Timedelta(df.index.freq).total_seconds()
         # dt = pd.infer_freq(df.index).delta.seconds
     except:
-        dt = 1
+        dt = 1.0
     return phi_to_halflife(phi, dt=dt)
 
 

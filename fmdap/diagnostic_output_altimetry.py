@@ -7,18 +7,7 @@ import mikeio
 
 
 class DiagnosticOutputAltimetry:
-    dfd = None  # dataframe of diagnostic data
-    dfo = None  # dataframe of observations
-    dfda = None  # dataframe of DA steps
-    dfqa = None  # dataframe of non-DA steps
-    is_DA = None
-    nc1 = None  # boundary nodes
-    msh = None  # model mesh
-
-    def __init__(self):
-        self._dfs = mikeio.Dfs0()
-
-    def read(self, file_diag, file_obs, obs_col_name="adt_dhi"):
+    def __init__(self, file_diag, file_obs, obs_col_name="adt_dhi"):
         """Read diagnostic output dfs0 and associated observation dfs0 and store as data frames
 
         Arguments:
@@ -67,7 +56,7 @@ class DiagnosticOutputAltimetry:
             raise ValueError("mesh has not been provided. Please use read_mesh() first")
 
         xy = np.vstack([self.dfo.iloc[:, 0].values, self.dfo.iloc[:, 1].values]).T
-        inside = self.msh.contains(xy)
+        inside = self.msh.geometry.contains(xy)
         self.dfo = self.dfo[inside]
 
     def process(self, col_no_DA="mike_wl", track_split_time=3):

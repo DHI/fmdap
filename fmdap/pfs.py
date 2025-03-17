@@ -1,12 +1,11 @@
-# from collections import namedtuple
-import warnings
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import mikeio
 
 
 class Pfs:
-    def __init__(self, pfs_file=None) -> None:
+    def __init__(self, pfs_file: str | Path) -> None:
         self.d = None
         self._sections = None
         self._model_errors = None
@@ -14,11 +13,8 @@ class Pfs:
         self._diagnostics = None
 
         if pfs_file:
-            with warnings.catch_warnings():
-                warnings.simplefilter("ignore")
-                pfs = mikeio.Pfs(pfs_file)
-            self.data = pfs.data  # PfsSection
-            self.d = pfs.data.to_dict()  # dictionary
+            pfs = mikeio.PfsDocument(pfs_file)
+            self.d = pfs.targets[0].to_dict()
 
     @property
     def dda(self):
@@ -57,7 +53,7 @@ class Pfs:
     def validate_positions(cls, mesh, df):
         """Determine if positions are inside mesh and find nearest cell centers"""
         # TODO: handle empty positions
-        assert isinstance(mesh, (mikeio.Mesh, mikeio.dfsu._Dfsu))
+        assert isinstance(mesh, (mikeio.Mesh, mikeio.Dfsu2DH))
 
         if ("x" in df) and ("y" in df):
             xy = df[["x", "y"]].to_numpy()
@@ -69,7 +65,7 @@ class Pfs:
                 "Could not find 'x', 'y' or 'position' columns in DataFrame"
             )
 
-        inside = mesh.contains(xy)
+        inside = mesh.geometry.contains(xy)
         elemid, dist = mesh.geometry.find_nearest_elements(xy, return_distances=True)
         new_positions = mesh.geometry.element_coordinates[elemid, :2]
 

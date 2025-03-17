@@ -3,7 +3,7 @@ import os
 import numpy as np
 import warnings
 import pandas as pd
-from fmskill.comparison import ComparerCollection
+import mikeio
 import fmdap.diagnostic_output
 from fmdap import pfs_helper as pfs
 
@@ -29,7 +29,7 @@ class DiagnosticCollection(Mapping):
 
     @classmethod
     def from_pfs(cls, pfs_file, folder=None, types=[1, 2]):
-        df, DA_type = cls._parse_pfs(pfs_file, types)
+        df, DA_type = cls._parse_PfsDocument(pfs_file, types)
         df = cls._check_file_existance(df, folder)
         dc = cls()
         for _, row in df.iterrows():
@@ -41,16 +41,10 @@ class DiagnosticCollection(Mapping):
         return dc
 
     @classmethod
-    def _parse_pfs(cls, pfs_file, types=[1, 2]):
-
-        warnings.filterwarnings("ignore", message="Support for PFS files")
+    def _parse_PfsDocument(cls, pfs_file, types=[1, 2]):
         assert os.path.exists(pfs_file)
-        d = pfs.pfs2dict(pfs_file).get("DATA_ASSIMILATION_MODULE")
-        if d is None:
-            raise ValueError(
-                "'DATA_ASSIMILATION_MODULE' section could not be found in pfs file!"
-            )
-        DA_type = d.get("METHOD", {}).get("type", 0)
+        d = mikeio.read_pfs(pfs_file).DA
+        DA_type = d.METHOD.type
 
         dfd = pfs.get_diagnostics_df(d)
 
@@ -187,7 +181,7 @@ class DiagnosticCollection(Mapping):
                 diag_id = diag
             else:
                 raise IndexError(
-                    f"diagnostic id {diag} is out of range (0, {len(self)-1})"
+                    f"diagnostic id {diag} is out of range (0, {len(self) - 1})"
                 )
         else:
             raise KeyError("must be str or int")
@@ -299,7 +293,7 @@ class DiagnosticCollection(Mapping):
 
     def skill(self, **kwargs):
         s = self.comparer.skill(**kwargs)
-        s.df = self._split_skill_index(s.df)
+        s.data = self._split_skill_index(s.data)
         return s
 
     def _split_skill_index(self, df):
@@ -317,7 +311,7 @@ class DiagnosticCollection(Mapping):
             return df.set_index(["observation", "selection"])
 
     def scatter(self, **kwargs):
-        return self.comparer.scatter(**kwargs)
+        return self.comparer.plot.scatter(**kwargs)
 
     @property
     def comparer(self):
@@ -326,14 +320,18 @@ class DiagnosticCollection(Mapping):
         return self._comparer
 
     def _get_comparer(self):
-        cc = ComparerCollection()
+        cmps = []
         for n in self.names:
             try:
                 diag = self.diagnostics[n]
-                cc.add_comparer(diag.comparer)
+                cmps.append(diag.comparer)
             except AttributeError:
                 pass
                 # warnings.warn(f"Could not add 'comparer' from {n}. No such attribute.")
+        # TODO this can probably be done cleaner
+        cc = cmps[0]
+        for cmp in cmps[1:]:
+            cc = cc + cmp
         return cc
 
     def iplot(self, title=None, **kwargs):  # pragma: no cover
@@ -383,4 +381,3 @@ class DiagnosticCollection(Mapping):
             fig.add_hline(y=0.0)
 
         fig["layout"][f"yaxis{row}"]["title"] = diag.eumText
-

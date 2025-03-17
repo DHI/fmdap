@@ -1,8 +1,3 @@
-.. fmskill documentation master file, created by
-   sphinx-quickstart on Thu Mar 25 08:11:16 2021.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
-
 .. image:: https://raw.githubusercontent.com/DHI/fmdap/main/images/logo/mike-fm-dap-rgb.svg
 
 |

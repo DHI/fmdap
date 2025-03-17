@@ -7,7 +7,7 @@ Vision
 
 Design principles
 -----------------
-Like `MIKE IO <https://github.com/DHI/mikeio>`_ and `FMSkill <https://github.com/DHI/fmskill>`_, FMDAp should be: 
+Like `MIKE IO <https://github.com/DHI/mikeio>`_ and `ModelSkill <https://github.com/DHI/modelskill>`_, FMDAp should be: 
 
 * Easy to use
 * Easy to install

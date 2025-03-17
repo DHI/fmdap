@@ -1,6 +1,6 @@
 import random
 import numpy as np
-from mikeio.spatial.utils import dist_in_meters
+from mikeio.spatial._utils import dist_in_meters
 from scipy.optimize import curve_fit
 
 
@@ -27,12 +27,12 @@ def get_distance_and_corrcoef(dfs, item=0, n_sample=100):
     # assert isinstance(dfs, Dfsu)
 
     elem_ids = None
-    if n_sample is not None and n_sample < dfs.n_elements:
-        n_sample = min(n_sample, dfs.n_elements)
-        elem_ids = random.sample(range(0, dfs.n_elements), n_sample)
+    if n_sample is not None and n_sample < dfs.geometry.n_elements:
+        n_sample = min(n_sample, dfs.geometry.n_elements)
+        elem_ids = random.sample(range(0, dfs.geometry.n_elements), n_sample)
 
-    ec = dfs.element_coordinates[elem_ids, :2]
-    dd = _pairwise_distance(ec, is_geo=dfs.is_geo)
+    ec = dfs.geometry.element_coordinates[elem_ids, :2]
+    dd = _pairwise_distance(ec, is_geo=dfs.geometry.is_geo)
 
     ds = dfs.read(items=[item], elements=elem_ids)[0]
     cc = np.corrcoef(ds.values.T)
