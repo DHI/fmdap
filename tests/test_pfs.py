@@ -62,3 +62,9 @@ def test_diagnostics(pfs):
     assert len(df) == 9
     assert df.loc[9].file_name == "Diagnostics_Global_DA_statistics.dfs0"
     assert np.all(df.type < 4)
+
+
+def test_pfs_sw():
+    pfs_file = "tests/testdata/SouthernNorthSeaSW/DutchCoast_free.sw"
+    pfs = Pfs(pfs_file)
+    assert len(pfs.measurements) == 4
