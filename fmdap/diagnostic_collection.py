@@ -43,9 +43,8 @@ class DiagnosticCollection(Mapping):
 
     @classmethod
     def _parse_PfsDocument(cls, pfs_file, types=[1, 2]):
-
         assert os.path.exists(pfs_file)
-        d = mikeio.read_pfs(pfs_file).FemEngineHD.DATA_ASSIMILATION_MODULE
+        d = mikeio.read_pfs(pfs_file).DA
         DA_type = d.METHOD.type
 
         dfd = pfs.get_diagnostics_df(d)
@@ -183,7 +182,7 @@ class DiagnosticCollection(Mapping):
                 diag_id = diag
             else:
                 raise IndexError(
-                    f"diagnostic id {diag} is out of range (0, {len(self)-1})"
+                    f"diagnostic id {diag} is out of range (0, {len(self) - 1})"
                 )
         else:
             raise KeyError("must be str or int")
@@ -383,4 +382,3 @@ class DiagnosticCollection(Mapping):
             fig.add_hline(y=0.0)
 
         fig["layout"][f"yaxis{row}"]["title"] = diag.eumText
-
