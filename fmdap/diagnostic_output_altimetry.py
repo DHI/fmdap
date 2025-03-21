@@ -67,7 +67,7 @@ class DiagnosticOutputAltimetry:
         tvec = (dfd.index - dfd.index[0]).total_seconds().values
         xvec = dfd.iloc[:, 0].values
         yvec = dfd.iloc[:, 1].values
-        print(f"Will now identify DA points...")
+        print("Will now identify DA points...")
         is_analysis = [
             self.has_duplicate_txy_before(tvec, xvec, yvec, j) for j in range(nrows)
         ]
@@ -80,18 +80,18 @@ class DiagnosticOutputAltimetry:
         print(f"Identified {sum(is_analysis)} observation points used for DA")
         self.is_DA = np.any(is_DA_step)
 
-        print(f"Will now match observation points from the two dataframes...")
+        print("Will now match observation points from the two dataframes...")
         idx1 = self.get_all_obs_idx()
         self.dfd["obs_pt_idx"] = idx1
         nmatch = len(np.unique(idx1[idx1 >= 0]))
         print(f"Found {nmatch} matches")
 
-        print(f"Will now create dfda dataframe...")
+        print("Will now create dfda dataframe...")
         self.create_dfda(col_no_DA=col_no_DA)
 
-        print(f"Will now create QA dataframe dfqa...")
+        print("Will now create QA dataframe dfqa...")
         self.create_dfqa(col_no_DA=col_no_DA)
-        print(f"DONE")
+        print("DONE")
 
     def read_dfda(self, filename):
         dtypes = {
@@ -173,9 +173,9 @@ class DiagnosticOutputAltimetry:
 
         # set new values vectorized:
         dff = dff.drop(columns=["obs_pt_idx"])
-        dfda.loc[
-            n_DA_pts > 0, ["model_time", "mean_f", "std_f", "super_obs"]
-        ] = dff.values
+        dfda.loc[n_DA_pts > 0, ["model_time", "mean_f", "std_f", "super_obs"]] = (
+            dff.values
+        )
         dfda.loc[n_DA_pts > 0, ["mean_a", "std_a"]] = dfa.values
 
         # estimate offset and apply to obs
@@ -239,9 +239,9 @@ class DiagnosticOutputAltimetry:
 
         # set new values vectorized:
         dff = dff.drop(columns=["obs_pt_idx"])
-        dfqa.loc[
-            n_QA_pts > 0, ["model_time", "mean_f", "std_f", "super_obs"]
-        ] = dff.values
+        dfqa.loc[n_QA_pts > 0, ["model_time", "mean_f", "std_f", "super_obs"]] = (
+            dff.values
+        )
 
         # estimate offset and apply to obs
         tmp_diff = (
@@ -274,7 +274,7 @@ class DiagnosticOutputAltimetry:
         if i2 <= i1:
             return i1
 
-        d2 = ((txy[1] - xvec[i1 : i2 + 1])) ** 2 + ((txy[2] - yvec[i1 : i2 + 1])) ** 2
+        d2 = (txy[1] - xvec[i1 : i2 + 1]) ** 2 + (txy[2] - yvec[i1 : i2 + 1]) ** 2
         return np.argmin(d2) + i1
 
     def get_all_obs_idx(self):
@@ -509,7 +509,7 @@ class DiagnosticOutputAltimetry:
             rmse_a = np.sqrt(np.mean(vals**2))
             std_f = (dfsub2.std_f).mean()
             std_a = (dfsub2.std_a).mean()
-            inno = (dfsub2.mean_a - dfsub2.mean_f).mean()
+            # inno = (dfsub2.mean_a - dfsub2.mean_f).mean()
             ax2.set_title(
                 f"bias_f = {bias_f:.4f}{unit}\n "
                 f"bias_a = {bias_a:.4f}{unit}\n "

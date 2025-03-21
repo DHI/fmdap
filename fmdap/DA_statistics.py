@@ -80,7 +80,7 @@ class Statistics:
         - Otherwise: clear figure.
         Avoids closing/opening so as to keep pos and size.
         """
-        exists = plt.fignum_exists(num)
+        _ = plt.fignum_exists(num)
 
         fig = plt.figure(num=num, figsize=figsize)
         fig.clf()

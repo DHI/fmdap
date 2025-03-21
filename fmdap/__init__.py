@@ -25,3 +25,10 @@ from .diagnostic_output import read_diagnostic
 from .diagnostic_collection import DiagnosticCollection
 from .diagnostic_output_altimetry import DiagnosticOutputAltimetry
 from .pfs import Pfs
+
+__all__ = [
+    "read_diagnostic",
+    "DiagnosticCollection",
+    "DiagnosticOutputAltimetry",
+    "Pfs",
+]

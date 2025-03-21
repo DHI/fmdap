@@ -294,7 +294,7 @@ class DiagnosticDataframe:
 
     @staticmethod
     def _iplot_add_mean_state(
-        fig, df, name=f"Mean_State", color=None, row=None
+        fig, df, name="Mean_State", color=None, row=None
     ):  # pragma: no cover
         import plotly.graph_objects as go
 
@@ -327,7 +327,7 @@ class DiagnosticDataframe:
             go.Scatter(
                 x=df.index,
                 y=df.Measurement,
-                name=f"Measurement",
+                name="Measurement",
                 showlegend=True,
                 mode="markers",
                 line=dict(color="#EE1133"),
