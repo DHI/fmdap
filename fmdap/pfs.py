@@ -46,8 +46,9 @@ class Pfs:
     def measurement_positions(self):
         """DataFrame with measurement positions"""
         df = self.measurements.copy()
-        df[["x", "y"]] = df.position.to_list()
-        return df[["name", "x", "y"]]
+        list_norm = [row if len(row) == 3 else row + [0] for row in df.position.to_list()]
+        df[["x", "y", "z"]] = list_norm
+        return df[["name", "x", "y", "z"]] 
 
     @classmethod
     def validate_positions(cls, mesh, df):
